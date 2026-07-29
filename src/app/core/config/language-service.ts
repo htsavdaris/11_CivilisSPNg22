@@ -2,11 +2,11 @@ import { isPlatformBrowser, registerLocaleData } from '@angular/common';
 import { computed, inject, PLATFORM_ID, Service, signal } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 import { BrnCalendarI18n, injectBrnCalendarI18n } from '@spartan-ng/brain/calendar';
-import { arabicCalendarI18n, englishCalendarI18n, frenchCalendarI18n } from './date-I18n';
+import { arabicCalendarI18n, englishCalendarI18n, frenchCalendarI18n, greekCalendarI18n } from './date-I18n';
 import { DirectionalityService } from './directionality-service';
 import { LOCAL_STORAGE } from './tokens';
 
-export const LANGUAGES = ['en', 'fr', 'ar'] as const;
+export const LANGUAGES = ['en', 'el', 'fr', 'ar'] as const;
 export type Language = (typeof LANGUAGES)[number];
 
 export interface AvailableLanguage {
@@ -32,6 +32,10 @@ export class LanguageService {
       label: 'English',
     },
     {
+      code: 'el',
+      label: 'Ελληνικά',
+    },
+    {
       code: 'fr',
       label: 'Français',
     },
@@ -44,6 +48,7 @@ export class LanguageService {
 
   private readonly brnCaalendarI18nMap: Record<Language, Partial<BrnCalendarI18n>> = {
     en: englishCalendarI18n,
+    el: greekCalendarI18n,
     fr: frenchCalendarI18n,
     ar: arabicCalendarI18n,
   };
