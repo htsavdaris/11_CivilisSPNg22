@@ -1,0 +1,4 @@
+pnpm install -g @angular/cli
+
+ng generate component --standalone features/person/pages/personlist
+ng generate component --standalone features/person/pages/personsearch
