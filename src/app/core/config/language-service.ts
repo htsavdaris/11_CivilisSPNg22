@@ -73,14 +73,30 @@ export class LanguageService {
 
   private async _ensureLocaleRegistered(lang: Language): Promise<void> {
     if (registeredLocales.has(lang)) return;
-
-    if (lang === 'fr') {
-      const localeFr = (await import('@angular/common/locales/fr')).default;
-      registerLocaleData(localeFr, 'fr');
-    } else if (lang === 'ar') {
-      const localeAr = (await import('@angular/common/locales/ar')).default;
-      registerLocaleData(localeAr, 'ar');
+    switch (lang) {
+      case 'fr':
+        const localeFr = (await import('@angular/common/locales/fr')).default;
+        registerLocaleData(localeFr, 'fr');
+        break;
+      case 'el':
+        const localeEl = (await import('@angular/common/locales/el')).default;
+        registerLocaleData(localeEl, 'ar');
+        break;
+      case 'ar':
+        const localeAr = (await import('@angular/common/locales/ar')).default;
+        registerLocaleData(localeAr, 'ar');
+        break;
     }
+
+
+    // Old Code
+    // if (lang === 'fr') {
+    //   const localeFr = (await import('@angular/common/locales/fr')).default;
+    //   registerLocaleData(localeFr, 'fr');
+    // } else if (lang === 'ar') {
+    //   const localeAr = (await import('@angular/common/locales/ar')).default;
+    //   registerLocaleData(localeAr, 'ar');
+    // }
 
     registeredLocales.add(lang);
   }

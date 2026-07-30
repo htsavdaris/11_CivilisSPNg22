@@ -14,6 +14,9 @@ import {
   withPreloading,
   withViewTransitions,
 } from '@angular/router';
+import { registerLocaleData } from '@angular/common';
+import localeEl from '@angular/common/locales/el';
+import { LOCALE_ID, enableProdMode } from '@angular/core';
 
 import { provideHttpClient } from '@angular/common/http';
 import { provideTransloco } from '@jsverse/transloco';
@@ -27,6 +30,8 @@ import { TranslocoHttpLoader } from './transloco-loader';
 
 import { provideHlmSidebarConfig } from '@spartan-ng/helm/sidebar';
 import { provideSpartanHlm } from '@spartan-ng/helm/utils';
+
+registerLocaleData(localeEl);
 
 function isLanguage(value: string): value is Language {
   return (LANGUAGES as readonly string[]).includes(value);
@@ -61,7 +66,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideTransloco({
       config: {
-        availableLangs: ['en', 'fr', 'ar'],
+        availableLangs: ['en', 'el', 'fr', 'ar'],
         defaultLang: getInitialLanguage(),
         reRenderOnLangChange: true,
         prodMode: !isDevMode(),
@@ -71,6 +76,7 @@ export const appConfig: ApplicationConfig = {
       },
       loader: TranslocoHttpLoader,
     }),
+    { provide: LOCALE_ID, useValue: 'el' },
     provideNgIconsConfig({}, withExceptionLogger()),
     provideSpartanHlm(),
     provideAppInitializer(async () => {
