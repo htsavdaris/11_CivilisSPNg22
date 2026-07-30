@@ -1,6 +1,6 @@
 import { inject, Injectable, signal, Service } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from "@angular/common/http";
-import { LocalUser } from '../models/user';
+import { User } from '../models/user';
 import { UserStoreService, IUserStore } from './user-store-service';
 import { BehaviorSubject, firstValueFrom, Observable, of, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';

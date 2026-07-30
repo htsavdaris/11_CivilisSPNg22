@@ -90,6 +90,7 @@ export class Navigation {
           ],
         },
         { title: 'Users', key: 'users', url: '/users', icon: 'lucideUsers' },
+        { title: 'Persons', key: 'persons', url: '/persons', icon: 'lucideUsers' },
         { title: 'Calendar', key: 'calendar', url: '/calendar', icon: 'lucideCalendarDays' },
         { title: 'Tasks', key: 'tasks', url: '/tasks', icon: 'lucideCheckSquare' },
       ],
