@@ -1,1 +1,79 @@
-<p>personlist works!</p>
+<div *transloco="let t" class="@container/main flex flex-1 flex-col gap-2">
+    <div class="flex flex-col gap-4 md:gap-6">
+
+        <div class="flex flex-col justify-between gap-4 py-4 lg:flex-row lg:items-center">
+            <div class="flex flex-col items-start gap-2 sm:flex-row">
+                <hlm-input-group>
+                    <!-- <input
+            class="h-8 w-full md:w-80"
+            hlmInputGroupInput
+            [placeholder]="t('common.searchPlaceholder')"
+            [formField]="searchForm.search"
+          /> -->
+                    <div hlmInputGroupAddon>
+                        <ng-icon name="lucideSearch" />
+                    </div>
+                    <hlm-input-group-addon align="inline-end">
+                        @if (this.searchForm.search().value()) {
+                        <ng-icon name="lucideX" (click)="searchForm.search().value.set('')" />
+                        }
+                    </hlm-input-group-addon>
+                </hlm-input-group>
+
+                <div class="flex items-center justify-start gap-2">
+                    <!-- STATUS FILTER -->
+                    <!-- <adm-users-status-filter (statusChanged)="selectedStatuses.set($event)" /> -->
+                    <!-- ROLE FILTER -->
+                    <!-- <adm-users-role-filter (rolesChanged)="selectedRoles.set($event)" /> -->
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2 sm:flex-row">
+                <!-- Column visibility -->
+                <!-- <adm-data-table-column-manager [table]="table()" /> -->
+                <!--  Actions -->
+                <button type="button" hlmBtn variant="secondary" (click)="refreshTable()">
+                    <ng-icon name="lucideRefreshCcw" />
+                    {{ t('buttons.refresh') }}
+                </button>
+
+                <button type="button" hlmBtn variant="default">
+                    <ng-icon name="lucideUserPlus" />
+                    {{ t('buttons.addNew') }}
+                </button>
+            </div>
+        </div>
+        <div hlmTableContainer class="rounded-md border">
+            <table hlmTable class="w-max min-w-full border-spacing-0" >
+                <thead hlmTHead class="bg-card sticky top-0 z-10">
+                    @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
+                    <tr hlmTr>
+                        @for (header of headerGroup.headers; track header.id) {
+                        <th class="relative" hlmTh >
+                            @if (!header.isPlaceholder) {
+                            <ng-container *flexRenderHeader="header; let headerCell">
+                                {{ headerCell }}
+                            </ng-container>
+                            }
+                        </th>
+                        }
+                    </tr>
+                    }
+                </thead>
+                <tbody hlmTBody class="w-full">
+                    @for (row of table.getRowModel().rows; track row.id) {
+                    <tr hlmTr>
+                        @for (cell of row.getAllCells(); track cell.id) {
+                        <td hlmTd>
+                            <ng-container *flexRenderCell="cell; let renderCell">
+                                {{ renderCell }}
+                            </ng-container>
+                        </td>
+                        }
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

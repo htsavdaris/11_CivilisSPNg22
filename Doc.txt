@@ -2,3 +2,5 @@ pnpm install -g @angular/cli
 pnpm install file-saver @types/file-saver
 ng generate component --standalone features/person/pages/personlist
 ng generate component --standalone features/person/pages/personsearch
+
+pnpm add @tanstack/angular-table@9.0.0
