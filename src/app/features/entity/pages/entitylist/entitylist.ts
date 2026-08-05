@@ -41,6 +41,7 @@ import { HlmInputGroupImports } from '@spartan-ng/helm/input-group';
 import { Entity } from '../../../../models/entity';
 import { EntityService } from '../../../../services/entity-service';
 import { UserService } from '../../../../services/user-service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
 @Component({
@@ -110,4 +111,110 @@ export class Entitylist {
   //protected readonly selectedStatuses = signal<UserStatus[]>([]);
   protected readonly defaultColumnPinning: ColumnPinningState = { start: ['select'], end: ['actions'] };
 
+
+  protected readonly entityResource = this._entityService.getAllRx();
+  protected readonly activeLanguage = computed(() => this._translocoService.activeLang());
+  protected readonly searchForm = form(signal({ search: '' }), (schema) => debounce(schema.search, 300));
+
+   protected readonly columns: ColumnDef<DataTableFeatures, Entity>[] = [
+      {
+        id: 'name',
+        accessorKey: 'name',
+        header: translateSignal(`list.columns.name`),
+        meta: { translationKey: 'users.list.columns.name' },
+        cell: () => this.nameCell(),
+      },
+      {
+        id: 'email',
+        accessorKey: 'email',
+        meta: { translationKey: 'users.list.columns.email' },
+        header: translateSignal(`list.columns.email`),
+      },
+      {
+        id: 'country',
+        accessorKey: 'country',
+        header: translateSignal('list.columns.country'),
+        meta: { translationKey: 'users.list.columns.country' },
+        enableSorting: false,
+        cell: () => this.countryCell(),
+      },
+      {
+        id: 'phoneNumber',
+        accessorKey: 'phoneNumber',
+        header: translateSignal('list.columns.phoneNumber'),
+        meta: { translationKey: 'users.list.columns.phoneNumber' },
+        enableSorting: false,
+      },
+      {
+        id: 'createdAt',
+        accessorKey: 'createdAt',
+        header: translateSignal('list.columns.createdAt'),
+        meta: { translationKey: 'users.list.columns.createdAt' },
+        cell: () => this.dateCell(),
+      },
+      {
+        id: 'role',
+        accessorKey: 'role',
+        header: translateSignal('list.columns.role'),
+        meta: { translationKey: 'users.list.columns.role' },
+        cell: () => this.roleCell(),
+      },
+      {
+        id: 'status',
+        accessorKey: 'status',
+        header: translateSignal('list.columns.status'),
+        meta: { translationKey: 'users.list.columns.status' },
+        cell: () => this.statusCell(),
+        filterFn: (row, columnId, filterValue: UserStatus[]) => {
+          // If no filter is selected, show all rows
+          if (!filterValue || filterValue.length === 0) {
+            return true;
+          }
+          const rowValue = row.getValue(columnId) as UserStatus;
+          return filterValue.includes(rowValue);
+        },
+      },
+  
+      {
+        id: 'actions',
+        enableHiding: false,
+        enableResizing: false,
+        enablePinning: true,
+        size: 40,
+        cell: () =>
+          flexRenderComponent(ActionDropdown, {
+            inputs: {
+              onSuccess: () => this.refreshTable(),
+            },
+          }),
+      },
+    ];
+    
+  // ==========================================
+  // Public Methods
+  // ==========================================
+    
+  protected addEntity() {
+    const dialogRef = this._hlmDialogService.open(UserForm, {
+      autoFocus: false,
+      contentClass: 'sm:min-w-lg',
+    });
+
+    dialogRef.closed$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((result) => {
+      if (result) this.refreshTable();
+    });
+  }
+
+  protected handleStateChange(state: DataTableStateChangeEvent) {
+    this.pagination.set(state.pagination);
+    this.sorting.set(state.sorting);
+  }
+
+  // ==========================================
+  // Private Methods
+  // ==========================================
+
+  refreshTable(): void {
+    this.entityResource.reload();
+  }
 }
