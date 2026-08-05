@@ -23,7 +23,7 @@ import {
 } from '@ng-icons/lucide';
 import { ChangeDetectionStrategy } from '@angular/core'
 import { createColumnHelper, FlexRender, injectTable, tableFeatures } from '@tanstack/angular-table'
-import type { ColumnDef } from '@tanstack/angular-table'
+import type { CellContext, ColumnDef } from '@tanstack/angular-table'
 
 
 
@@ -36,49 +36,6 @@ import { Person } from '../../../../models/person';
 import { PersonService } from '../../../../services/person-service';
 import { debounce, form } from '@angular/forms/signals';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-const features = tableFeatures({})
-
-// 4. Create a column helper with the table features and row type
-const columnHelper = createColumnHelper<typeof features, Person>()
-
-const columns = columnHelper.columns([
-  columnHelper.accessor('fldpersonid', {
-    header: 'First Name',
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor('fldpersonlastname', {
-    id: 'lastName',
-    header: () => 'Last Name',
-    cell:  (info) => info.getValue<string>().toUpperCase(),
-  }),
-  columnHelper.accessor('fldpersonfirstname', {
-    id: 'fldpersonfirstname',
-    
-    header: () => 'fldpersonfirstname',
-   
-    cell: (info) => {
-              const value = info.getValue<string>();
-              const formatted = value.toUpperCase();
-                      return "<div style='font-weight: bold;'>" + formatted + "</div>"
-                      
-  }}),
-  columnHelper.accessor('fldpersonemail', {
-    header: () => 'fldpersonemail',
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor('fldpersonmobile', {
-    header: 'fldpersonmobile',
-    cell: (info) => info.getValue(),
-  })
-])
-
-
-
-
-
-
-
 
 
 @Component({
@@ -128,7 +85,7 @@ export class Personlist {
   // protected readonly sorting = signal<SortingState>([]);
   // protected readonly defaultColumnPinning: ColumnPinningState = { start: ['select'], end: ['actions'] };
 
-    personsResource = this._personService.getAllRx();
+  personsResource = this._personService.getAllRx();
 
   //   protected readonly usersResource = rxResource({
   //   params: () => {
@@ -139,7 +96,7 @@ export class Personlist {
   //       search: this.searchForm.search().value(),
   //       sortField: (sort?.id ?? '') as keyof User | '',
   //       sortOrder: (sort?.desc ? 'desc' : 'asc') as 'asc' | 'desc',
-        
+
   //     };
   //   },
   //   stream: ({ params }) => this._personService.getAll(params),
@@ -148,16 +105,67 @@ export class Personlist {
   protected readonly activeLanguage = computed(() => this._translocoService.activeLang());
   protected readonly searchForm = form(signal({ search: '' }), (schema) => debounce(schema.search, 300));
 
+  protected readonly personlastnameCell = viewChild.required<TemplateRef<CellContext<typeof this.features, Person, string>>>('fldpersonlastname');
+
+  protected readonly features = tableFeatures({})
+
+  // 4. Create a column helper with the table features and row type
+  protected readonly columnHelper = createColumnHelper<typeof this.features, Person>()
+
+  protected readonly columns = this.columnHelper.columns([
+    this.columnHelper.accessor('fldpersonid', {
+      header: 'First Name',
+      cell: (info) => info.getValue(),
+    }),
+    this.columnHelper.accessor('fldpersonlastname', {
+      id: 'lastName',
+      header: () => 'Last Name',
+      cell: (info) => info.getValue<string>().toUpperCase(),
+    }),
+    this.columnHelper.accessor('fldpersonfirstname', {
+      id: 'fldpersonfirstname',
+
+      header: () => 'fldpersonfirstname',
+      cell: (info) => '<strong>' + info.renderValue() + '</strong>',
+      //cell(): (props) => props.renderValue()
+      
+      //cell: () => this.personlastnameCell(),
+      // // cell: (info) => (
+        
+      // //    const value = info.renderValue<string>();
+      // //    return `<div><strong>${value}</div>`;
+      // // )
+      // cell:({ row, column, table }) => {
+      //   const value = row.getValue(column.id as keyof Person);
+      //   const formatted = (value as string).toUpperCase();
+      //   return `<div><strong>${formatted}</div>`;
+      // }
+    }),
+    this.columnHelper.accessor('fldpersonemail', {
+      header: () => 'fldpersonemail',
+      cell: (info) => info.getValue(),
+    }),
+    this.columnHelper.accessor('fldpersonmobile', {
+      header: 'fldpersonmobile',
+      cell: (info) => info.getValue(),
+    })
+  ])
+
+
+
+
+
+
 
   readonly table = injectTable(() => ({
-    key: 'basic-inject-table', // needed for devtools
-    debugTable: true,
-    features,
-    columns,
+    key: 'persons-table', // needed for devtools
+    debugTable: false,
+    features: this.features,
+    columns: this.columns,
     data: this.personsResource.value() ?? [],
   }))
 
-  
+
 
   // ==========================================
   // Public Methods

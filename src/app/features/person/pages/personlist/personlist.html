@@ -66,14 +66,19 @@
                         @for (cell of row.getAllCells(); track cell.id) {
                         <td hlmTd>
                             <ng-container *flexRenderCell="cell; let renderCell">
-                                {{ renderCell }}
+                               {{ renderCell }}
                             </ng-container>
                         </td>
                         }
                     </tr>
                     }
                 </tbody>
+                <!-- personlastnameCell Cell -->
+
             </table>
+                  <!-- <ng-template #personlastnameCell let-context>
+        <span><b>{{ context.row.original.fldpersonfirstname }}</b> </span>
+      </ng-template> -->
         </div>
     </div>
 </div>
