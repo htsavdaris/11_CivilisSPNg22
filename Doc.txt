@@ -3,4 +3,6 @@ pnpm install file-saver @types/file-saver
 ng generate component --standalone features/person/pages/personlist
 ng generate component --standalone features/person/pages/personsearch
 
+ng generate component --standalone features/entity/pages/entitylist
+ng generate component --standalone features/entity/components/ActionDropdown
 pnpm add @tanstack/angular-table@9.0.0

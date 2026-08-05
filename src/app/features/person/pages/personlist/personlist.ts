@@ -87,21 +87,6 @@ export class Personlist {
 
   personsResource = this._personService.getAllRx();
 
-  //   protected readonly usersResource = rxResource({
-  //   params: () => {
-  //     const sort = this.sorting()[0];
-  //     return {
-  //       page: this.pagination().pageIndex,
-  //       pageSize: this.pagination().pageSize,
-  //       search: this.searchForm.search().value(),
-  //       sortField: (sort?.id ?? '') as keyof User | '',
-  //       sortOrder: (sort?.desc ? 'desc' : 'asc') as 'asc' | 'desc',
-
-  //     };
-  //   },
-  //   stream: ({ params }) => this._personService.getAll(params),
-  // });
-
   protected readonly activeLanguage = computed(() => this._translocoService.activeLang());
   protected readonly searchForm = form(signal({ search: '' }), (schema) => debounce(schema.search, 300));
 
@@ -120,26 +105,13 @@ export class Personlist {
     this.columnHelper.accessor('fldpersonlastname', {
       id: 'lastName',
       header: () => 'Last Name',
-      cell: (info) => info.getValue<string>().toUpperCase(),
+      cell: (info) =>
+      `<strong>${info.getValue()}</strong>`,
     }),
     this.columnHelper.accessor('fldpersonfirstname', {
       id: 'fldpersonfirstname',
-
       header: () => 'fldpersonfirstname',
-      cell: (info) => '<strong>' + info.renderValue() + '</strong>',
-      //cell(): (props) => props.renderValue()
-      
-      //cell: () => this.personlastnameCell(),
-      // // cell: (info) => (
-        
-      // //    const value = info.renderValue<string>();
-      // //    return `<div><strong>${value}</div>`;
-      // // )
-      // cell:({ row, column, table }) => {
-      //   const value = row.getValue(column.id as keyof Person);
-      //   const formatted = (value as string).toUpperCase();
-      //   return `<div><strong>${formatted}</div>`;
-      // }
+      cell: (info) => info.getValue(),      
     }),
     this.columnHelper.accessor('fldpersonemail', {
       header: () => 'fldpersonemail',
