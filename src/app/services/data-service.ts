@@ -26,7 +26,7 @@ export abstract class DataService<T, ID> implements DataOperations<T, ID> {
 
 _http: HttpClient = inject(HttpClient);
 
-  save(t: T): Observable<T> {
+  insert(t: T): Observable<T> {
     return this._http.post<T>(this.getResourceUrl(), t).pipe(
       catchError(this.errorHandler)
     );

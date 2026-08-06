@@ -5,4 +5,5 @@ ng generate component --standalone features/person/pages/personsearch
 
 ng generate component --standalone features/entity/pages/entitylist
 ng generate component --standalone features/entity/components/ActionDropdown
+ng generate component --standalone features/entity/components/EntityForm
 pnpm add @tanstack/angular-table@9.0.0
