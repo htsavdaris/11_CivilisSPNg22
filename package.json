@@ -1,13 +1,13 @@
 {
-  "name": "spartan-admin-dashboard",
-  "version": "0.0.0",
+  "name": "Civilis",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build && pnpm run transloco:optimize",
     "build:stats": "ng build --stats-json",
-    "transloco:optimize": "transloco-optimize dist/spartan-admin-dashboard/browser/i18n",
+    "transloco:optimize": "transloco-optimize dist/Civilis/browser/i18n",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint"
@@ -34,7 +34,7 @@
     "@ng-icons/core": "^34.0.0",
     "@ng-icons/lucide": "^34.0.0",
     "@ng-icons/svgl": "^34.0.0",
-    "@spartan-ng/brain": "^1.1.0",
+    "@spartan-ng/brain": "^1.3.1",
     "@tanstack/angular-table": "9.0.0",
     "@types/file-saver": "^2.0.7",
     "apexcharts": "^5.13.0",

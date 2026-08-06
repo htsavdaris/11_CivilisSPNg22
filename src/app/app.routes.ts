@@ -59,6 +59,12 @@ export const routes: Routes = [
         loadChildren: () => import('./features/person/routes'),
       },
       {
+        path: 'entities',
+        title: 'entities',
+        data: { breadcrumb: 'navigation.entities', preload: true },
+        loadChildren: () => import('./features/entity/routes'),
+      },
+      {
         path: 'calendar',
         title: 'calendar',
         data: { breadcrumb: 'navigation.calendar', preload: true },

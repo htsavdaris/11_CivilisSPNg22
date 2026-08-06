@@ -15,7 +15,7 @@ import { HlmSidebarImports } from '@spartan-ng/helm/sidebar';
         <ul hlmSidebarMenu>
           <li>
             <a
-              href="https://github.com/Oussemasahbeni/spartan-admin-dashboard"
+              href="https://"
               target="_blank"
               hlmSidebarMenuButton
               size="sm"

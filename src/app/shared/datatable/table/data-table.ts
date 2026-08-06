@@ -339,6 +339,7 @@ export class DataTable<T extends RowData> {
     rowCount: this.isServerMode() ? this.totalElements() : undefined,
     enableRowSelection: this.enableRowSelection(),
     enableColumnPinning: this.enableColumnPinning(),
+  
     state: {
       pagination: this.activePagination(),
       sorting: this.activeSorting(),

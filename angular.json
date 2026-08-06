@@ -10,7 +10,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "spartan-admin-dashboard": {
+    "Civilis": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -42,7 +42,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
+                  "maximumWarning": "900kB",
                   "maximumError": "3MB"
                 },
                 {
@@ -65,10 +65,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "spartan-admin-dashboard:build:production"
+              "buildTarget": "Civilis:build:production"
             },
             "development": {
-              "buildTarget": "spartan-admin-dashboard:build:development"
+              "buildTarget": "Civilis:build:development"
             }
           },
           "defaultConfiguration": "development"

@@ -40,7 +40,8 @@ import { HlmInputGroupImports } from '@spartan-ng/helm/input-group';
 
 import { Entity } from '../../../../models/entity';
 import { EntityService } from '../../../../services/entity-service';
-import { UserService } from '../../../../services/user-service';
+import { EntityView } from '../../../../models/entityview';
+import { EntityViewService } from '../../../../services/entity-view-service'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
@@ -54,16 +55,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     HlmInputGroupImports,
     HlmAvatarImports,
     HlmBadgeImports,
-    DatePipe,
     //UsersCardSection,
     TranslocoModule,
     //CountryDisplay,
     DataTable,
     DataTableColumnsManager,
-    //StatusFilter,
-    //RoleFilter,
-    //FormField,
-  ],
+    FormField
+],
   templateUrl: './entitylist.html',
   providers: [
     provideIcons({
@@ -89,7 +87,8 @@ export class Entitylist {
   private readonly _translocoService = inject(TranslocoService);
   private readonly _hlmDialogService = inject(HlmDialogService);
   private readonly _destroyRef = inject(DestroyRef);
-  private readonly _entityService = inject(EntityService);
+  //private readonly _entityService = inject(EntityService);
+  private readonly _entityViewService = inject(EntityViewService);
 
   // ==========================================
   // View Children
@@ -99,7 +98,7 @@ export class Entitylist {
    * Template references for custom cell rendering.
    * These are accessed via viewChild and passed to TanStack column definitions.
    */
-  protected readonly dataTable = viewChild.required(DataTable<Entity>);
+  protected readonly dataTable = viewChild.required(DataTable<EntityView>);
 
   // ==========================================
   // State
@@ -112,97 +111,94 @@ export class Entitylist {
   protected readonly defaultColumnPinning: ColumnPinningState = { start: ['select'], end: ['actions'] };
 
 
-  protected readonly entityResource = this._entityService.getAllRx();
+  //protected readonly entityResource = this._entityService.getAllRx();
+  protected readonly entityViewResource = this._entityViewService.getAllRx();
   protected readonly activeLanguage = computed(() => this._translocoService.activeLang());
   protected readonly searchForm = form(signal({ search: '' }), (schema) => debounce(schema.search, 300));
 
-   protected readonly columns: ColumnDef<DataTableFeatures, Entity>[] = [
-      {
-        id: 'name',
-        accessorKey: 'name',
-        header: translateSignal(`list.columns.name`),
-        meta: { translationKey: 'users.list.columns.name' },
-        cell: () => this.nameCell(),
-      },
-      {
-        id: 'email',
-        accessorKey: 'email',
-        meta: { translationKey: 'users.list.columns.email' },
-        header: translateSignal(`list.columns.email`),
-      },
-      {
-        id: 'country',
-        accessorKey: 'country',
-        header: translateSignal('list.columns.country'),
-        meta: { translationKey: 'users.list.columns.country' },
-        enableSorting: false,
-        cell: () => this.countryCell(),
-      },
-      {
-        id: 'phoneNumber',
-        accessorKey: 'phoneNumber',
-        header: translateSignal('list.columns.phoneNumber'),
-        meta: { translationKey: 'users.list.columns.phoneNumber' },
-        enableSorting: false,
-      },
-      {
-        id: 'createdAt',
-        accessorKey: 'createdAt',
-        header: translateSignal('list.columns.createdAt'),
-        meta: { translationKey: 'users.list.columns.createdAt' },
-        cell: () => this.dateCell(),
-      },
-      {
-        id: 'role',
-        accessorKey: 'role',
-        header: translateSignal('list.columns.role'),
-        meta: { translationKey: 'users.list.columns.role' },
-        cell: () => this.roleCell(),
-      },
-      {
-        id: 'status',
-        accessorKey: 'status',
-        header: translateSignal('list.columns.status'),
-        meta: { translationKey: 'users.list.columns.status' },
-        cell: () => this.statusCell(),
-        filterFn: (row, columnId, filterValue: UserStatus[]) => {
-          // If no filter is selected, show all rows
-          if (!filterValue || filterValue.length === 0) {
-            return true;
-          }
-          const rowValue = row.getValue(columnId) as UserStatus;
-          return filterValue.includes(rowValue);
-        },
-      },
-  
-      {
-        id: 'actions',
-        enableHiding: false,
-        enableResizing: false,
-        enablePinning: true,
-        size: 40,
-        cell: () =>
-          flexRenderComponent(ActionDropdown, {
-            inputs: {
-              onSuccess: () => this.refreshTable(),
-            },
-          }),
-      },
-    ];
-    
+  protected readonly columns: ColumnDef<DataTableFeatures, EntityView>[] = [
+    {
+      id: 'fldentityid',
+      accessorKey: 'fldentityid',
+      header: translateSignal(`list.columns.fldentityid`),
+      meta: { translationKey: 'entities.list.columns.fldentityid' },
+      cell: (info) => info.getValue(),
+    },
+    {
+      id: 'fldentityname',
+      accessorKey: 'fldentityname',
+      header: translateSignal(`list.columns.fldentityname`),
+      meta: { translationKey: 'entities.list.columns.fldentityname' },
+      cell: (info) => info.getValue(),
+    },
+    {
+      id: 'fldentitytypedesc',
+      accessorKey: 'fldentitytypedesc',
+      header: translateSignal('list.columns.fldentitytypedesc'),
+      meta: { translationKey: 'entities.list.columns.fldentitytypedesc' },
+      enableSorting: false,
+      cell: (info) => info.getValue(),
+    },
+    {
+      id: 'fldmail',
+      accessorKey: 'fldmail',
+      header: translateSignal('list.columns.fldmail'),
+      meta: { translationKey: 'entities.list.columns.fldmail' },
+      enableSorting: false,
+      cell: (info) => info.getValue(),
+    },
+    {
+      id: 'fldmobile',
+      accessorKey: 'fldmobile',
+      header: translateSignal('list.columns.fldmobile'),
+      meta: { translationKey: 'entities.list.columns.fldmobile' },
+      enableSorting: false,
+      cell: (info) => info.getValue(),
+    },
+    // {
+    //   id: 'status',
+    //   accessorKey: 'status',
+    //   header: translateSignal('list.columns.status'),
+    //   meta: { translationKey: 'users.list.columns.status' },
+    //   cell: () => this.statusCell(),
+    //   filterFn: (row, columnId, filterValue: UserStatus[]) => {
+    //     // If no filter is selected, show all rows
+    //     if (!filterValue || filterValue.length === 0) {
+    //       return true;
+    //     }
+    //     const rowValue = row.getValue(columnId) as UserStatus;
+    //     return filterValue.includes(rowValue);
+    //   },
+    // },
+
+    // {
+    //   id: 'actions',
+    //   enableHiding: false,
+    //   enableResizing: false,
+    //   enablePinning: true,
+    //   size: 40,
+    //   cell: () =>
+    //     flexRenderComponent(ActionDropdown, {
+    //       inputs: {
+    //         onSuccess: () => this.refreshTable(),
+    //       },
+    //     }),
+    // },
+  ];
+
   // ==========================================
   // Public Methods
   // ==========================================
-    
-  protected addEntity() {
-    const dialogRef = this._hlmDialogService.open(UserForm, {
-      autoFocus: false,
-      contentClass: 'sm:min-w-lg',
-    });
 
-    dialogRef.closed$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((result) => {
-      if (result) this.refreshTable();
-    });
+  protected addEntity() {
+    // const dialogRef = this._hlmDialogService.open(UserForm, {
+    //   autoFocus: false,
+    //   contentClass: 'sm:min-w-lg',
+    // });
+
+    // dialogRef.closed$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((result) => {
+    //   if (result) this.refreshTable();
+    // });
   }
 
   protected handleStateChange(state: DataTableStateChangeEvent) {
@@ -215,6 +211,6 @@ export class Entitylist {
   // ==========================================
 
   refreshTable(): void {
-    this.entityResource.reload();
+    this.entityViewResource.reload();
   }
 }

@@ -92,7 +92,7 @@ export default defineConfig([
           },
         },
       ],
-      '@angular-eslint/component-selector': ['error', { type: 'element', prefix: 'adm', style: 'kebab-case' }],
+      '@angular-eslint/component-selector': ['error', { type: 'element', prefix: 'com', style: 'kebab-case' }],
       '@angular-eslint/no-implicit-take-until-destroyed': 'error',
       '@angular-eslint/prefer-signal-model': 'error',
       '@angular-eslint/prefer-host-metadata-property': ['error'],
