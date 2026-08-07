@@ -1,71 +1,108 @@
-<hlm-dialog-header *transloco="let t; prefix: 'users.form'">
+<hlm-dialog-header *transloco="let t; prefix: 'entity.form'">
   <h3 hlmDialogTitle>{{ isEditMode() ? t('editTitle') : t('addTitle') }}</h3>
   <p hlmDialogDescription>{{ isEditMode() ? t('editDescription') : t('addDescription') }}</p>
 </hlm-dialog-header>
 
 <form
-  *transloco="let t; prefix: 'users.form'"
+  *transloco="let t; prefix: 'entity.form'"
   class="flex max-h-[calc(100vh-2rem)] w-full flex-col gap-4 overflow-y-auto p-2 sm:max-h-[min(640px,80vh)]"
-  [formRoot]="userForm"
+  [formRoot]="entityForm"
 >
-  <!-- Name -->
+  <!-- fldentityid -->
   <hlm-field>
-    <hlm-field-label>{{ t('label.name') }}</hlm-field-label>
-    <input hlmInput id="name" [formField]="userForm.name" />
-    @for (error of userForm.name().errors(); track error.kind) {
+    <hlm-field-label>{{ t('label.fldentityid') }}</hlm-field-label>
+    <input hlmInput type="number" id="fldentityid" [formField]="entityForm.fldentityid" />
+    @for (error of entityForm.fldentityid().errors(); track error.kind) {
       <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
     }
   </hlm-field>
-  <!-- Email -->
+  <!-- fldentityname -->
   <hlm-field>
-    <hlm-field-label>{{ t('label.email') }}</hlm-field-label>
-    <input hlmInput id="email" [formField]="userForm.email" />
-    @for (error of userForm.email().errors(); track error.kind) {
+    <hlm-field-label>{{ t('label.fldentityname') }}</hlm-field-label>
+    <input hlmInput id="fldentityname" [formField]="entityForm.fldentityname" />
+    @for (error of entityForm.fldentityname().errors(); track error.kind) {
       <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
     }
   </hlm-field>
-  <!-- Country -->
+    <!-- fldaddress -->
   <hlm-field>
-    <hlm-field-label>{{ t('label.country') }}</hlm-field-label>
-    <adm-country-picker id="country" [formField]="userForm.country" />
-    @for (error of userForm.country().errors(); track error.kind) {
-      <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
-    }
-  </hlm-field>
-
-  <!-- Phone Number -->
-  <hlm-field>
-    <hlm-field-label>{{ t('label.phoneNumber') }}</hlm-field-label>
-    <adm-phone-number-picker id="phoneNumber" [formField]="userForm.phoneNumber" />
-    @for (error of userForm.phoneNumber().errors(); track error.kind) {
+    <hlm-field-label>{{ t('label.fldaddress') }}</hlm-field-label>
+    <input hlmInput id="fldaddress" [formField]="entityForm.fldaddress" />
+    @for (error of entityForm.fldaddress().errors(); track error.kind) {
       <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
     }
   </hlm-field>
 
-  <!-- Role -->
+
+      <!-- fldnumber -->
   <hlm-field>
-    <hlm-field-label>{{ t('label.role') }}</hlm-field-label>
-    <hlm-select class="text-start" [formField]="userForm.role">
-      <hlm-select-trigger id="role" class="w-full">
-        <hlm-select-placeholder>{{ t('selectRolePlaceholder') }}</hlm-select-placeholder>
-        <ng-template *transloco="let t; prefix: 'users.role'" let-value hlmSelectValueTemplate> {{ t(value) }} </ng-template>
-      </hlm-select-trigger>
-      <hlm-select-content *hlmSelectPortal>
-        @for (role of rolesList(); track role) {
-          <hlm-select-item *transloco="let t; prefix: 'users.role'" [value]="role">{{ t(role) }}</hlm-select-item>
-        }
-      </hlm-select-content>
-    </hlm-select>
-    @for (error of userForm.role().errors(); track error.kind) {
+    <hlm-field-label>{{ t('label.fldnumber') }}</hlm-field-label>
+    <input hlmInput id="fldnumber" [formField]="entityForm.fldnumber" />
+    @for (error of entityForm.fldnumber().errors(); track error.kind) {
       <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
     }
   </hlm-field>
+
+        <!-- fldtk -->
+  <hlm-field>
+    <hlm-field-label>{{ t('label.fldtk') }}</hlm-field-label>
+    <input hlmInput id="fldtk" [formField]="entityForm.fldtk" />
+    @for (error of entityForm.fldtk().errors(); track error.kind) {
+      <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
+    }
+  </hlm-field>
+
+        <!-- fldcity -->
+  <hlm-field>
+    <hlm-field-label>{{ t('label.fldcity') }}</hlm-field-label>
+    <input hlmInput id="fldcity" [formField]="entityForm.fldcity" />
+    @for (error of entityForm.fldcity().errors(); track error.kind) {
+      <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
+    }
+  </hlm-field>
+
+        <!-- fldcountry -->
+  <hlm-field>
+    <hlm-field-label>{{ t('label.fldcountry') }}</hlm-field-label>
+    <input hlmInput id="fldcountry" [formField]="entityForm.fldcountry" />
+    @for (error of entityForm.fldcountry().errors(); track error.kind) {
+      <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
+    }
+  </hlm-field>
+
+        <!-- fldfixedphone -->
+  <hlm-field>
+    <hlm-field-label>{{ t('label.fldfixedphone') }}</hlm-field-label>
+    <input hlmInput id="fldfixedphone" [formField]="entityForm.fldfixedphone" />
+    @for (error of entityForm.fldfixedphone().errors(); track error.kind) {
+      <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
+    }
+  </hlm-field>
+
+  <!-- fldmobile -->
+  <hlm-field>
+    <hlm-field-label>{{ t('label.fldmobile') }}</hlm-field-label>
+    <input hlmInput id="fldmobile" [formField]="entityForm.fldmobile" />
+    @for (error of entityForm.fldmobile().errors(); track error.kind) {
+      <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
+    }
+  </hlm-field>
+
+    <!-- fldmail -->
+  <hlm-field>
+    <hlm-field-label>{{ t('label.fldmail') }}</hlm-field-label>
+    <input hlmInput id="fldmail" [formField]="entityForm.fldmail" />
+    @for (error of entityForm.fldmail().errors(); track error.kind) {
+      <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
+    }
+  </hlm-field>
+  
 </form>
 
 <hlm-dialog-footer *transloco="let t; prefix: 'buttons'">
   <button type="button" hlmBtn variant="outline" hlmDialogClose>{{ t('cancel') }}</button>
-  <button type="button" (click)="onSubmit()" hlmBtn [disabled]="userForm().submitting()">
-    @if (userForm().submitting()) {
+  <button type="button" (click)="onSubmit()" hlmBtn [disabled]="entityForm().submitting()">
+    @if (entityForm().submitting()) {
       <hlm-spinner />
     }
     {{ t('save') }}

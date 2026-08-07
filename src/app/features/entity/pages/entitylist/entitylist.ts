@@ -38,6 +38,7 @@ import { HlmDialogService } from '@spartan-ng/helm/dialog';
 
 import { HlmInputGroupImports } from '@spartan-ng/helm/input-group';
 
+import { ActionDropdown } from '../../components/action-dropdown/action-dropdown';
 import { Entity } from '../../../../models/entity';
 import { EntityService } from '../../../../services/entity-service';
 import { EntityView } from '../../../../models/entityview';
@@ -123,6 +124,7 @@ export class Entitylist {
       header: translateSignal(`list.columns.fldentityid`),
       meta: { translationKey: 'entities.list.columns.fldentityid' },
       cell: (info) => info.getValue(),
+      size: 40,
     },
     {
       id: 'fldentityname',
@@ -171,19 +173,19 @@ export class Entitylist {
     //   },
     // },
 
-    // {
-    //   id: 'actions',
-    //   enableHiding: false,
-    //   enableResizing: false,
-    //   enablePinning: true,
-    //   size: 40,
-    //   cell: () =>
-    //     flexRenderComponent(ActionDropdown, {
-    //       inputs: {
-    //         onSuccess: () => this.refreshTable(),
-    //       },
-    //     }),
-    // },
+    {
+      id: 'actions',
+      enableHiding: false,
+      enableResizing: false,
+      enablePinning: true,
+      size: 40,
+      cell: () =>
+        flexRenderComponent(ActionDropdown, {
+          inputs: {
+            onSuccess: () => this.refreshTable(),
+          },
+        }),
+    },
   ];
 
   // ==========================================

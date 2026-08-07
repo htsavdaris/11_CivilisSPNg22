@@ -5,7 +5,7 @@ import { retry, catchError } from 'rxjs/operators';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 export interface DataOperations<T, ID> {
-  save(t: T): Observable<T>;
+  insert(t: T): Observable<T>;
   update(id: ID, t: T): Observable<T>;
   getOne(id: ID): Observable<T>;
   getAll(): Observable<T[]>;

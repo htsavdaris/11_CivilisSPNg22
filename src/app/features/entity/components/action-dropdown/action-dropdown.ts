@@ -14,7 +14,7 @@ import { Entity } from '../../../../models/entity';
 import { HlmTooltipImports } from '@spartan-ng/helm/tooltip';
 import { type CellContext, injectFlexRenderContext } from '@tanstack/angular-table';
 import { EntityService } from '../../../../services/entity-service';
-import { UserForm } from '../form/user-form';
+import { EntityForm } from '../entity-form/entity-form';
 
 @Component({
   selector: 'adm-action-dropdown',
@@ -95,14 +95,14 @@ export class ActionDropdown {
   // ==========================================
 
   deleteUser() {
-    const user = this._context.row.original;
+    const entity = this._context.row.original;
 
-    this._userService
-      .deleteUser(user.id)
+    this._entityService
+      .delete(entity.fldentityid)
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: () => {
-          toast.success(this._transloco.translate('users.toast.userDeleted'));
+          toast.success(this._transloco.translate('entities.toast.entityDeleted'));
           const refresh = this.onSuccess();
           if (refresh) refresh();
         },
@@ -115,7 +115,7 @@ export class ActionDropdown {
 
   onEditUser() {
     const user = this._context.row.original;
-    const dialogRef = this._hlmDialogService.open(UserForm, {
+    const dialogRef = this._hlmDialogService.open(EntityForm, {
       context: { user },
       autoFocus: 'dialog',
       contentClass: 'sm:min-w-lg',

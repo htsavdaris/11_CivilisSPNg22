@@ -43,8 +43,6 @@ import { EntityService } from '../../../../services/entity-service';
     TranslocoModule,
     FormField,
     FormRoot,
-    CountryPicker,
-    PhoneNumberPicker,
   ],
   host: {
     class: 'flex flex-col gap-4',
