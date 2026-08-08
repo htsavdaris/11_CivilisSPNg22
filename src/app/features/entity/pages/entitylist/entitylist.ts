@@ -109,7 +109,7 @@ export class Entitylist {
   protected readonly sorting = signal<SortingState>([]);
   //protected readonly selectedRoles = signal<UserRole[]>([]);
   //protected readonly selectedStatuses = signal<UserStatus[]>([]);
-  protected readonly defaultColumnPinning: ColumnPinningState = { start: ['select'], end: ['actions'] };
+  //protected readonly defaultColumnPinning: ColumnPinningState = { start: ['select'], end: ['actions'] };
 
 
   //protected readonly entityResource = this._entityService.getAllRx();
@@ -124,7 +124,7 @@ export class Entitylist {
       header: translateSignal(`list.columns.fldentityid`),
       meta: { translationKey: 'entities.list.columns.fldentityid' },
       cell: (info) => info.getValue(),
-      size: 40,
+      size: 10,
     },
     {
       id: 'fldentityname',
@@ -138,6 +138,14 @@ export class Entitylist {
       accessorKey: 'fldentitytypedesc',
       header: translateSignal('list.columns.fldentitytypedesc'),
       meta: { translationKey: 'entities.list.columns.fldentitytypedesc' },
+      enableSorting: false,
+      cell: (info) => info.getValue(),
+    },
+    {
+      id: 'fldcity',
+      accessorKey: 'fldcity',
+      header: translateSignal('list.columns.fldcity'),
+      meta: { translationKey: 'entities.list.columns.fldcity' },
       enableSorting: false,
       cell: (info) => info.getValue(),
     },
@@ -175,10 +183,11 @@ export class Entitylist {
 
     {
       id: 'actions',
+      header: translateSignal('list.columns.actions'),
       enableHiding: false,
       enableResizing: false,
       enablePinning: true,
-      size: 40,
+      size: 30,
       cell: () =>
         flexRenderComponent(ActionDropdown, {
           inputs: {

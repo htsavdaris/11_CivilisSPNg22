@@ -28,6 +28,7 @@
             "fldentityid": "Entity ID",
             "fldentityname": "Name",
             "fldentitytypedesc": "Type",
+            "fldcity": "City",
             "fldmail": "Email",
             "fldmobile": "Mobile",
             "actions": "Actions"

@@ -45,7 +45,7 @@
     <adm-data-table
       //mode="server"
       [columns]="columns"
-      [defaultColumnPinning]="defaultColumnPinning"
+      //[defaultColumnPinning]="defaultColumnPinning"
       [isLoading]="entityViewResource.isLoading()"
       [data]="this.entityViewResource.value() ?? []"
       [totalElements]="this.entityViewResource.value()?.length"
@@ -53,7 +53,7 @@
       [sortingState]="sorting()"
       [enableColumnResizing]="true"
       [enableRowSelection]="false"
-      [enableColumnPinning]="true"      
+      [enableColumnPinning]="false"      
       (stateChange)="handleStateChange($event)"
     >
       

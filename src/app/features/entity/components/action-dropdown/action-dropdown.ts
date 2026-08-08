@@ -114,9 +114,9 @@ export class ActionDropdown {
   }
 
   onEditUser() {
-    const user = this._context.row.original;
+    const entity = this._context.row.original;    
     const dialogRef = this._hlmDialogService.open(EntityForm, {
-      context: { user },
+      context: { entity },
       autoFocus: 'dialog',
       contentClass: 'sm:min-w-lg',
     });

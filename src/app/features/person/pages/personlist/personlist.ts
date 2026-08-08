@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, computed, DestroyRef, inject, signal, TemplateRef, viewChild } from '@angular/core';
+import { Component, computed, DestroyRef, inject, input, signal, TemplateRef, viewChild } from '@angular/core';
 import { TranslocoModule, TranslocoService, translateSignal } from '@jsverse/transloco';
+import { FormsModule } from '@angular/forms';
 import { HlmAvatarImports } from '@spartan-ng/helm/avatar';
 import { HlmBadgeImports } from '@spartan-ng/helm/badge';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
@@ -8,6 +9,8 @@ import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmInputGroupImports } from '@spartan-ng/helm/input-group';
 import { HlmLabelImports } from '@spartan-ng/helm/label';
 import { HlmTableImports } from '@spartan-ng/helm/table';
+import { HlmSelectImports } from '@spartan-ng/helm/select';
+import { HlmTooltipImports } from '@spartan-ng/helm/tooltip';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   lucideBriefcase,
@@ -20,9 +23,25 @@ import {
   lucideUser,
   lucideUserPlus,
   lucideX,
+  lucideChevronDown,
+  lucideChevronFirst,
+  lucideChevronLast,
+  lucideChevronRight,
+  lucideChevronLeft,
 } from '@ng-icons/lucide';
 import { ChangeDetectionStrategy } from '@angular/core'
-import { createColumnHelper, FlexRender, injectTable, tableFeatures } from '@tanstack/angular-table'
+import {
+  createColumnHelper, columnFilteringFeature,
+  globalFilteringFeature, FlexRender, injectTable, tableFeatures,
+  createFilteredRowModel,
+  filterFn_includesString,
+  rowPaginationFeature,
+  createPaginatedRowModel,
+  columnSizingFeature,
+} from '@tanstack/angular-table'
+import type { PaginationState } from '@tanstack/angular-table'
+import { createAtom } from '@tanstack/angular-store'
+
 import type { CellContext, ColumnDef } from '@tanstack/angular-table'
 
 
@@ -34,7 +53,7 @@ import { HlmDialogService } from '@spartan-ng/helm/dialog';
 
 import { Person } from '../../../../models/person';
 import { PersonService } from '../../../../services/person-service';
-import { debounce, form } from '@angular/forms/signals';
+import { debounce, form, FormField } from '@angular/forms/signals';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
@@ -44,8 +63,11 @@ import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
     TranslocoModule,
     // DataTable,
     // DataTableColumnsManager,
+
     HlmTableImports,
+    HlmSelectImports,
     HlmButtonImports,
+    HlmTooltipImports,
     NgIcon,
     HlmInputImports,
     HlmLabelImports,
@@ -53,9 +75,30 @@ import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
     HlmAvatarImports,
     HlmBadgeImports,
     FlexRender,
+    FormField,
+    FormsModule
   ],
   standalone: true,
   templateUrl: './personlist.html',
+  providers: [
+    provideIcons({
+      lucideRefreshCcw,
+      lucideUserPlus,
+      lucideSearch,
+      lucideX,
+      lucideCircleCheck,
+      lucideCircleX,
+      lucideLoader,
+      lucideBriefcase,
+      lucideShieldCheck,
+      lucideUser,
+      lucideChevronDown,
+      lucideChevronFirst,
+      lucideChevronLast,
+      lucideChevronRight,
+      lucideChevronLeft,
+    }),
+  ],
   styleUrl: './personlist.css',
 })
 export class Personlist {
@@ -86,13 +129,28 @@ export class Personlist {
   // protected readonly defaultColumnPinning: ColumnPinningState = { start: ['select'], end: ['actions'] };
 
   personsResource = this._personService.getAllRx();
-
   protected readonly activeLanguage = computed(() => this._translocoService.activeLang());
   protected readonly searchForm = form(signal({ search: '' }), (schema) => debounce(schema.search, 300));
+  readonly globalFilterAtom = createAtom<string>('')
+  readonly paginationAtom = createAtom<PaginationState>({
+    pageIndex: 0, // initial page index
+    pageSize: 10, // default page size
+  })
+
+
+  public readonly pageSizeOptions = signal([10, 25, 50, 100]);
 
   protected readonly personlastnameCell = viewChild.required<TemplateRef<CellContext<typeof this.features, Person, string>>>('fldpersonlastname');
 
-  protected readonly features = tableFeatures({})
+  protected readonly features = tableFeatures({
+    columnSizingFeature ,
+    columnFilteringFeature,
+    globalFilteringFeature,
+    filteredRowModel: createFilteredRowModel(),
+    filterFns: { includesString: filterFn_includesString },
+    rowPaginationFeature,
+    paginatedRowModel: createPaginatedRowModel()
+  })
 
   // 4. Create a column helper with the table features and row type
   protected readonly columnHelper = createColumnHelper<typeof this.features, Person>()
@@ -101,17 +159,22 @@ export class Personlist {
     this.columnHelper.accessor('fldpersonid', {
       header: 'First Name',
       cell: (info) => info.getValue(),
+      enableGlobalFilter: true,
+      size: 8,      
     }),
     this.columnHelper.accessor('fldpersonlastname', {
       id: 'lastName',
       header: () => 'Last Name',
+      enableGlobalFilter: true,
       cell: (info) =>
-      `<strong>${info.getValue()}</strong>`,
+        `<strong>${info.getValue()}</strong>`,
+      size: 18,      
     }),
     this.columnHelper.accessor('fldpersonfirstname', {
       id: 'fldpersonfirstname',
+      enableGlobalFilter: true,
       header: () => 'fldpersonfirstname',
-      cell: (info) => info.getValue(),      
+      cell: (info) => info.getValue(),
     }),
     this.columnHelper.accessor('fldpersonemail', {
       header: () => 'fldpersonemail',
@@ -124,19 +187,18 @@ export class Personlist {
   ])
 
 
-
-
-
-
-
   readonly table = injectTable(() => ({
     key: 'persons-table', // needed for devtools
     debugTable: false,
     features: this.features,
     columns: this.columns,
     data: this.personsResource.value() ?? [],
+    globalFilterFn: 'includesString',
+    atoms: {
+      pagination: this.paginationAtom,
+      globalFilter: this.globalFilterAtom, // table.setGlobalFilter now updates globalFilterAtom
+    },
   }))
-
 
 
   // ==========================================
@@ -164,6 +226,12 @@ export class Personlist {
 
   refreshTable(): void {
     this.personsResource.reload();
+  }
+
+  handlePageSizeChange(value: string | number) {
+    const size = Number(value);
+    if (!Number.isFinite(size) || size <= 0) return;
+    this.table.setPagination({ pageIndex: 0, pageSize: size });
   }
 
 

@@ -17,8 +17,10 @@ import { HlmSelectImports } from '@spartan-ng/helm/select';
 import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
 import { parsePhoneNumberFromString } from 'libphonenumber-js/mobile';
 
-import {Entity} from '../../../../models/entity';
+import { Entity} from '../../../../models/entity';
 import { EntityService } from '../../../../services/entity-service';
+import { EntityType} from '../../../../models/entitytype';
+import { EntityTypeService } from '../../../../services/entity-type-service';
 
 
   // export interface EntityFormModel {
@@ -56,6 +58,7 @@ export class EntityForm implements OnInit {
     // ==========================================
   
     private readonly _entityService = inject(EntityService);
+    private readonly _entityTypeService = inject(EntityTypeService);
     private readonly _transloco = inject(TranslocoService);
     private readonly _dialogRef = inject<BrnDialogRef>(BrnDialogRef);
     private readonly _dialogContext = injectBrnDialogContext<{ entity?: Entity }>();
@@ -64,7 +67,7 @@ export class EntityForm implements OnInit {
     // State
     // ==========================================
   
-    
+    protected readonly entityTypes = this._entityTypeService.getAllRx();
     protected readonly isEditMode = signal<boolean>(!!this._dialogContext.entity);
   
   private readonly entityModel = signal<Entity>({

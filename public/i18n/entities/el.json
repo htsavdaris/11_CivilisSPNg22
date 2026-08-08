@@ -28,6 +28,7 @@
             "fldentityid": "Κωδ.",
             "fldentityname": "Επωνυμία",
             "fldentitytypedesc": "Είδος",
+            "fldcity": "Πόλη",
             "fldmail": "Email",
             "fldmobile": "Κινητο",
             "actions": "Ενέργειες"
