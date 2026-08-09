@@ -41,6 +41,9 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './person-form.css',
 })
 export class PersonForm implements OnInit  {
+onSubmit() {
+throw new Error('Method not implemented.');
+}
  
 
   // ==========================================

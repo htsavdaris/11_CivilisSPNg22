@@ -4,6 +4,7 @@ ng generate component --standalone features/person/pages/personlist
 ng generate component --standalone features/person/pages/personsearch
 ng generate component --standalone features/person/components/PersonActionDropdown
 ng generate component --standalone features/person/components/PersonForm
+ng generate component --standalone features/person/components/PersonActionCol
 
 ng generate component --standalone features/entity/pages/entitylist
 ng generate component --standalone features/entity/components/ActionDropdown

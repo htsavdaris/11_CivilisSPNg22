@@ -38,23 +38,24 @@ import {
   rowPaginationFeature,
   createPaginatedRowModel,
   columnSizingFeature,
+  flexRenderComponent,
 } from '@tanstack/angular-table'
 import type { PaginationState } from '@tanstack/angular-table'
 import { createAtom } from '@tanstack/angular-store'
-
+import { debounce, form, FormField } from '@angular/forms/signals';
+import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import type { CellContext, ColumnDef } from '@tanstack/angular-table'
-
+import { HlmDialogService } from '@spartan-ng/helm/dialog';
 
 
 // import { DataTableColumnsManager } from '@shared/datatable/columns-manager/columns-manager';
 // import { DataTable, DataTableStateChangeEvent } from '@shared/datatable/table/data-table';
 // import { DataTableFeatures } from '@shared/datatable/table/table-features';
-import { HlmDialogService } from '@spartan-ng/helm/dialog';
+
 
 import { Person } from '../../../../models/person';
 import { PersonService } from '../../../../services/person-service';
-import { debounce, form, FormField } from '@angular/forms/signals';
-import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { PersonActionCol } from '../../components/person-action-col/person-action-col';
 
 
 @Component({
@@ -183,7 +184,16 @@ export class Personlist {
     this.columnHelper.accessor('fldpersonmobile', {
       header: 'fldpersonmobile',
       cell: (info) => info.getValue(),
-    })
+    }),
+    this.columnHelper.display({
+      id: 'actions',
+      header: 'Actions',
+      cell: () =>  flexRenderComponent(PersonActionCol, {
+          inputs: {
+            onSuccess: () => this.refreshTable(),
+          },
+        }),
+    }),
   ])
 
 

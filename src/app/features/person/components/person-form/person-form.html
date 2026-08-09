@@ -19,16 +19,16 @@
   <!-- fldpersonname -->
   <hlm-field>
     <hlm-field-label>{{ t('label.fldpersonname') }}</hlm-field-label>
-    <input hlmInput id="fldpersonname" [formField]="personForm.fldpersonname" />
-    @for (error of personForm.fldpersonname().errors(); track error.kind) {
+    <input hlmInput id="fldpersonname" [formField]="personForm.fldpersonlastname" />
+    @for (error of personForm.fldpersonlastname().errors(); track error.kind) {
       <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
     }
   </hlm-field>
     <!-- fldaddress -->
   <hlm-field>
     <hlm-field-label>{{ t('label.fldaddress') }}</hlm-field-label>
-    <input hlmInput id="fldaddress" [formField]="personForm.fldaddress" />
-    @for (error of personForm.fldaddress().errors(); track error.kind) {
+    <input hlmInput id="fldaddress" [formField]="personForm.fldpersonfirstname" />
+    @for (error of personForm.fldpersonfirstname().errors(); track error.kind) {
       <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
     }
   </hlm-field>
@@ -37,8 +37,8 @@
       <!-- fldnumber -->
   <hlm-field>
     <hlm-field-label>{{ t('label.fldnumber') }}</hlm-field-label>
-    <input hlmInput id="fldnumber" [formField]="personForm.fldnumber" />
-    @for (error of personForm.fldnumber().errors(); track error.kind) {
+    <input hlmInput id="fldnumber" [formField]="personForm.fldcity" />
+    @for (error of personForm.fldcity().errors(); track error.kind) {
       <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
     }
   </hlm-field>
@@ -46,8 +46,8 @@
         <!-- fldtk -->
   <hlm-field>
     <hlm-field-label>{{ t('label.fldtk') }}</hlm-field-label>
-    <input hlmInput id="fldtk" [formField]="personForm.fldtk" />
-    @for (error of personForm.fldtk().errors(); track error.kind) {
+    <input hlmInput id="fldtk" [formField]="personForm.fldpersonstreet1" />
+    @for (error of personForm.fldpersonstreet1().errors(); track error.kind) {
       <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
     }
   </hlm-field>
@@ -55,8 +55,8 @@
         <!-- fldcity -->
   <hlm-field>
     <hlm-field-label>{{ t('label.fldcity') }}</hlm-field-label>
-    <input hlmInput id="fldcity" [formField]="personForm.fldcity" />
-    @for (error of personForm.fldcity().errors(); track error.kind) {
+    <input hlmInput id="fldcity" [formField]="personForm.fldpersonnumber1" />
+    @for (error of personForm.fldpersonnumber1().errors(); track error.kind) {
       <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
     }
   </hlm-field>
@@ -64,8 +64,8 @@
         <!-- fldcountry -->
   <hlm-field>
     <hlm-field-label>{{ t('label.fldcountry') }}</hlm-field-label>
-    <input hlmInput id="fldcountry" [formField]="personForm.fldcountry" />
-    @for (error of personForm.fldcountry().errors(); track error.kind) {
+    <input hlmInput id="fldcountry" [formField]="personForm.fldpersontk1" />
+    @for (error of personForm.fldpersontk1().errors(); track error.kind) {
       <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
     }
   </hlm-field>
@@ -73,8 +73,8 @@
         <!-- fldfixedphone -->
   <hlm-field>
     <hlm-field-label>{{ t('label.fldfixedphone') }}</hlm-field-label>
-    <input hlmInput id="fldfixedphone" [formField]="personForm.fldfixedphone" />
-    @for (error of personForm.fldfixedphone().errors(); track error.kind) {
+    <input hlmInput id="fldfixedphone" [formField]="personForm.fldpersonmobile" />
+    @for (error of personForm.fldpersonmobile().errors(); track error.kind) {
       <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
     }
   </hlm-field>
@@ -82,8 +82,8 @@
   <!-- fldmobile -->
   <hlm-field>
     <hlm-field-label>{{ t('label.fldmobile') }}</hlm-field-label>
-    <input hlmInput id="fldmobile" [formField]="personForm.fldmobile" />
-    @for (error of personForm.fldmobile().errors(); track error.kind) {
+    <input hlmInput id="fldmobile" [formField]="personForm.fldpersonemail" />
+    @for (error of personForm.fldpersonemail().errors(); track error.kind) {
       <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
     }
   </hlm-field>
@@ -91,8 +91,8 @@
     <!-- fldmail -->
   <hlm-field>
     <hlm-field-label>{{ t('label.fldmail') }}</hlm-field-label>
-    <input hlmInput id="fldmail" [formField]="personForm.fldmail" />
-    @for (error of personForm.fldmail().errors(); track error.kind) {
+    <input hlmInput id="fldmail" [formField]="personForm.fldprofession" />
+    @for (error of personForm.fldprofession().errors(); track error.kind) {
       <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
     }
   </hlm-field>
