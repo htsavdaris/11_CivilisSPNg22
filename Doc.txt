@@ -2,6 +2,8 @@ pnpm install -g @angular/cli
 pnpm install file-saver @types/file-saver
 ng generate component --standalone features/person/pages/personlist
 ng generate component --standalone features/person/pages/personsearch
+ng generate component --standalone features/person/components/PersonActionDropdown
+ng generate component --standalone features/person/components/PersonForm
 
 ng generate component --standalone features/entity/pages/entitylist
 ng generate component --standalone features/entity/components/ActionDropdown
