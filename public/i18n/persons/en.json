@@ -41,12 +41,17 @@
         "addDescription": "Fill in the details below to create a new user.",
         "editDescription": "Update the details below to edit the user.",
         "label": {
-            "name": "Name",
-            "email": "Email",
-            "phoneNumber": "Phone Number",
-            "country": "Country",
-            "role": "Role",
-            "status": "Status"
+            "fldpersonid": "Person ID",
+            "fldpersonlastname": "Last Name",
+            "fldpersonfirstname": "First Name",
+            "fldpersonstreet1": "Street",
+            "fldpersonnumber1": "Number",
+            "fldpersontk1": "Zip Code",
+            "fldcity": "City",
+            "fldpersonmobile": "Mobile",
+            "fldpersonemail": "Email",
+            "fldprofession": "Profession",
+            "flddatasource": "Data Source" 
         },
         "selectRolePlaceholder": "Select an option"
     },

@@ -1,15 +1,34 @@
 pnpm install -g @angular/cli
 pnpm install file-saver @types/file-saver
+
+ng generate interceptor interceptors/auth
+ng generate interceptor interceptors/error
+
+ng generate guard guards/authenticated
+
 ng generate component --standalone features/person/pages/personlist
 ng generate component --standalone features/person/pages/personsearch
 ng generate component --standalone features/person/components/PersonActionDropdown
 ng generate component --standalone features/person/components/PersonForm
 ng generate component --standalone features/person/components/PersonActionCol
+ng generate component --standalone features/person/components/PersonFormDialogCont
+ng generate component --standalone features/person/components/PersonFormPageCont
 
 ng generate component --standalone features/entity/pages/entitylist
+ng generate component --standalone features/entity/pages/entitysearch
 ng generate component --standalone features/entity/components/ActionDropdown
+ng generate component --standalone features/person/components/EntityActionCol
+ng generate component --standalone features/person/components/EntityFormDialogCont
+ng generate component --standalone features/person/components/EntityFormPageCont
 ng generate component --standalone features/entity/components/EntityForm
 pnpm add @tanstack/angular-table@9.0.0
 npm install @tanstack/angular-store
 
 ng generate component --standalone shared/components/pagination
+
+ng generate component --standalone features/case/pages/caselist
+ng generate component --standalone features/case/pages/casesearch
+ng generate component --standalone features/case/components/CaseForm
+ng generate component --standalone features/case/components/CaseActionCol
+ng generate component --standalone features/case/components/CaseFormDialogCont
+ng generate component --standalone features/case/components/CaseFormPageCont

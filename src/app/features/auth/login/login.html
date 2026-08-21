@@ -10,7 +10,7 @@
       </p>
     </div>
 
-    <form class="flex flex-col gap-4" [formRoot]="loginForm">
+    <form class="flex flex-col gap-4" [formRoot]="loginForm2">
       <hlm-field>
         <hlm-field-label>{{ t('emailLabel') }}</hlm-field-label>
         <input
@@ -19,9 +19,9 @@
           type="email"
           autocomplete="off"
           [placeholder]="t('emailPlaceholder')"
-          [formField]="loginForm.email"
+          [formField]="loginForm2.login"
         />
-        @for (error of loginForm.email().errors(); track error.kind) {
+        @for (error of loginForm2.login().errors(); track error.kind) {
           <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
         }
       </hlm-field>
@@ -34,7 +34,7 @@
             autocomplete="new-password"
             [type]="showPassword() ? 'text' : 'password'"
             [placeholder]="t('passwordPlaceholder')"
-            [formField]="loginForm.password"
+            [formField]="loginForm2.password"
           />
           <hlm-input-group-addon align="inline-end">
             <ng-icon
@@ -44,7 +44,7 @@
           /></hlm-input-group-addon>
         </hlm-input-group>
 
-        @for (error of loginForm.password().errors(); track error.kind) {
+        @for (error of loginForm2.password().errors(); track error.kind) {
           <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
         }
       </hlm-field>
@@ -62,8 +62,8 @@
         </a>
       </div>
 
-      <button type="submit" hlmBtn [disabled]="loginForm().submitting()">
-        @if (loginForm().submitting()) {
+      <button type="submit" hlmBtn [disabled]="loginForm2().submitting()">
+        @if (loginForm2().submitting()) {
           <hlm-spinner />
         }
         {{ t('loginBtn') }}
@@ -78,11 +78,11 @@
       </div>
     </div>
     <div class="grid grid-cols-2 gap-2">
-      <button type="button" class="flex-1" hlmBtn variant="outline" [disabled]="loginForm().submitting()">
+      <button type="button" class="flex-1" hlmBtn variant="outline" [disabled]="loginForm2().submitting()">
         <ng-icon name="svglGithubDark" />
         Github
       </button>
-      <button type="button" class="flex-1" hlmBtn variant="outline" [disabled]="loginForm().submitting()">
+      <button type="button" class="flex-1" hlmBtn variant="outline" [disabled]="loginForm2().submitting()">
         <ng-icon name="svglGoogle" />
         Google
       </button>

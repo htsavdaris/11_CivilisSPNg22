@@ -36,19 +36,25 @@
         }
     },
     "form": {
-        "addTitle": "Add New User",
-        "editTitle": "Edit User",
-        "addDescription": "Fill in the details below to create a new user.",
-        "editDescription": "Update the details below to edit the user.",
+        "addTitle": "Προσθήκη Νέου Χρήστη",
+        "editTitle": "Επεξεργασία Χρήστη",
+        "addDescription": "Συμπληρώστε τις πληροφορίες για να δημιουργήσετε έναν νέο χρήστη.",
+        "editDescription": "Ενημερώστε τις πληροφορίες για να επεξεργαστείτε τον χρήστη.",
         "label": {
-            "name": "Name",
-            "email": "Email",
-            "phoneNumber": "Phone Number",
-            "country": "Country",
-            "role": "Role",
-            "status": "Status"
+            "fldpersonid": "Κωδικός",
+            "fldpersonlastname": "Επώνυμο",
+            "fldpersonfirstname": "Όνομα",
+            "fldpersonstreet1": "Οδός",
+            "fldpersonnumber1": "Αριθμός",
+            "fldpersontk1": "TK",
+            "fldcity": "Πόλη",
+            "fldpersonmobile": "Κινητό",
+            "fldpersonemail": "Email",
+            "fldprofession": "Επάγγελμα",
+            "flddatasource": "Πηγή Δεδομένων" 
         },
         "selectRolePlaceholder": "Select an option"
+        
     },
     "role": {
         "admin": "Admin",

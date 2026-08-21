@@ -22,6 +22,8 @@ import { HlmBadgeImports } from '@spartan-ng/helm/badge';
 import { HlmDropdownMenuImports } from '@spartan-ng/helm/dropdown-menu';
 
 import { HlmSidebarImports, HlmSidebarService } from '@spartan-ng/helm/sidebar';
+import { UserStoreService } from '../../../../services/user-store-service';
+
 
 @Component({
   selector: 'adm-user',
@@ -51,6 +53,7 @@ export class NavUser {
   private readonly _languageService = inject(LanguageService);
   private readonly _themeService = inject(ThemeService);
   private readonly _authService = inject(AuthService);
+  public readonly _userStoreService = inject(UserStoreService);
 
   // ==========================================
   // Inputs

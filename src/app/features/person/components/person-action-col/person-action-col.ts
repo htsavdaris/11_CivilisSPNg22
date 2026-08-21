@@ -1,19 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucideCircleFadingArrowUp,lucideSquarePen , lucideCircleX } from '@ng-icons/lucide';
+import { lucideCircleFadingArrowUp, lucideSquarePen, lucideCircleX } from '@ng-icons/lucide';
+import { CellContext, injectFlexRenderContext } from '@tanstack/angular-table';
+import { HlmDialogService } from '@spartan-ng/helm/dialog';
+import { PersonForm } from '../person-form/person-form';
+
+
 @Component({
   selector: 'adm-person-action-col',
-  imports: [HlmButtonImports, NgIcon,  ],
+  imports: [HlmButtonImports, NgIcon,],
   providers: [provideIcons({ lucideCircleFadingArrowUp, lucideSquarePen, lucideCircleX })],
   template: `
-		<button hlmBtn size="icon" variant="outline">
+		<button hlmBtn size="icon" variant="outline" (click)="onEditUser()">
 			<ng-icon name="lucideSquarePen" />
 		</button>
-    <button hlmBtn size="icon" variant="outline">
+    <button hlmBtn size="icon" variant="outline" (click)="onDeleteUser()">
 			<ng-icon name="lucideCircleX" />
 		</button>
 	`,
   styleUrl: './person-action-col.css',
 })
-export class PersonActionCol {}
+export class PersonActionCol {
+  readonly context = injectFlexRenderContext<CellContext<any, any, any>>()
+  //fldpersonid = input<number>();
+   private readonly _hlmDialogService = inject(HlmDialogService);
+
+  onEditUser() {
+    console.log('Edit user with ID:', this.context.row.original.fldpersonid);  
+    const dialogRef = this._hlmDialogService.open(PersonForm, {
+          context: { person: this.context.row.original,
+            mode: 'edit' },
+          
+          autoFocus: 'dialog',
+          contentClass: 'sm:min-w-lg',
+        });
+  }
+
+  onDeleteUser() {
+    throw new Error('Method not implemented.');
+  }
+}

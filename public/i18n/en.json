@@ -38,6 +38,8 @@
     "twoStepVerification": "Two Step Verification",
     "dashboard": "Dashboard",
     "dashboard-1": "Dashboard 1",
+    "persons": "Persons",
+    "entities": "Entities",
     "users": "Users",
     "notFound": "Page Not Found",
     "unauthorized": "Unauthorized",

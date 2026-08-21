@@ -1,7 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { email, form, FormField, FormRoot, required, submit, validate } from '@angular/forms/signals';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
-import { BrnDialogRef, injectBrnDialogContext } from '@spartan-ng/brain/dialog';
 
 import { toast } from '@spartan-ng/brain/sonner';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
@@ -51,8 +50,6 @@ throw new Error('Method not implemented.');
   // ==========================================
 
   private readonly _transloco = inject(TranslocoService);
-  private readonly _dialogRef = inject<BrnDialogRef>(BrnDialogRef);
-  private readonly _dialogContext = injectBrnDialogContext<{ person?: Person }>();
   private readonly _personService = inject(PersonService);
   private readonly _personAttributeService = inject(PersonAttributeService);
   private readonly _personAttributeViewService = inject(PersonAttributeViewService);
@@ -61,9 +58,9 @@ throw new Error('Method not implemented.');
   // State
   // ==========================================
 
-  protected readonly person = this._personService.getOneRx(this._dialogContext.person?.fldpersonid ?? 0);
+  //protected readonly person = this._personService.getOneRx(this._dialogContext.person?.fldpersonid ?? 0);
   protected readonly personAttributes = this._personAttributeService.getAllRx();
-  protected readonly isEditMode = signal<boolean>(!!this._dialogContext.person);
+  protected readonly isEditMode = signal<boolean>(true);
   protected readonly isDialog = signal<boolean>(false);
 
   private readonly personModel = signal<Person>({
@@ -107,10 +104,19 @@ throw new Error('Method not implemented.');
   // ==========================================
 
  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-    this._route.data.subscribe(data => {
-    console.log('mode:', data['mode']);
-  });
+  const personId = this._route.snapshot.paramMap.get('id');
+  console.log('personId:', personId);
+  // if (personId) {
+  //   this._personService.getOneRx(+personId).subscribe((person) => {
+  //     if (person) {
+  //       this.personModel.set(person);
+  //     }
+  //   });
+  // }
+   // throw new Error('Method not implemented.');
+  //   this._route.data.subscribe(data => {
+  //   console.log('mode:', data['mode']);
+  // });
   }
 
 

@@ -1,105 +1,125 @@
-<hlm-dialog-header *transloco="let t; prefix: 'person.form'">
+<!-- <hlm-dialog-header *transloco="let t; prefix: 'person.form'">
   <h3 hlmDialogTitle>{{ isEditMode() ? t('editTitle') : t('addTitle') }}</h3>
   <p hlmDialogDescription>{{ isEditMode() ? t('editDescription') : t('addDescription') }}</p>
-</hlm-dialog-header>
+</hlm-dialog-header> -->
 
-<form
-  *transloco="let t; prefix: 'person.form'"
-  class="flex max-h-[calc(100vh-2rem)] w-full flex-col gap-4 overflow-y-auto p-2 sm:max-h-[min(640px,80vh)]"
-  [formRoot]="personForm"
->
+<form *transloco="let t; prefix: 'persons.form'" /*
+  class="flex max-h-[calc(100vh-2rem)] w-full flex-col gap-4 overflow-y-auto p-2 sm:max-h-[min(640px,80vh)] grid-cols-4 sm:grid-cols-4"
+  */ [formRoot]="personForm">
   <!-- fldpersonid -->
-  <hlm-field>
-    <hlm-field-label>{{ t('label.fldpersonid') }}</hlm-field-label>
-    <input hlmInput type="number" id="fldpersonid" [formField]="personForm.fldpersonid" />
-    @for (error of personForm.fldpersonid().errors(); track error.kind) {
+  <div class="grid w-full gap-4 grid-cols-4 sm:grid-cols-4">
+  <div class="sm:col-span-2 sm:col-span-2">
+    <hlm-field>
+      <hlm-field-label>{{ t('label.fldpersonid') }}1</hlm-field-label>
+      <input hlmInput type="number" id="fldpersonid" [formField]="personForm.fldpersonid" />
+      @for (error of personForm.fldpersonid().errors(); track error.kind) {
       <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
-    }
-  </hlm-field>
-  <!-- fldpersonname -->
-  <hlm-field>
-    <hlm-field-label>{{ t('label.fldpersonname') }}</hlm-field-label>
-    <input hlmInput id="fldpersonname" [formField]="personForm.fldpersonlastname" />
-    @for (error of personForm.fldpersonlastname().errors(); track error.kind) {
+      }
+    </hlm-field>
+  </div>
+  <!-- fldpersonlastname -->
+  <div class="col-span-2 sm:col-span-2">
+    <hlm-field>
+      <hlm-field-label>{{ t('label.fldpersonlastname') }}</hlm-field-label>
+      <input hlmInput id="fldpersonname" [formField]="personForm.fldpersonlastname" />
+      @for (error of personForm.fldpersonlastname().errors(); track error.kind) {
       <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
-    }
-  </hlm-field>
-    <!-- fldaddress -->
-  <hlm-field>
-    <hlm-field-label>{{ t('label.fldaddress') }}</hlm-field-label>
-    <input hlmInput id="fldaddress" [formField]="personForm.fldpersonfirstname" />
-    @for (error of personForm.fldpersonfirstname().errors(); track error.kind) {
+      }
+    </hlm-field>
+  </div>
+  <!-- fldpersonfirstname -->
+  <div class="col-span-2 sm:col-span-2 col-start-3 ">
+    <hlm-field>
+      <hlm-field-label>{{ t('label.fldpersonfirstname') }}</hlm-field-label>
+      <input hlmInput id="fldpersonfirstname" [formField]="personForm.fldpersonfirstname" />
+      @for (error of personForm.fldpersonfirstname().errors(); track error.kind) {
       <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
-    }
-  </hlm-field>
+      }
+    </hlm-field>
+  </div>
+
+  <!-- fldpersonstreet1 -->
+  <div class="sm:col-span-3">
+    <hlm-field>
+      <hlm-field-label>{{ t('label.fldpersonstreet1') }}</hlm-field-label>
+      <input hlmInput id="fldpersonstreet1" [formField]="personForm.fldpersonstreet1" />
+      @for (error of personForm.fldpersonstreet1().errors(); track error.kind) {
+      <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
+      }
+    </hlm-field>
+  </div>
+
+  <!-- fldpersonnumber1 -->
+  <div class="sm:col-span-1">
+    <hlm-field>
+      <hlm-field-label>{{ t('label.fldpersonnumber1') }}</hlm-field-label>
+      <input hlmInput id="fldpersonnumber1" [formField]="personForm.fldpersonnumber1" />
+      @for (error of personForm.fldpersonnumber1().errors(); track error.kind) {
+      <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
+      }
+    </hlm-field>
+  </div>
 
 
-      <!-- fldnumber -->
-  <hlm-field>
-    <hlm-field-label>{{ t('label.fldnumber') }}</hlm-field-label>
-    <input hlmInput id="fldnumber" [formField]="personForm.fldcity" />
-    @for (error of personForm.fldcity().errors(); track error.kind) {
+  <!-- fldpersontk1 -->
+  <div class="col-span-2">
+    <hlm-field>
+      <hlm-field-label>{{ t('label.fldpersontk1') }}</hlm-field-label>
+      <input hlmInput id="fldpersontk1" [formField]="personForm.fldpersontk1" />
+      @for (error of personForm.fldpersontk1().errors(); track error.kind) {
       <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
-    }
-  </hlm-field>
+      }
+    </hlm-field>
+  </div>
 
-        <!-- fldtk -->
-  <hlm-field>
-    <hlm-field-label>{{ t('label.fldtk') }}</hlm-field-label>
-    <input hlmInput id="fldtk" [formField]="personForm.fldpersonstreet1" />
-    @for (error of personForm.fldpersonstreet1().errors(); track error.kind) {
-      <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
-    }
-  </hlm-field>
-
-        <!-- fldcity -->
+  <!-- fldcity -->
   <hlm-field>
     <hlm-field-label>{{ t('label.fldcity') }}</hlm-field-label>
-    <input hlmInput id="fldcity" [formField]="personForm.fldpersonnumber1" />
-    @for (error of personForm.fldpersonnumber1().errors(); track error.kind) {
-      <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
+    <input hlmInput id="fldcity" [formField]="personForm.fldcity" />
+    @for (error of personForm.fldcity().errors(); track error.kind) {
+    <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
     }
   </hlm-field>
 
-        <!-- fldcountry -->
+  <!-- fldpersonmobile -->
   <hlm-field>
-    <hlm-field-label>{{ t('label.fldcountry') }}</hlm-field-label>
-    <input hlmInput id="fldcountry" [formField]="personForm.fldpersontk1" />
-    @for (error of personForm.fldpersontk1().errors(); track error.kind) {
-      <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
-    }
-  </hlm-field>
-
-        <!-- fldfixedphone -->
-  <hlm-field>
-    <hlm-field-label>{{ t('label.fldfixedphone') }}</hlm-field-label>
-    <input hlmInput id="fldfixedphone" [formField]="personForm.fldpersonmobile" />
+    <hlm-field-label>{{ t('label.fldpersonmobile') }}</hlm-field-label>
+    <input hlmInput id="fldpersonmobile" [formField]="personForm.fldpersonmobile" />
     @for (error of personForm.fldpersonmobile().errors(); track error.kind) {
-      <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
+    <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
     }
   </hlm-field>
 
-  <!-- fldmobile -->
+  <!-- fldpersonemail -->
   <hlm-field>
-    <hlm-field-label>{{ t('label.fldmobile') }}</hlm-field-label>
-    <input hlmInput id="fldmobile" [formField]="personForm.fldpersonemail" />
+    <hlm-field-label>{{ t('label.fldpersonemail') }}</hlm-field-label>
+    <input hlmInput id="fldpersonemail" [formField]="personForm.fldpersonemail" />
     @for (error of personForm.fldpersonemail().errors(); track error.kind) {
-      <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
+    <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
     }
   </hlm-field>
 
-    <!-- fldmail -->
+  <!-- fldprofession -->
   <hlm-field>
-    <hlm-field-label>{{ t('label.fldmail') }}</hlm-field-label>
-    <input hlmInput id="fldmail" [formField]="personForm.fldprofession" />
+    <hlm-field-label>{{ t('label.fldprofession') }}</hlm-field-label>
+    <input hlmInput id="fldprofession" [formField]="personForm.fldprofession" />
     @for (error of personForm.fldprofession().errors(); track error.kind) {
-      <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
+    <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
     }
   </hlm-field>
-  
+
+  <!-- flddatasource -->
+  <hlm-field>
+    <hlm-field-label>{{ t('label.flddatasource') }}</hlm-field-label>
+    <input hlmInput id="flddatasource" [formField]="personForm.flddatasource" />
+    @for (error of personForm.flddatasource().errors(); track error.kind) {
+    <hlm-field-error *transloco="let t">{{ t('validation.' + error.kind) }}</hlm-field-error>
+    }
+  </hlm-field>
+  </div>
 </form>
 
-<hlm-dialog-footer *transloco="let t; prefix: 'buttons'">
+<!-- <hlm-dialog-footer *transloco="let t; prefix: 'buttons'">
   <button type="button" hlmBtn variant="outline" hlmDialogClose>{{ t('cancel') }}</button>
   <button type="button" (click)="onSubmit()" hlmBtn [disabled]="personForm().submitting()">
     @if (personForm().submitting()) {
@@ -107,6 +127,4 @@
     }
     {{ t('save') }}
   </button>
-</hlm-dialog-footer>
-
-
+</hlm-dialog-footer> -->

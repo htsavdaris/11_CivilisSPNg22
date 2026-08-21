@@ -30,6 +30,7 @@ import { TranslocoHttpLoader } from './transloco-loader';
 
 import { provideHlmSidebarConfig } from '@spartan-ng/helm/sidebar';
 import { provideSpartanHlm } from '@spartan-ng/helm/utils';
+import { appInitializer } from './app.initializer';
 
 registerLocaleData(localeEl);
 
@@ -63,6 +64,7 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
       withInMemoryScrolling({ scrollPositionRestoration: 'enabled' })
     ),
+    provideAppInitializer(() =>  appInitializer() ),
     provideHttpClient(),
     provideTransloco({
       config: {

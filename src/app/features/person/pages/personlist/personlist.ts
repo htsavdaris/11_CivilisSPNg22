@@ -159,7 +159,7 @@ export class Personlist {
   protected readonly columns = this.columnHelper.columns([
     this.columnHelper.accessor('fldpersonid', {
       header: 'First Name',
-      cell: (info) => info.getValue(),
+      cell: (info) => `<a href="/persons/form/${info.getValue()}">${info.getValue()}</a>`,
       enableGlobalFilter: true,
       size: 8,      
     }),
@@ -188,9 +188,10 @@ export class Personlist {
     this.columnHelper.display({
       id: 'actions',
       header: 'Actions',
-      cell: () =>  flexRenderComponent(PersonActionCol, {
+      cell: (ctx) =>  flexRenderComponent(PersonActionCol, {
           inputs: {
-            onSuccess: () => this.refreshTable(),
+            fldpersonid: ctx.row.original.fldpersonid,
+           // onSuccess: () => this.refreshTable(),
           },
         }),
     }),
@@ -243,6 +244,23 @@ export class Personlist {
     if (!Number.isFinite(size) || size <= 0) return;
     this.table.setPagination({ pageIndex: 0, pageSize: size });
   }
+
+  // onEditPerson() {
+  //     const person = this._context.row.original;
+  //     const dialogRef = this._hlmDialogService.open(UserForm, {
+  //       context: { user },
+  //       autoFocus: 'dialog',
+  //       contentClass: 'sm:min-w-lg',
+  //     });
+  
+  //     dialogRef.closed$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((result) => {
+  //       console.log(result);
+  //       if (result) {
+  //         const refresh = this.onSuccess();
+  //         if (refresh) refresh();
+  //       }
+  //     });
+  //   }
 
 
 }

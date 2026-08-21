@@ -32,7 +32,7 @@
           <span class="rounded-lg bg-[#FD005B] text-white" hlmAvatarFallback>RG</span>
         </hlm-avatar>
         <div class="grid flex-1 text-left text-sm leading-tight">
-          <span class="truncate font-medium">{{ user.name }}</span>
+          <span class="truncate font-medium">{{this._userStoreService.state().login }}</span>
           <span class="truncate text-xs">{{ user.email }}</span>
         </div>
       </div>
