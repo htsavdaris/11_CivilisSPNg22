@@ -9,6 +9,7 @@ import {
   provideRouter,
   TitleStrategy,
   withComponentInputBinding,
+  withDisabledInitialNavigation,
   withExperimentalAutoCleanupInjectors,
   withInMemoryScrolling,
   withPreloading,
@@ -62,7 +63,8 @@ export const appConfig: ApplicationConfig = {
       withViewTransitions(),
       withPreloading(FlagBasedPreloadingStrategy),
       withComponentInputBinding(),
-      withInMemoryScrolling({ scrollPositionRestoration: 'enabled' })
+      withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
+      withDisabledInitialNavigation()
     ),
     provideAppInitializer(() =>  appInitializer() ),
     provideHttpClient(),

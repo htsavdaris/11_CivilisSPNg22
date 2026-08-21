@@ -118,17 +118,17 @@ export default class Login {
 
   authenticate(): void {
     //this._localAuthService.authenticate(this.userAuth).subscribe({
-
+    this._router.navigate(['/dashboard/dashboard-1']);
     this._localAuthService.authenticate(this.loginModel2()).subscribe({
       next: (authresponse) => {
         if (authresponse && authresponse.accesstoken) {
           if (this.rememberme1) {
-            //TODO: Set longer expiration for refresh token
+            //TODO: Set longer e  xpiration for refresh token
           }
           this._localAuthService.afterLogin(authresponse.userid, authresponse.login, authresponse.accesstoken,
             authresponse.refreshtoken, authresponse.personid, authresponse.roles);
           console.log('Authenticate Called2');
-          this._router.navigate(['/dashboard/dashboard-1']);
+          //this._router.navigate(['/dashboard/dashboard-1']);
           console.log('Authenticate Called3');
         }
       },
