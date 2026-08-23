@@ -60,11 +60,11 @@ export class PersonForm implements OnInit {
   protected readonly personAttributes = this._personAttributeService.getAllRx();
   protected readonly isEditMode = signal<boolean>(true);
   protected readonly isDialog = signal<boolean>(false);
-  personid = input<number>(0, {
+  personid = input<any>({
     alias: 'id',
   });
 
-  protected hrefPerson = this._personService.getOneRx(this.personid());
+  protected hrefPerson = this._personService.getOneRxParse(this.personid);
 
   private readonly personModel = signal<Person>({
     fldpersonid: 0,
@@ -105,16 +105,21 @@ export class PersonForm implements OnInit {
   // ==========================================
   // Public Methods
   // ==========================================
-
-  ngOnInit(): void {
-    //const personId = this._route.snapshot.paramMap.get('id');
-    console.log('personId:', this.personid());
-    //let hrefPerson = this._personService.getOneRx(parseInt(personId ?? '0'));
+  constructor()
+  {
     effect(() => {
       if (this.hrefPerson.hasValue()) {
         this.personModel.set(this.hrefPerson.value());
       }
     });
+  }
+
+
+  ngOnInit(): void {
+    //const personId = this._route.snapshot.paramMap.get('id');
+    console.log('personId:', this.personid());
+    //let hrefPerson = this._personService.getOneRx(parseInt(personId ?? '0'));
+    
 
     // if (personId) {
     //   this._personService.getOneRx(+personId).subscribe((person) => {

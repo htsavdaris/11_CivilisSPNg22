@@ -1,4 +1,4 @@
-import { inject, Injectable,Service,  ResourceRef } from '@angular/core';
+import { inject, Injectable,Service,  ResourceRef, Signal } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse, httpResource, HttpResourceRef } from "@angular/common/http";
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
@@ -20,7 +20,7 @@ export abstract class DataService<T, ID> implements DataOperations<T, ID> {
       'Content-Type': 'application/json; charset=utf-8'
     })
   };
-  abstract getResourceUrl(): string;
+  public abstract getResourceUrl(): string;
 
 
 
@@ -60,6 +60,7 @@ _http: HttpClient = inject(HttpClient);
 
  
   getOneRx(id: ID): HttpResourceRef<T | undefined> {
+    console.log('Called getOneRx' + id);
     return httpResource<T | undefined>(() => ({
       url: this.getResourceUrl() + "/" + id,
       headers: {
@@ -67,10 +68,12 @@ _http: HttpClient = inject(HttpClient);
       },
     }));
   }
+  
 
-  getOneRxParse(id: ID): HttpResourceRef<T | undefined> {
+  getOneRxParse(id: Signal<ID>): HttpResourceRef<T | undefined> {
+    console.log(id());
     return httpResource<T | undefined>(() => ({
-      url: this.getResourceUrl() + "/" + id,
+      url: this.getResourceUrl() + '${id()}',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
       }   
