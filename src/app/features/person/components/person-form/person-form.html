@@ -3,7 +3,7 @@
   <p hlmDialogDescription>{{ isEditMode() ? t('editDescription') : t('addDescription') }}</p>
 </hlm-dialog-header> -->
 
-<form *transloco="let t; prefix: 'persons.form'" /*
+<form *transloco="let t; prefix: 'persons.form'"  /*
   class="flex max-h-[calc(100vh-2rem)] w-full flex-col gap-4 overflow-y-auto p-2 sm:max-h-[min(640px,80vh)] grid-cols-4 sm:grid-cols-4"
   */ [formRoot]="personForm">
   <!-- fldpersonid -->
@@ -117,14 +117,17 @@
     }
   </hlm-field>
   </div>
-</form>
-
-<!-- <hlm-dialog-footer *transloco="let t; prefix: 'buttons'">
-  <button type="button" hlmBtn variant="outline" hlmDialogClose>{{ t('cancel') }}</button>
+  <div>
+    <button type="button" hlmBtn variant="outline" hlmDialogClose>{{ t('cancel') }}</button>
   <button type="button" (click)="onSubmit()" hlmBtn [disabled]="personForm().submitting()">
     @if (personForm().submitting()) {
       <hlm-spinner />
     }
     {{ t('save') }}
   </button>
+  </div>
+</form>
+
+<!-- <hlm-dialog-footer *transloco="let t; prefix: 'buttons'">
+  
 </hlm-dialog-footer> -->

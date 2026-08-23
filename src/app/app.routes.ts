@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/guards/auth-guard';
+import { authenticatedGuard } from './guards/authenticated-guard';
 import { MainLayout } from './layout/app/layout';
 import { EmptyLayout } from './layout/empty/empty';
 
@@ -18,8 +18,8 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayout,
-    canActivate: [authGuard],
-    canActivateChild: [authGuard],
+    canActivate: [authenticatedGuard],
+    canActivateChild: [authenticatedGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       {
@@ -31,18 +31,21 @@ export const routes: Routes = [
             path: '',
             redirectTo: 'dashboard-1',
             pathMatch: 'full',
+            
           },
           {
             path: 'dashboard-1',
             title: 'dashboard-1',
             data: { breadcrumb: 'navigation.dashboard-1' },
             loadChildren: () => import('./features/dashboards/dashboard-1/routes'),
+            canActivate: [authenticatedGuard]
           },
           {
             path: 'dashboard-2',
             title: 'dashboard-2',
             data: { breadcrumb: 'navigation.dashboard-2', preload: true },
             loadChildren: () => import('./features/dashboards/dashboard-2/routes'),
+            canActivate: [authenticatedGuard]
           },
         ],
       },
@@ -57,6 +60,7 @@ export const routes: Routes = [
         title: 'persons',
         data: { breadcrumb: 'navigation.persons', preload: true },
         loadChildren: () => import('./features/person/routes'),
+        canActivate: [authenticatedGuard]
       },
       {
         path: 'entities',

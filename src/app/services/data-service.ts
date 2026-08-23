@@ -68,6 +68,15 @@ _http: HttpClient = inject(HttpClient);
     }));
   }
 
+  getOneRxParse(id: ID): HttpResourceRef<T | undefined> {
+    return httpResource<T | undefined>(() => ({
+      url: this.getResourceUrl() + "/" + id,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      }   
+    }));
+  }
+
    getAllRx(): HttpResourceRef<T[] | undefined> {
     return httpResource<T[] | undefined>(() => ({
       url: this.getResourceUrl(),

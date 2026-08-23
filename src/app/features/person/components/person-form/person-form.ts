@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, input, OnInit, signal } from '@angular/core';
 import { email, form, FormField, FormRoot, required, submit, validate } from '@angular/forms/signals';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
@@ -39,11 +39,9 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './person-form.html',
   styleUrl: './person-form.css',
 })
-export class PersonForm implements OnInit  {
-onSubmit() {
-throw new Error('Method not implemented.');
-}
- 
+export class PersonForm implements OnInit {
+
+
 
   // ==========================================
   // Services
@@ -62,6 +60,11 @@ throw new Error('Method not implemented.');
   protected readonly personAttributes = this._personAttributeService.getAllRx();
   protected readonly isEditMode = signal<boolean>(true);
   protected readonly isDialog = signal<boolean>(false);
+  personid = input<number>(0, {
+    alias: 'id',
+  });
+
+  protected hrefPerson = this._personService.getOneRx(this.personid());
 
   private readonly personModel = signal<Person>({
     fldpersonid: 0,
@@ -103,25 +106,47 @@ throw new Error('Method not implemented.');
   // Public Methods
   // ==========================================
 
- ngOnInit(): void {
-  const personId = this._route.snapshot.paramMap.get('id');
-  console.log('personId:', personId);
-  // if (personId) {
-  //   this._personService.getOneRx(+personId).subscribe((person) => {
-  //     if (person) {
-  //       this.personModel.set(person);
-  //     }
-  //   });
-  // }
-   // throw new Error('Method not implemented.');
-  //   this._route.data.subscribe(data => {
-  //   console.log('mode:', data['mode']);
-  // });
+  ngOnInit(): void {
+    //const personId = this._route.snapshot.paramMap.get('id');
+    console.log('personId:', this.personid());
+    //let hrefPerson = this._personService.getOneRx(parseInt(personId ?? '0'));
+    effect(() => {
+      if (this.hrefPerson.hasValue()) {
+        this.personModel.set(this.hrefPerson.value());
+      }
+    });
+
+    // if (personId) {
+    //   this._personService.getOneRx(+personId).subscribe((person) => {
+    //     if (person) {
+    //       this.personModel.set(person);
+    //     }
+    //   });
+    // }
+    // throw new Error('Method not implemented.');
+    //   this._route.data.subscribe(data => {
+    //   console.log('mode:', data['mode']);
+    // });
   }
 
+
+  onSubmit() {
+    const person =this.personModel();
+    this._personService.update(person.fldpersonid, person).subscribe({
+        next: (updatedPerson: Person) => {
+          
+          // this.person = updatedPerson;
+          // this.globalToastService.showInfoToast('Μήνυμα', 'Επιτυχής ενημέρωση προσώπου');
+          // //this.hideDialog();
+        },
+        error: (error) => {
+           //this.globalToastService.showErrorToast('Λάθος ενημέρωσης προσώπου', error);
+        }});
+  }
 
   // ==========================================
   // Private Methods
   // ==========================================  
-  
+
+
 }

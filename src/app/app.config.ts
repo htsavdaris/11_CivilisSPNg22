@@ -19,7 +19,7 @@ import { registerLocaleData } from '@angular/common';
 import localeEl from '@angular/common/locales/el';
 import { LOCALE_ID, enableProdMode } from '@angular/core';
 
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideTransloco } from '@jsverse/transloco';
 import { provideNgIconsConfig, withExceptionLogger } from '@ng-icons/core';
 import { routes } from './app.routes';
@@ -32,6 +32,8 @@ import { TranslocoHttpLoader } from './transloco-loader';
 import { provideHlmSidebarConfig } from '@spartan-ng/helm/sidebar';
 import { provideSpartanHlm } from '@spartan-ng/helm/utils';
 import { appInitializer } from './app.initializer';
+import  {authInterceptor} from './interceptors/auth-interceptor';
+import { errorInterceptor } from './interceptors/error-interceptor';
 
 registerLocaleData(localeEl);
 
@@ -65,9 +67,8 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
       withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
       withDisabledInitialNavigation()
-    ),
-    provideAppInitializer(() =>  appInitializer() ),
-    provideHttpClient(),
+    ),    
+    provideHttpClient(withInterceptors([authInterceptor,errorInterceptor])),
     provideTransloco({
       config: {
         availableLangs: ['en', 'el', 'fr', 'ar'],
@@ -84,6 +85,7 @@ export const appConfig: ApplicationConfig = {
     provideNgIconsConfig({}, withExceptionLogger()),
     provideSpartanHlm(),
     provideAppInitializer(async () => {
+      appInitializer(),
       // Eagerly instantiate ThemeService so it applies the `dark` class
       // before the first paint (prevents theme flicker on startup).
       inject(ThemeService);
