@@ -1,4 +1,4 @@
-import { inject, Injectable,Service,  ResourceRef, Signal } from '@angular/core';
+import { inject, Injectable, Service, ResourceRef, Signal } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse, httpResource, HttpResourceRef } from "@angular/common/http";
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
@@ -24,7 +24,7 @@ export abstract class DataService<T, ID> implements DataOperations<T, ID> {
 
 
 
-_http: HttpClient = inject(HttpClient);
+  _http: HttpClient = inject(HttpClient);
 
   insert(t: T): Observable<T> {
     return this._http.post<T>(this.getResourceUrl(), t).pipe(
@@ -58,7 +58,7 @@ _http: HttpClient = inject(HttpClient);
     );
   }
 
- 
+
   getOneRx(id: ID): HttpResourceRef<T | undefined> {
     console.log('Called getOneRx' + id);
     return httpResource<T | undefined>(() => ({
@@ -68,19 +68,33 @@ _http: HttpClient = inject(HttpClient);
       },
     }));
   }
-  
 
-  getOneRxParse(id: Signal<ID>): HttpResourceRef<T | undefined> {
+
+  getOneRxParse(id: () => string | number | null): HttpResourceRef<T | undefined> {
     console.log(id());
     return httpResource<T | undefined>(() => ({
       url: this.getResourceUrl() + '${id()}',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
-      }   
+      }
     }));
   }
 
-   getAllRx(): HttpResourceRef<T[] | undefined> {
+
+  getResource(id: () => string | number | null) {
+    const Id = id();
+    if (!Id) return null; // Prevents unnecessary calls if ID is missing
+    else {
+      return httpResource<T | null>(() => ({
+        url: `${this.getResourceUrl()}/${Id}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        }
+      }));
+    }
+  }
+
+  getAllRx(): HttpResourceRef<T[] | undefined> {
     return httpResource<T[] | undefined>(() => ({
       url: this.getResourceUrl(),
       headers: {
