@@ -64,7 +64,7 @@ export class PersonForm implements OnInit {
     alias: 'id',
   });
 
-  protected hrefPerson = this._personService.getOneRxParse(this.personid);
+  protected hrefPerson = this._personService.getOneRx2(this.personid);
 
   private readonly personModel = signal<Person>({
     fldpersonid: 0,
@@ -108,8 +108,9 @@ export class PersonForm implements OnInit {
   constructor()
   {
     effect(() => {
-      if (this.hrefPerson.hasValue()) {
-        this.personModel.set(this.hrefPerson.value());
+      const person = this.hrefPerson?.value();
+      if (this.hrefPerson?.hasValue() && person) {
+        this.personModel.set(person);
       }
     });
   }

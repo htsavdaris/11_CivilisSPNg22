@@ -81,7 +81,7 @@ export abstract class DataService<T, ID> implements DataOperations<T, ID> {
   }
 
 
-  getResource(id: () => string | number | null) {
+  getOneRx2(id: () => string | number | null) {
     const Id = id();
     if (!Id) return null; // Prevents unnecessary calls if ID is missing
     else {
