@@ -60,11 +60,15 @@ export class PersonForm implements OnInit {
   protected readonly personAttributes = this._personAttributeService.getAllRx();
   protected readonly isEditMode = signal<boolean>(true);
   protected readonly isDialog = signal<boolean>(false);
-  personid = input<any>({
-    alias: 'id',
+  // personid = input<any>({
+  //   alias: 'id',
+  // });
+  personid = input.required<string>({
+    alias: 'id'
   });
+  hrefPerson = this._personService.createUserResource(this.personid);
 
-  protected hrefPerson = this._personService.getOneRx2(this.personid);
+  //protected hrefPerson = this._personService.getOneRx3(6);
 
   private readonly personModel = signal<Person>({
     fldpersonid: 0,
@@ -118,7 +122,7 @@ export class PersonForm implements OnInit {
 
   ngOnInit(): void {
     //const personId = this._route.snapshot.paramMap.get('id');
-    console.log('personId:', this.personid());
+    //console.log('personId:', this.personid());
     //let hrefPerson = this._personService.getOneRx(parseInt(personId ?? '0'));
     
 

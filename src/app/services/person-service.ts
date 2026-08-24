@@ -1,5 +1,5 @@
-import { Injectable, Inject, Service, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, Inject, Service, inject, Signal } from '@angular/core';
+import { HttpClient, HttpHeaders, httpResource } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { retry, catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
@@ -30,6 +30,13 @@ export class PersonService extends DataService<Person, number> {
     return this._http.post<Searchpersonresults[]>(this.getResourceUrl() + "/search2" , searchPerson).pipe(
       //retry(1),
       catchError(this.errorHandler)
+    );
+  }
+
+   // Factory — component supplies reactive params, service owns URL/typing
+  createUserResource(userId: Signal<string | undefined>) {
+    return httpResource<Person>(() =>
+      userId() ? `${environment.baseUrl}/api/person/${userId()}` : undefined
     );
   }
   
