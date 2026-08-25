@@ -118,7 +118,7 @@ export default class Login {
 
   authenticate(): void {
     //this._localAuthService.authenticate(this.userAuth).subscribe({
-    this._router.navigate(['/dashboard/dashboard-1']);
+    
     this._localAuthService.authenticate(this.loginModel2()).subscribe({
       next: (authresponse) => {
         if (authresponse && authresponse.accesstoken) {
@@ -130,6 +130,7 @@ export default class Login {
           console.log('Authenticate Called2');
           //this._router.navigate(['/dashboard/dashboard-1']);
           console.log('Authenticate Called3');
+          this._router.navigate(['/dashboard/dashboard-1']);
         }
       },
       error: (error) => {

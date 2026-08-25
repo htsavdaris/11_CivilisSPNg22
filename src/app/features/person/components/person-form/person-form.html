@@ -118,7 +118,7 @@
   </hlm-field>
   </div>
   <div>
-    <button type="button" hlmBtn variant="outline" hlmDialogClose>{{ t('cancel') }}</button>
+    <button type="button" hlmBtn variant="outline" hlmBtn>{{ t('cancel') }}</button>
   <button type="button" (click)="onSubmit()" hlmBtn [disabled]="personForm().submitting()">
     @if (personForm().submitting()) {
       <hlm-spinner />

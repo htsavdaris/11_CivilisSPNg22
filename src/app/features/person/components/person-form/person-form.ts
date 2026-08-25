@@ -4,7 +4,7 @@ import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
 import { toast } from '@spartan-ng/brain/sonner';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
-import { HlmDialogImports } from '@spartan-ng/helm/dialog';
+
 import { HlmFieldImports } from '@spartan-ng/helm/field';
 
 import { HlmInputImports } from '@spartan-ng/helm/input';
@@ -23,7 +23,7 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'adm-person-form',
-  imports: [HlmDialogImports,
+  imports: [
     HlmLabelImports,
     HlmInputImports,
     HlmFieldImports,
