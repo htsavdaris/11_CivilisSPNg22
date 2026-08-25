@@ -11,7 +11,7 @@ import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmLabelImports } from '@spartan-ng/helm/label';
 import { HlmSelectImports } from '@spartan-ng/helm/select';
 import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
-
+import { HlmSeparatorImports } from '@spartan-ng/helm/separator';
 import { Person } from '../../../../models/person';
 import { PersonService } from '../../../../services/person-service';
 import { PersonAttribute } from '../../../../models/personattribute';
@@ -30,6 +30,7 @@ import { ActivatedRoute } from '@angular/router';
     HlmButtonImports,
     HlmSpinnerImports,
     HlmSelectImports,
+    HlmSeparatorImports,
     TranslocoModule,
     FormField,
     FormRoot],
