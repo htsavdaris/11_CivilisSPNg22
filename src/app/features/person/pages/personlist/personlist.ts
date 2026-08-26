@@ -244,7 +244,7 @@ export class Personlist {
     this.table.setPagination({ pageIndex: 0, pageSize: size });
   }
 
-  // onEditPerson() {
+  onEditPerson() {
   //     const person = this._context.row.original;
   //     const dialogRef = this._hlmDialogService.open(UserForm, {
   //       context: { user },
@@ -259,7 +259,7 @@ export class Personlist {
   //         if (refresh) refresh();
   //       }
   //     });
-  //   }
+  }
 
 
 }

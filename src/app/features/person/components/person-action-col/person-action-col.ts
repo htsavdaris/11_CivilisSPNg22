@@ -12,10 +12,10 @@ import { PersonForm } from '../person-form/person-form';
   imports: [HlmButtonImports, NgIcon,],
   providers: [provideIcons({ lucideCircleFadingArrowUp, lucideSquarePen, lucideCircleX })],
   template: `
-		<button hlmBtn size="icon" variant="outline" (click)="onEditUser()">
+		<button hlmBtn size="icon" variant="outline" (click)="onEditPerson()">
 			<ng-icon name="lucideSquarePen" />
 		</button>
-    <button hlmBtn size="icon" variant="outline" (click)="onDeleteUser()">
+    <button hlmBtn size="icon" variant="outline" (click)="onDeletePerson()">
 			<ng-icon name="lucideCircleX" />
 		</button>
 	`,
@@ -26,7 +26,7 @@ export class PersonActionCol {
   //fldpersonid = input<number>();
    private readonly _hlmDialogService = inject(HlmDialogService);
 
-  onEditUser() {
+  onEditPerson() {
     console.log('Edit user with ID:', this.context.row.original.fldpersonid);  
     const dialogRef = this._hlmDialogService.open(PersonForm, {
           context: { person: this.context.row.original,
@@ -37,7 +37,7 @@ export class PersonActionCol {
         });
   }
 
-  onDeleteUser() {
+  onDeletePerson() {
     throw new Error('Method not implemented.');
   }
 }

@@ -2,7 +2,7 @@
   <!-- <h3 hlmDialogTitle>{{ isEditMode() ? t('editTitle') : t('addTitle') }}</h3>
   <p hlmDialogDescription>{{ isEditMode() ? t('editDescription') : t('addDescription') }}</p> -->
 </hlm-dialog-header>
-<adm-person-form [id]="userIdQueryParam()"></adm-person-form>
+<adm-person-form [id]="userIdQueryParam() ?? ''"></adm-person-form>
 
 <hlm-dialog-footer >
   

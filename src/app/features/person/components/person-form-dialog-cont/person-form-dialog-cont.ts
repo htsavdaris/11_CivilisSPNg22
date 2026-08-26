@@ -5,6 +5,7 @@ import { PersonForm } from '../person-form/person-form';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
+import { Person } from '../../../../models/person';
 
 @Component({
   selector: 'adm-person-form-dialog-cont',
@@ -15,19 +16,27 @@ import { map } from 'rxjs';
   templateUrl: './person-form-dialog-cont.html',
   styleUrl: './person-form-dialog-cont.css',
 })
-export class PersonFormDialogCont {
+export class PersonFormDialogCont implements OnInit {
+  
   // ==========================================
   // Services
   // ==========================================
   private route = inject(ActivatedRoute);
   
   private readonly _dialogRef = inject<BrnDialogRef>(BrnDialogRef);
-  private readonly _dialogContext = injectBrnDialogContext<{ user?: User }>();
+  private readonly _dialogContext = injectBrnDialogContext<{ person?: Person }>();
   userIdQueryParam = toSignal(
     this.route.queryParamMap.pipe(
       map(params => params.get('id'))
     )
   );
 
+
+  ngOnInit(): void {
+    const person = this._dialogContext.person;
+       if (person) {
+        this.userIdQueryParam = signal(person.fldpersonid.toString());
+       }
+  }
 
 }
