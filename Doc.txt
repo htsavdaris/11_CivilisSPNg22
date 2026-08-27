@@ -17,9 +17,9 @@ ng generate component --standalone features/person/components/PersonFormPageCont
 ng generate component --standalone features/entity/pages/entitylist
 ng generate component --standalone features/entity/pages/entitysearch
 ng generate component --standalone features/entity/components/ActionDropdown
-ng generate component --standalone features/person/components/EntityActionCol
-ng generate component --standalone features/person/components/EntityFormDialogCont
-ng generate component --standalone features/person/components/EntityFormPageCont
+ng generate component --standalone features/entity/components/EntityActionCol
+ng generate component --standalone features/entity/components/EntityFormDialogCont
+ng generate component --standalone features/entity/components/EntityFormPageCont
 ng generate component --standalone features/entity/components/EntityForm
 pnpm add @tanstack/angular-table@9.0.0
 npm install @tanstack/angular-store
