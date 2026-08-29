@@ -5,7 +5,7 @@ import { lucideCircleFadingArrowUp, lucideSquarePen, lucideCircleX } from '@ng-i
 import { CellContext, injectFlexRenderContext } from '@tanstack/angular-table';
 import { HlmDialogService } from '@spartan-ng/helm/dialog';
 import { PersonForm } from '../person-form/person-form';
-
+import { PersonFormDialogCont } from '../person-form-dialog-cont/person-form-dialog-cont';
 
 @Component({
   selector: 'adm-person-action-col',
@@ -28,12 +28,11 @@ export class PersonActionCol {
 
   onEditPerson() {
     console.log('Edit user with ID:', this.context.row.original.fldpersonid);  
-    const dialogRef = this._hlmDialogService.open(PersonForm, {
-          context: { person: this.context.row.original,
-            mode: 'edit' },
+    const dialogRef = this._hlmDialogService.open(PersonFormDialogCont, {
+          context: { personid: this.context.row.original.fldpersonid },
           
           autoFocus: 'dialog',
-          contentClass: 'sm:min-w-lg',
+          contentClass: 'min-w-4xl w-full', //class="sm:max-w-md w-full" or  sm:min-w-lg
         });
   }
 

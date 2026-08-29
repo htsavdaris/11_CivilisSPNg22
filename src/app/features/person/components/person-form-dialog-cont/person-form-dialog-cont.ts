@@ -24,7 +24,7 @@ export class PersonFormDialogCont implements OnInit {
   private route = inject(ActivatedRoute);
   
   private readonly _dialogRef = inject<BrnDialogRef>(BrnDialogRef);
-  private readonly _dialogContext = injectBrnDialogContext<{ person?: Person }>();
+  private readonly _dialogContext = injectBrnDialogContext<{ personid?: number }>();
   userIdQueryParam = toSignal(
     this.route.queryParamMap.pipe(
       map(params => params.get('id'))
@@ -33,9 +33,10 @@ export class PersonFormDialogCont implements OnInit {
 
 
   ngOnInit(): void {
-    const person = this._dialogContext.person;
-       if (person) {
-        this.userIdQueryParam = signal(person.fldpersonid.toString());
+    const personid = this._dialogContext.personid;
+       if (personid) {
+        this.userIdQueryParam = signal(personid.toString());
+        console.log("Ng Init" + this.userIdQueryParam());
        }
   }
 

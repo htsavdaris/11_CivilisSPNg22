@@ -64,10 +64,8 @@ export class PersonForm implements OnInit {
   // personid = input<any>({
   //   alias: 'id',
   // });
-  personid = input.required<string>({
-    alias: 'id'
-  });
-  hrefPerson = this._personService.createUserResource(this.personid);
+  id = input<string>();
+  hrefPerson = this._personService.createPersonResource(this.id);
 
   //protected hrefPerson = this._personService.getOneRx3(6);
 

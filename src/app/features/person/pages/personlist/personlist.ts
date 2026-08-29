@@ -158,7 +158,7 @@ export class Personlist {
   protected readonly columns = this.columnHelper.columns([
     this.columnHelper.accessor('fldpersonid', {
       header: 'First Name',
-      cell: (info) => `<a href="/persons/form/${info.getValue()}">${info.getValue()}</a>`,
+      cell: (info) => `<strong><a href="/persons/form/${info.getValue()}">${info.getValue()}</a></strong>`,
       enableGlobalFilter: true,
       size: 8,      
     }),
@@ -166,8 +166,7 @@ export class Personlist {
       id: 'lastName',
       header: () => 'Last Name',
       enableGlobalFilter: true,
-      cell: (info) =>
-        `<strong>${info.getValue()}</strong>`,
+      cell: (info) =>`<strong>${info.getValue()}</strong>`,
       size: 18,      
     }),
     this.columnHelper.accessor('fldpersonfirstname', {
