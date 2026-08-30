@@ -32,7 +32,7 @@ export class PersonActionCol {
           context: { personid: this.context.row.original.fldpersonid },
           
           autoFocus: 'dialog',
-          contentClass: 'min-w-4xl w-full', //class="sm:max-w-md w-full" or  sm:min-w-lg
+          contentClass: 'min-w-3xl w-full', //class="sm:max-w-md w-full" or  sm:min-w-lg
         });
   }
 

@@ -51,7 +51,10 @@
             "fldpersonmobile": "Mobile",
             "fldpersonemail": "Email",
             "fldprofession": "Profession",
-            "flddatasource": "Data Source" 
+            "flddatasource": "Data Source",
+            "fldofficevisit": "Office Visit",
+            "fldmobilizationconsent" : "Agree to Mobilize",
+            "fldcommunucationconsent" : "Agree to Communication"
         },
         "selectRolePlaceholder": "Select an option"
     },

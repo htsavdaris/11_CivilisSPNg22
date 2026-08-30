@@ -51,10 +51,12 @@
             "fldpersonmobile": "Κινητό",
             "fldpersonemail": "Email",
             "fldprofession": "Επάγγελμα",
-            "flddatasource": "Πηγή Δεδομένων" 
+            "flddatasource": "Πηγή Δεδομένων",
+            "fldofficevisit": "Επίσκεψη στο Γραφείο",
+            "fldmobilizationconsent": "Κινητοποίηση",
+            "fldcommunucationconsent": "Επικοινωνία"
         },
         "selectRolePlaceholder": "Select an option"
-        
     },
     "role": {
         "admin": "Admin",

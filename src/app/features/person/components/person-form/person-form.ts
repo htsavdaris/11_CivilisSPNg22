@@ -11,8 +11,11 @@ import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmLabelImports } from '@spartan-ng/helm/label';
 import { HlmSelectImports } from '@spartan-ng/helm/select';
 import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
+import { HlmCheckboxImports } from '@spartan-ng/helm/checkbox';
 import { HlmSeparatorImports } from '@spartan-ng/helm/separator';
 import { Person } from '../../../../models/person';
+import { Attribute } from '../../../../models/attribute';
+import { AttributeService } from '../../../../services/attribute-service';
 import { PersonService } from '../../../../services/person-service';
 import { PersonAttribute } from '../../../../models/personattribute';
 import { PersonAttributeService } from '../../../../services/person-attribute-service';
@@ -30,6 +33,7 @@ import { ActivatedRoute } from '@angular/router';
     HlmButtonImports,
     HlmSpinnerImports,
     HlmSelectImports,
+    HlmCheckboxImports,
     HlmSeparatorImports,
     TranslocoModule,
     FormField,
@@ -50,6 +54,7 @@ export class PersonForm implements OnInit {
 
   private readonly _transloco = inject(TranslocoService);
   private readonly _personService = inject(PersonService);
+  private readonly _attributeService = inject(AttributeService);
   private readonly _personAttributeService = inject(PersonAttributeService);
   private readonly _personAttributeViewService = inject(PersonAttributeViewService);
   private readonly _route = inject(ActivatedRoute);
@@ -59,6 +64,7 @@ export class PersonForm implements OnInit {
 
   //protected readonly person = this._personService.getOneRx(this._dialogContext.person?.fldpersonid ?? 0);
   protected readonly personAttributes = this._personAttributeService.getAllRx();
+  protected readonly attributes = this._attributeService.getAllRx();
   protected readonly isEditMode = signal<boolean>(true);
   protected readonly isDialog = signal<boolean>(false);
   // personid = input<any>({
@@ -93,6 +99,17 @@ export class PersonForm implements OnInit {
     fldcreatedat: new Date(),
     fldupdatedat: new Date(),
   });
+
+  private readonly personAttributeModel = signal<PersonAttribute>({
+    fldpersonattrid : 0,
+    fldattributeid : 0,
+    fldpersonid : 0,
+    fldcreatedat : new Date(),
+    fldupdatedat : new Date(),
+    fldcreatedby : 0,
+    fldupdatedby :0    
+  })
+
 
 
   protected readonly personForm = form(this.personModel, (schema) => {
@@ -152,6 +169,8 @@ export class PersonForm implements OnInit {
            //this.globalToastService.showErrorToast('Λάθος ενημέρωσης προσώπου', error);
         }});
   }
+
+  public readonly itemToString = (dvalue: number) => this.attributes.value()?.find((item) => item.fldattributeid === dvalue)?.fldattributedescription || '';
 
   // ==========================================
   // Private Methods
