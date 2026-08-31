@@ -123,27 +123,8 @@
       }
       </hlm-field>
       
-      
-      <div class="flex items-center gap-2 col-span-4">
-        <hlm-field-group>
-          <hlm-field>
-            <label hlmFieldLabel for="attribute">Χαρακτηριστικό</label>
-            <hlm-select [formField]="personForm.fldpe"  [itemToString]="itemToString">
-              <hlm-select-trigger class="w-56">
-                <hlm-select-value placeholder="Select a Χαρακτηριστικό" />
-              </hlm-select-trigger>
-              <hlm-select-content *hlmSelectPortal>
-                <hlm-select-group>
-                  <hlm-select-label>Χαρακτηριστικά</hlm-select-label>
-                  @for (item of attributes.value(); track item.fldattributeid) {
-                  <hlm-select-item [value]="item.fldattributeid">{{ item.fldattributedescription }}</hlm-select-item>
-                  }
-                </hlm-select-group>
-              </hlm-select-content>
-            </hlm-select>
-          </hlm-field>
-        </hlm-field-group>
-      </div>
+    
+  
       
       <div class="flex items-center gap-2 ">
         <hlm-checkbox [formField]="personForm.fldofficevisit" inputId="fldofficevisit" />
@@ -158,6 +139,44 @@
       <label hlmLabel for="fldcommunucationconsent">{{ t('label.fldcommunucationconsent') }}</label>
     </div>
   </div>
+  <!-- Divider -->
+  <hlm-separator class="my-5" />
+
+  <div hlmTableContainer class="rounded-md border">
+            <table hlmTable class="w-max min-w-full border-spacing-0" >
+                <thead hlmTHead class="bg-card sticky top-0 z-10">
+                    @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
+                    <tr hlmTr>
+                        @for (header of headerGroup.headers; track header.id) {
+                        <th class="relative" hlmTh >
+                            @if (!header.isPlaceholder) {
+                            <ng-container *flexRenderHeader="header; let headerCell">
+                                {{ headerCell }}
+                            </ng-container>
+                            }
+                        </th>
+                        }
+                    </tr>
+                    }
+                </thead>
+                <tbody hlmTBody class="w-full">
+                    @for (row of table.getRowModel().rows; track row.id) {
+                    <tr hlmTr>
+                        @for (cell of row.getAllCells(); track cell.id) {
+                        <td hlmTd>
+                            <ng-container *flexRenderCell="cell; let renderCell">
+                               <!-- {{ renderCell }} -->
+                                 <span [innerHTML]="renderCell"></span>
+                            </ng-container>
+                        </td>
+                        }
+                    </tr>
+                    }
+                </tbody>
+
+            </table>
+                  
+        </div>
 
   <!-- Divider -->
   <hlm-separator class="my-5" />

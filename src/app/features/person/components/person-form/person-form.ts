@@ -13,6 +13,19 @@ import { HlmSelectImports } from '@spartan-ng/helm/select';
 import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
 import { HlmCheckboxImports } from '@spartan-ng/helm/checkbox';
 import { HlmSeparatorImports } from '@spartan-ng/helm/separator';
+import { HlmTableImports } from '@spartan-ng/helm/table';
+import {
+  createColumnHelper, columnFilteringFeature,
+  globalFilteringFeature, FlexRender, injectTable, tableFeatures,
+  createFilteredRowModel,
+  filterFn_includesString,
+  rowPaginationFeature,
+  createPaginatedRowModel,
+  columnSizingFeature,
+  flexRenderComponent,
+} from '@tanstack/angular-table'
+
+
 import { Person } from '../../../../models/person';
 import { Attribute } from '../../../../models/attribute';
 import { AttributeService } from '../../../../services/attribute-service';
@@ -35,6 +48,7 @@ import { ActivatedRoute } from '@angular/router';
     HlmSelectImports,
     HlmCheckboxImports,
     HlmSeparatorImports,
+    HlmTableImports,
     TranslocoModule,
     FormField,
     FormRoot],
@@ -62,7 +76,6 @@ export class PersonForm implements OnInit {
   // State
   // ==========================================
 
-  //protected readonly person = this._personService.getOneRx(this._dialogContext.person?.fldpersonid ?? 0);
   protected readonly personAttributes = this._personAttributeService.getAllRx();
   protected readonly attributes = this._attributeService.getAllRx();
   protected readonly isEditMode = signal<boolean>(true);
@@ -73,7 +86,7 @@ export class PersonForm implements OnInit {
   id = input<string>();
   hrefPerson = this._personService.createPersonResource(this.id);
 
-  //protected hrefPerson = this._personService.getOneRx3(6);
+
 
   private readonly personModel = signal<Person>({
     fldpersonid: 0,
@@ -100,17 +113,6 @@ export class PersonForm implements OnInit {
     fldupdatedat: new Date(),
   });
 
-  private readonly personAttributeModel = signal<PersonAttribute>({
-    fldpersonattrid : 0,
-    fldattributeid : 0,
-    fldpersonid : 0,
-    fldcreatedat : new Date(),
-    fldupdatedat : new Date(),
-    fldcreatedby : 0,
-    fldupdatedby :0    
-  })
-
-
 
   protected readonly personForm = form(this.personModel, (schema) => {
     required(schema.fldpersonlastname);
@@ -122,11 +124,74 @@ export class PersonForm implements OnInit {
     required(schema.fldpersontk1);
   });
 
+
+  protected readonly features = tableFeatures({
+    columnSizingFeature,
+    columnFilteringFeature,
+    globalFilteringFeature,
+    filteredRowModel: createFilteredRowModel(),
+    filterFns: { includesString: filterFn_includesString },
+    rowPaginationFeature,
+    paginatedRowModel: createPaginatedRowModel()
+  });
+
+  // Create a column helper with the table features and row type
+  protected readonly columnHelper = createColumnHelper<typeof this.features, Person>()
+
+  protected readonly columns = this.columnHelper.columns([
+      this.columnHelper.accessor('fldpersonid', {
+        header: 'First Name',
+        cell: (info) => `<strong><a href="/persons/form/${info.getValue()}">${info.getValue()}</a></strong>`,
+        enableGlobalFilter: true,
+        size: 8,      
+      }),
+      this.columnHelper.accessor('fldpersonlastname', {
+        id: 'lastName',
+        header: () => 'Last Name',
+        enableGlobalFilter: true,
+        cell: (info) =>`<strong>${info.getValue()}</strong>`,
+        size: 18,      
+      }),
+      this.columnHelper.accessor('fldpersonfirstname', {
+        id: 'fldpersonfirstname',
+        enableGlobalFilter: true,
+        header: () => 'fldpersonfirstname',
+        cell: (info) => info.getValue(),
+      }),
+      this.columnHelper.accessor('fldpersonemail', {
+        header: () => 'fldpersonemail',
+        cell: (info) => info.getValue(),
+      }),
+      this.columnHelper.accessor('fldpersonmobile', {
+        header: 'fldpersonmobile',
+        cell: (info) => info.getValue(),
+      }),
+      this.columnHelper.display({
+        id: 'actions',
+        header: 'Actions',
+        cell: (ctx) =>  flexRenderComponent(PersonActionCol, {
+            inputs: {
+              fldpersonid: ctx.row.original.fldpersonid,
+             // onSuccess: () => this.refreshTable(),
+            },
+          }),
+      }),
+    ])
+  
+  
+    readonly table = injectTable(() => ({
+      key: 'persons-table', // needed for devtools
+      debugTable: false,
+      features: this.features,
+      columns: this.columns,
+      data: this.personsResource.value() ?? [],
+      globalFilterFn: 'includesString',
+    }))
+
   // ==========================================
   // Public Methods
   // ==========================================
-  constructor()
-  {
+  constructor() {
     effect(() => {
       const person = this.hrefPerson?.value();
       if (this.hrefPerson?.hasValue() && person) {
@@ -140,7 +205,7 @@ export class PersonForm implements OnInit {
     //const personId = this._route.snapshot.paramMap.get('id');
     //console.log('personId:', this.personid());
     //let hrefPerson = this._personService.getOneRx(parseInt(personId ?? '0'));
-    
+
 
     // if (personId) {
     //   this._personService.getOneRx(+personId).subscribe((person) => {
@@ -157,17 +222,18 @@ export class PersonForm implements OnInit {
 
 
   onSubmit() {
-    const person =this.personModel();
+    const person = this.personModel();
     this._personService.update(person.fldpersonid, person).subscribe({
-        next: (updatedPerson: Person) => {
-          
-          // this.person = updatedPerson;
-          // this.globalToastService.showInfoToast('Μήνυμα', 'Επιτυχής ενημέρωση προσώπου');
-          // //this.hideDialog();
-        },
-        error: (error) => {
-           //this.globalToastService.showErrorToast('Λάθος ενημέρωσης προσώπου', error);
-        }});
+      next: (updatedPerson: Person) => {
+
+        // this.person = updatedPerson;
+        // this.globalToastService.showInfoToast('Μήνυμα', 'Επιτυχής ενημέρωση προσώπου');
+        // //this.hideDialog();
+      },
+      error: (error) => {
+        //this.globalToastService.showErrorToast('Λάθος ενημέρωσης προσώπου', error);
+      }
+    });
   }
 
   public readonly itemToString = (dvalue: number) => this.attributes.value()?.find((item) => item.fldattributeid === dvalue)?.fldattributedescription || '';

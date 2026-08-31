@@ -48,11 +48,6 @@ import type { CellContext, ColumnDef } from '@tanstack/angular-table'
 import { HlmDialogService } from '@spartan-ng/helm/dialog';
 
 
-// import { DataTableColumnsManager } from '@shared/datatable/columns-manager/columns-manager';
-// import { DataTable, DataTableStateChangeEvent } from '@shared/datatable/table/data-table';
-// import { DataTableFeatures } from '@shared/datatable/table/table-features';
-
-
 import { Person } from '../../../../models/person';
 import { PersonService } from '../../../../services/person-service';
 import { PersonActionCol } from '../../components/person-action-col/person-action-col';
@@ -152,7 +147,7 @@ export class Personlist {
     paginatedRowModel: createPaginatedRowModel()
   })
 
-  // 4. Create a column helper with the table features and row type
+  // Create a column helper with the table features and row type
   protected readonly columnHelper = createColumnHelper<typeof this.features, Person>()
 
   protected readonly columns = this.columnHelper.columns([

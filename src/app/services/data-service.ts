@@ -58,58 +58,6 @@ export abstract class DataService<T, ID> implements DataOperations<T, ID> {
     );
   }
 
-
-  getOneRx(id: ID): HttpResourceRef<T | undefined> {
-    console.log('Called getOneRx' + id);
-    return httpResource<T | undefined>(() => ({
-      url: this.getResourceUrl() + "/" + id,
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-    }));
-  }
-
-
-  getOneRxParse(id: () => string | number | null): HttpResourceRef<T | undefined> {
-    console.log(id());
-    return httpResource<T | undefined>(() => ({
-      url: this.getResourceUrl() + '${id()}',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      }
-    }));
-  }
-
-
-  getOneRx2(id: () => string | number | null) {
-    console.log('id' + id);
-    const Id = id();
-    if (!Id) return null; // Prevents unnecessary calls if ID is missing
-    else {
-      return httpResource<T | null>(() => ({
-        url: `${this.getResourceUrl()}/${Id}`,
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        }
-      }));
-    }
-  }
-
-
-  getOneRx3(id: ID) {
-    console.log('id' + id);
-    const Id = id;
-    if (Id === null || Id === undefined) return null; // Prevents unnecessary calls if ID is missing
-    else {
-      return httpResource<T | null>(() => ({
-        url: `${this.getResourceUrl()}/${Id}`,
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        }
-      }));
-    }
-  }
-
   getAllRx(): HttpResourceRef<T[] | undefined> {
     return httpResource<T[] | undefined>(() => ({
       url: this.getResourceUrl(),
@@ -117,6 +65,12 @@ export abstract class DataService<T, ID> implements DataOperations<T, ID> {
         'Content-Type': 'application/json; charset=utf-8'
       },
     }));
+  }
+
+  getOneRx(id: Signal<string | undefined>) {
+      return httpResource<T>(() =>
+        id() ? this.getResourceUrl() + `/${id()}` : undefined
+      );
   }
 
 
