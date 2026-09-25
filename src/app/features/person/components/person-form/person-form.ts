@@ -166,27 +166,27 @@ export class PersonForm implements OnInit {
         header: 'fldpersonmobile',
         cell: (info) => info.getValue(),
       }),
-      this.columnHelper.display({
-        id: 'actions',
-        header: 'Actions',
-        cell: (ctx) =>  flexRenderComponent(PersonActionCol, {
-            inputs: {
-              fldpersonid: ctx.row.original.fldpersonid,
-             // onSuccess: () => this.refreshTable(),
-            },
-          }),
-      }),
+      // this.columnHelper.display({
+      //   id: 'actions',
+      //   header: 'Actions',
+      //   cell: (ctx) =>  flexRenderComponent(PersonActionCol, {
+      //       inputs: {
+      //         fldpersonid: ctx.row.original.fldpersonid,
+      //        // onSuccess: () => this.refreshTable(),
+      //       },
+      //     }),
+      // }),
     ])
   
   
-    readonly table = injectTable(() => ({
-      key: 'persons-table', // needed for devtools
-      debugTable: false,
-      features: this.features,
-      columns: this.columns,
-      data: this.personsResource.value() ?? [],
-      globalFilterFn: 'includesString',
-    }))
+    // readonly table = injectTable(() => ({
+    //   key: 'persons-table', // needed for devtools
+    //   debugTable: false,
+    //   features: this.features,
+    //   columns: this.columns,
+    //   data: this.personsResource.value() ?? [],
+    //   globalFilterFn: 'includesString',
+    // }))
 
   // ==========================================
   // Public Methods
