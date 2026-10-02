@@ -191,7 +191,7 @@ export class Personlist {
   ])
 
 
-  readonly table = injectTable(() => ({
+  public readonly table = injectTable(() => ({
     key: 'persons-table', // needed for devtools
     debugTable: false,
     features: this.features,
