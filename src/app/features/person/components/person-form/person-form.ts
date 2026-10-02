@@ -26,6 +26,8 @@ import {
 } from '@tanstack/angular-table'
 
 
+
+
 import { Person } from '../../../../models/person';
 import { Attribute } from '../../../../models/attribute';
 import { AttributeService } from '../../../../services/attribute-service';
@@ -85,7 +87,7 @@ export class PersonForm implements OnInit {
   // });
   id = input<string>();
   hrefPerson = this._personService.createPersonResource(this.id);
-
+  public hrefPersonAttributes = this._personAttributeViewService.getForPersonIdRx(parseInt(this.id() ?? '0'));
 
 
   private readonly personModel = signal<Person>({
