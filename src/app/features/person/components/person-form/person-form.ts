@@ -1,8 +1,8 @@
 import { Component, effect, inject, input, OnInit, signal } from '@angular/core';
-import { email, form, FormField, FormRoot, required, submit, validate } from '@angular/forms/signals';
+import {  form, FormField, FormRoot, required,  } from '@angular/forms/signals';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
-import { toast } from '@spartan-ng/brain/sonner';
+
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 
 import { HlmFieldImports } from '@spartan-ng/helm/field';
@@ -16,29 +16,29 @@ import { HlmSeparatorImports } from '@spartan-ng/helm/separator';
 import { HlmTableImports } from '@spartan-ng/helm/table';
 import {
   createColumnHelper, columnFilteringFeature,
-  globalFilteringFeature, FlexRender, injectTable, tableFeatures,
+  globalFilteringFeature,   tableFeatures,
   createFilteredRowModel,
   filterFn_includesString,
   rowPaginationFeature,
   createPaginatedRowModel,
   columnSizingFeature,
-  flexRenderComponent,
-} from '@tanstack/angular-table'
+  
+} from '@tanstack/angular-table';
 
 
 import { Person } from '../../../../models/person';
-import { Attribute } from '../../../../models/attribute';
+//import { Attribute } from '../../../../models/attribute';
 import { AttributeService } from '../../../../services/attribute-service';
 import { PersonService } from '../../../../services/person-service';
-import { PersonAttribute } from '../../../../models/personattribute';
+//import { PersonAttribute } from '../../../../models/personattribute';
 import { PersonAttributeService } from '../../../../services/person-attribute-service';
-import { PersonAttributeView } from '../../../../models/personattributeview';
+//import { PersonAttributeView } from '../../../../models/personattributeview';
 import { PersonAttributeViewService } from '../../../../services/person-attribute-view-service';
 import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
-  selector: 'adm-person-form',
+  selector: 'com-person-form',
   imports: [
     HlmLabelImports,
     HlmInputImports,
@@ -83,8 +83,8 @@ export class PersonForm implements OnInit {
   // personid = input<any>({
   //   alias: 'id',
   // });
-  id = input<string>();
-  hrefPerson = this._personService.createPersonResource(this.id);
+  public readonly id = input<string>();
+  public hrefPerson = this._personService.createPersonResource(this.id);
 
 
 
@@ -136,7 +136,7 @@ export class PersonForm implements OnInit {
   });
 
   // Create a column helper with the table features and row type
-  protected readonly columnHelper = createColumnHelper<typeof this.features, Person>()
+  protected readonly columnHelper = createColumnHelper<typeof this.features, Person>();
 
   protected readonly columns = this.columnHelper.columns([
       this.columnHelper.accessor('fldpersonid', {
@@ -176,7 +176,7 @@ export class PersonForm implements OnInit {
       //       },
       //     }),
       // }),
-    ])
+    ]);
   
   
     // readonly table = injectTable(() => ({
@@ -202,8 +202,9 @@ export class PersonForm implements OnInit {
 
 
   ngOnInit(): void {
-    //const personId = this._route.snapshot.paramMap.get('id');
-    //console.log('personId:', this.personid());
+    
+    const personId = this._route.snapshot.paramMap.get('id');
+    console.log('personId:', personId);
     //let hrefPerson = this._personService.getOneRx(parseInt(personId ?? '0'));
 
 
@@ -225,12 +226,13 @@ export class PersonForm implements OnInit {
     const person = this.personModel();
     this._personService.update(person.fldpersonid, person).subscribe({
       next: (updatedPerson: Person) => {
-
+        console.log('Person updated successfully:', updatedPerson);
         // this.person = updatedPerson;
         // this.globalToastService.showInfoToast('Μήνυμα', 'Επιτυχής ενημέρωση προσώπου');
         // //this.hideDialog();
       },
       error: (error) => {
+        console.error('Error updating person:', error);
         //this.globalToastService.showErrorToast('Λάθος ενημέρωσης προσώπου', error);
       }
     });

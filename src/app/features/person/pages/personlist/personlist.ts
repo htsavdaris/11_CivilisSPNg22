@@ -1,6 +1,5 @@
-import { DatePipe } from '@angular/common';
-import { Component, computed, DestroyRef, inject, input, signal, TemplateRef, viewChild } from '@angular/core';
-import { TranslocoModule, TranslocoService, translateSignal } from '@jsverse/transloco';
+import { Component, computed, DestroyRef, inject,  signal, TemplateRef, viewChild } from '@angular/core';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
 import { HlmAvatarImports } from '@spartan-ng/helm/avatar';
 import { HlmBadgeImports } from '@spartan-ng/helm/badge';
@@ -29,7 +28,7 @@ import {
   lucideChevronRight,
   lucideChevronLeft,
 } from '@ng-icons/lucide';
-import { ChangeDetectionStrategy } from '@angular/core'
+
 import {
   createColumnHelper, columnFilteringFeature,
   globalFilteringFeature, FlexRender, injectTable, tableFeatures,
@@ -39,12 +38,12 @@ import {
   createPaginatedRowModel,
   columnSizingFeature,
   flexRenderComponent,
-} from '@tanstack/angular-table'
-import type { PaginationState } from '@tanstack/angular-table'
-import { createAtom } from '@tanstack/angular-store'
-import { debounce, form, FormField } from '@angular/forms/signals';
-import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import type { CellContext, ColumnDef } from '@tanstack/angular-table'
+} from '@tanstack/angular-table';
+import type { PaginationState } from '@tanstack/angular-table';
+import { createAtom } from '@tanstack/angular-store';
+import { debounce, form } from '@angular/forms/signals';
+//import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import type { CellContext,  } from '@tanstack/angular-table';
 import { HlmDialogService } from '@spartan-ng/helm/dialog';
 
 
@@ -54,7 +53,7 @@ import { PersonActionCol } from '../../components/person-action-col/person-actio
 
 
 @Component({
-  selector: 'adm-personlist',
+  selector: 'com-personlist',
   imports: [
     TranslocoModule,
     // DataTable,
@@ -123,14 +122,14 @@ export class Personlist {
   // protected readonly sorting = signal<SortingState>([]);
   // protected readonly defaultColumnPinning: ColumnPinningState = { start: ['select'], end: ['actions'] };
 
-  personsResource = this._personService.getAllRx();
+  protected readonly personsResource = this._personService.getAllRx();
   protected readonly activeLanguage = computed(() => this._translocoService.activeLang());
   protected readonly searchForm = form(signal({ search: '' }), (schema) => debounce(schema.search, 300));
-  readonly globalFilterAtom = createAtom<string>('')
-  readonly paginationAtom = createAtom<PaginationState>({
+  protected readonly globalFilterAtom = createAtom<string>('');
+  protected readonly paginationAtom = createAtom<PaginationState>({
     pageIndex: 0, // initial page index
     pageSize: 10, // default page size
-  })
+  });
 
 
   public readonly pageSizeOptions = signal([10, 25, 50, 100]);
@@ -145,10 +144,10 @@ export class Personlist {
     filterFns: { includesString: filterFn_includesString },
     rowPaginationFeature,
     paginatedRowModel: createPaginatedRowModel()
-  })
+  });
 
   // Create a column helper with the table features and row type
-  protected readonly columnHelper = createColumnHelper<typeof this.features, Person>()
+  protected readonly columnHelper = createColumnHelper<typeof this.features, Person>();
 
   protected readonly columns = this.columnHelper.columns([
     this.columnHelper.accessor('fldpersonid', {
@@ -188,7 +187,7 @@ export class Personlist {
           },
         }),
     }),
-  ])
+  ]);
 
 
   public readonly table = injectTable(() => ({
@@ -202,7 +201,7 @@ export class Personlist {
       pagination: this.paginationAtom,
       globalFilter: this.globalFilterAtom, // table.setGlobalFilter now updates globalFilterAtom
     },
-  }))
+  }));
 
 
   // ==========================================
@@ -243,7 +242,7 @@ export class Personlist {
   //     const dialogRef = this._hlmDialogService.open(UserForm, {
   //       context: { user },
   //       autoFocus: 'dialog',
-  //       contentClass: 'sm:min-w-lg',
+  //       contentClass: 'sm:min-w-lg',υ
   //     });
   
   //     dialogRef.closed$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((result) => {
