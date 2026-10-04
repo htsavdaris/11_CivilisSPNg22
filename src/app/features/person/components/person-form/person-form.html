@@ -127,15 +127,15 @@
 
 
     <div class="flex items-center gap-2 ">
-      <hlm-checkbox [formField]="personForm.fldofficevisit" inputId="fldofficevisit" />
+      <hlm-checkbox inputId="fldofficevisit" [formField]="personForm.fldofficevisit"  />
       <label hlmLabel for="fldofficevisit">{{ t('label.fldofficevisit') }}</label>
     </div>
     <div class="flex items-start gap-3 ">
-      <hlm-checkbox [formField]="personForm.fldmobilizationconsent" inputId="fldmobilizationconsent" />
+      <hlm-checkbox inputId="fldmobilizationconsent" [formField]="personForm.fldmobilizationconsent" />
       <label hlmLabel for="fldmobilizationconsent">{{ t('label.fldmobilizationconsent') }}</label>
     </div>
     <div class="flex items-start gap-3 col-span-1">
-      <hlm-checkbox [formField]="personForm.fldcommunucationconsent" inputId="fldcommunucationconsent" />
+      <hlm-checkbox inputId="fldcommunucationconsent" [formField]="personForm.fldcommunucationconsent" />
       <label hlmLabel for="fldcommunucationconsent">{{ t('label.fldcommunucationconsent') }}</label>
     </div>
   </div>
@@ -183,8 +183,8 @@
 
   <div *transloco="let t; prefix: 'buttons'" class="flex items-center justify-end gap-4">
 
-    <button class="sm:col-span-1" type="button" hlmBtn variant="outline" hlmBtn>{{ t('cancel') }}</button>
-    <button class="sm:col-span-1" type="button" (click)="onSubmit()" hlmBtn [disabled]="personForm().submitting()">
+    <button class="sm:col-span-1" type="button" hlmBtn variant="outline" >{{ t('cancel') }}</button>
+    <button class="sm:col-span-1" type="button" hlmBtn [disabled]="personForm().submitting()" (click)="onSubmit()"  >
       @if (personForm().submitting()) {
       <hlm-spinner />
       }
