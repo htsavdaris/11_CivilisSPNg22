@@ -27,9 +27,10 @@ export class PersonActionCol {
    private readonly _hlmDialogService = inject(HlmDialogService);
 
   onEditPerson() {
-    console.log('Edit user with ID:', this.context.row.original.fldpersonid);  
+    let curfldpersonid = this.context.row.original.fldpersonid;
+    console.log('Edit user with ID:', curfldpersonid);
     const dialogRef = this._hlmDialogService.open(PersonFormDialogCont, {
-          context: { personid: this.context.row.original.fldpersonid },
+          context: { fldpersonid: curfldpersonid },
           
           autoFocus: 'dialog',
           contentClass: 'min-w-3xl w-full', //class="sm:max-w-md w-full" or  sm:min-w-lg

@@ -24,18 +24,18 @@ export class PersonFormDialogCont implements OnInit {
   private route = inject(ActivatedRoute);
   
   private readonly _dialogRef = inject<BrnDialogRef>(BrnDialogRef);
-  private readonly _dialogContext = injectBrnDialogContext<{ personid?: number }>();
+  private readonly _dialogContext = injectBrnDialogContext<{ fldpersonid?: number }>();
   userIdQueryParam = toSignal(
     this.route.queryParamMap.pipe(
-      map(params => params.get('id'))
+      map(params => params.get('fldpersonid'))
     )
   );
 
 
   ngOnInit(): void {
-    const personid = this._dialogContext.personid;
-       if (personid) {
-        this.userIdQueryParam = signal(personid.toString());
+    const fldpersonid = this._dialogContext.fldpersonid;
+       if (fldpersonid) {
+        this.userIdQueryParam = signal(fldpersonid.toString());
         console.log("Ng Init" + this.userIdQueryParam());
        }
   }

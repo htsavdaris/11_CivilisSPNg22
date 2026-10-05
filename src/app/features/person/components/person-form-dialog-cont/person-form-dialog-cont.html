@@ -5,7 +5,7 @@
   <p hlmDialogDescription>{{ isEditMode() ? t('editDescription') : t('addDescription') }}</p> -->
 </hlm-dialog-header>
 
-<com-person-form [id]="userIdQueryParam() ?? ''"></com-person-form>
+<com-person-form [fldpersonid]="userIdQueryParam() ?? ''"></com-person-form>
 </hlm-dialog>
 <!-- <hlm-dialog-footer >
   

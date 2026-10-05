@@ -141,25 +141,17 @@
   </div>
   <!-- Divider -->
   <hlm-separator class="my-5" />
-
   <div hlmTableContainer>
   <table hlmTable>
-    <caption hlmTableCaption>
-      A list of your recent invoices.
-    </caption>
     <thead hlmTableHeader>
       <tr hlmTableRow>
-        <th hlmTableHead class="w-[100px]">Invoice</th>
-        <th hlmTableHead>Status</th>
-        <th hlmTableHead>Method</th>
+        <th hlmTableHead class="w-[100px]">Ιδιότητα</th>
       </tr>
     </thead>
     <tbody hlmTableBody>
       @for (rowobj of hrefPersonAttributes.value() ?? []; track rowobj.fldpersonattrid) {
       <tr hlmTableRow>
-        <td hlmTableCell class="font-medium">{{ rowobj.fldattributedescription }}</td>
-        <td hlmTableCell>{{ rowobj.fldpersonlastname }}</td>
-        <td hlmTableCell>{{ rowobj.fldpersonfirstname }}</td>
+        <td hlmTableCell >{{ rowobj.fldattributedescription }}</td>
       </tr>
       }
     </tbody>

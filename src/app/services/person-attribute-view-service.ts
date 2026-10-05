@@ -1,4 +1,4 @@
-import { Injectable, Inject, Service, inject } from '@angular/core';
+import { Injectable, Inject, Service, inject, Signal } from '@angular/core';
 import { HttpClient, HttpHeaders, httpResource, HttpResourceRef } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { retry, catchError, map } from 'rxjs/operators';
@@ -24,8 +24,21 @@ export class PersonAttributeViewService extends DataService<PersonAttributeView,
   }
 
    getForPersonIdRx(personid: number): HttpResourceRef<PersonAttributeView[] | undefined> {
+    console.log('getForPersonIdRx called with personid:', personid);
     return httpResource<PersonAttributeView[] | undefined>(() => ({
-      url: this.getResourceUrl() +  + '/personid/' + personid,
+      url: this.getResourceUrl() +  '/personid/' + personid.toString(),
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+    }));
+
+  }
+
+
+    getForPersonIdRx2(personid: Signal<string | undefined>): HttpResourceRef<PersonAttributeView[] | undefined> {
+    console.log('getForPersonIdRx called with personid:', personid);
+    return httpResource<PersonAttributeView[] | undefined>(() => ({
+      url: this.getResourceUrl() +  '/personid/' + personid(),
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
       },
