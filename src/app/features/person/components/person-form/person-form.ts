@@ -27,7 +27,7 @@ import {
 
 
   
-} from '@tanstack/angular-table';
+
 
 
 import { Person } from '../../../../models/person';
