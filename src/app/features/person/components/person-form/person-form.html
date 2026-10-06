@@ -171,7 +171,7 @@
               }
               @case ('fldattributedescription') {
                 <select
-                    aria-label="Profession"
+                    aria-label="Attribute"
                     (change)="updateDraft('profession', $any($event.target).value)"
                   >
                     @for (p of professions; track p) {
