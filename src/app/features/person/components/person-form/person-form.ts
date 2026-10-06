@@ -1,34 +1,19 @@
 import { Component, effect, inject, input, OnInit, signal } from '@angular/core';
-import {  form, FormField, FormRoot, required,  } from '@angular/forms/signals';
+import { form, FormField, FormRoot, required } from '@angular/forms/signals';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
-
 
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 
 import { HlmFieldImports } from '@spartan-ng/helm/field';
 
+import { HlmCheckboxImports } from '@spartan-ng/helm/checkbox';
 import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmLabelImports } from '@spartan-ng/helm/label';
 import { HlmSelectImports } from '@spartan-ng/helm/select';
-import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
-import { HlmCheckboxImports } from '@spartan-ng/helm/checkbox';
 import { HlmSeparatorImports } from '@spartan-ng/helm/separator';
+import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
 import { HlmTableImports } from '@spartan-ng/helm/table';
-import {
-  createColumnHelper, columnFilteringFeature,
-  globalFilteringFeature,   tableFeatures,
-  createFilteredRowModel,
-  filterFn_includesString,
-  rowPaginationFeature,
-  createPaginatedRowModel,
-  columnSizingFeature,
-  flexRenderComponent,
-} from '@tanstack/angular-table'
-
-
-  
-
-
+import { createColumnHelper, injectTable, tableFeatures } from '@tanstack/angular-table';
 
 import { Person } from '../../../../models/person';
 //import { Attribute } from '../../../../models/attribute';
@@ -37,9 +22,9 @@ import { PersonService } from '../../../../services/person-service';
 //import { PersonAttribute } from '../../../../models/personattribute';
 import { PersonAttributeService } from '../../../../services/person-attribute-service';
 //import { PersonAttributeView } from '../../../../models/personattributeview';
-import { PersonAttributeViewService } from '../../../../services/person-attribute-view-service';
 import { ActivatedRoute } from '@angular/router';
-
+import { PersonAttributeView } from '../../../../models/personattributeview';
+import { PersonAttributeViewService } from '../../../../services/person-attribute-view-service';
 
 @Component({
   selector: 'com-person-form',
@@ -55,7 +40,8 @@ import { ActivatedRoute } from '@angular/router';
     HlmTableImports,
     TranslocoModule,
     FormField,
-    FormRoot],
+    FormRoot,
+  ],
   host: {
     class: 'flex flex-col gap-4',
   },
@@ -63,9 +49,6 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './person-form.css',
 })
 export class PersonForm implements OnInit {
-
-
-
   // ==========================================
   // Services
   // ==========================================
@@ -90,6 +73,12 @@ export class PersonForm implements OnInit {
   public readonly fldpersonid = input<string>();
   public hrefPerson = this._personService.createPersonResource(this.fldpersonid);
   public hrefPersonAttributes = this._personAttributeViewService.getForPersonIdRx2(this.fldpersonid);
+
+   protected readonly editingRowId = signal<string | null>(null);
+
+  /** Working copy of the row being edited; only written back to `data` on save. */
+  protected readonly draft = signal<PersonAttributeView | null>(null);
+
 
   private readonly personModel = signal<Person>({
     fldpersonid: 0,
@@ -116,7 +105,6 @@ export class PersonForm implements OnInit {
     fldupdatedat: new Date(),
   });
 
-
   protected readonly personForm = form(this.personModel, (schema) => {
     required(schema.fldpersonlastname);
     required(schema.fldpersonfirstname);
@@ -127,69 +115,32 @@ export class PersonForm implements OnInit {
     required(schema.fldpersontk1);
   });
 
-
-  protected readonly features = tableFeatures({
-    columnSizingFeature,
-    columnFilteringFeature,
-    globalFilteringFeature,
-    filteredRowModel: createFilteredRowModel(),
-    filterFns: { includesString: filterFn_includesString },
-    rowPaginationFeature,
-    paginatedRowModel: createPaginatedRowModel()
-  });
+  protected readonly features = tableFeatures({});
 
   // Create a column helper with the table features and row type
-  protected readonly columnHelper = createColumnHelper<typeof this.features, Person>();
+  protected readonly columnHelper = createColumnHelper<typeof this.features, PersonAttributeView>();
 
   protected readonly columns = this.columnHelper.columns([
-      this.columnHelper.accessor('fldpersonid', {
-        header: 'First Name',
-        cell: (info) => `<strong><a href="/persons/form/${info.getValue()}">${info.getValue()}</a></strong>`,
-        enableGlobalFilter: true,
-        size: 8,      
-      }),
-      this.columnHelper.accessor('fldpersonlastname', {
-        id: 'lastName',
-        header: () => 'Last Name',
-        enableGlobalFilter: true,
-        cell: (info) =>`<strong>${info.getValue()}</strong>`,
-        size: 18,      
-      }),
-      this.columnHelper.accessor('fldpersonfirstname', {
-        id: 'fldpersonfirstname',
-        enableGlobalFilter: true,
-        header: () => 'fldpersonfirstname',
-        cell: (info) => info.getValue(),
-      }),
-      this.columnHelper.accessor('fldpersonemail', {
-        header: () => 'fldpersonemail',
-        cell: (info) => info.getValue(),
-      }),
-      this.columnHelper.accessor('fldpersonmobile', {
-        header: 'fldpersonmobile',
-        cell: (info) => info.getValue(),
-      }),
-      // this.columnHelper.display({
-      //   id: 'actions',
-      //   header: 'Actions',
-      //   cell: (ctx) =>  flexRenderComponent(PersonActionCol, {
-      //       inputs: {
-      //         fldpersonid: ctx.row.original.fldpersonid,
-      //        // onSuccess: () => this.refreshTable(),
-      //       },
-      //     }),
-      // }),
-    ]);
-  
-  
-    // readonly table = injectTable(() => ({
-    //   key: 'persons-table', // needed for devtools
-    //   debugTable: false,
-    //   features: this.features,
-    //   columns: this.columns,
-    //   data: this.personsResource.value() ?? [],
-    //   globalFilterFn: 'includesString',
-    // }))
+    this.columnHelper.accessor('fldpersonattrid', { header: '' }),
+    this.columnHelper.accessor('fldattributedescription', { header: '' }),
+    this.columnHelper.display({ id: 'actions', header: 'Actions' }),
+  ]);
+
+  protected readonly table = injectTable(() => ({
+    features: this.features,
+    columns: this.columns,
+    data: this.hrefPersonAttributes.value() ?? [],
+    getRowId: (row: PersonAttributeView) => row.fldpersonattrid.toString(),
+  }));
+
+  // readonly table = injectTable(() => ({
+  //   key: 'persons-table', // needed for devtools
+  //   debugTable: false,
+  //   features: this.features,
+  //   columns: this.columns,
+  //   data: this.personsResource.value() ?? [],
+  //   globalFilterFn: 'includesString',
+  // }))
 
   // ==========================================
   // Public Methods
@@ -203,12 +154,10 @@ export class PersonForm implements OnInit {
     });
   }
 
-
   ngOnInit(): void {
-    
     const personId = this._route.snapshot.paramMap.get('id');
+    console.log('personId:', personId);
     //let hrefPerson = this._personService.getOneRx(parseInt(personId ?? '0'));
-
 
     // if (personId) {
     //   this._personService.getOneRx(+personId).subscribe((person) => {
@@ -223,7 +172,6 @@ export class PersonForm implements OnInit {
     // });
   }
 
-
   onSubmit() {
     const person = this.personModel();
     this._personService.update(person.fldpersonid, person).subscribe({
@@ -236,15 +184,35 @@ export class PersonForm implements OnInit {
       error: (error) => {
         console.error('Error updating person:', error);
         //this.globalToastService.showErrorToast('Λάθος ενημέρωσης προσώπου', error);
-      }
+      },
     });
   }
 
-  public readonly itemToString = (dvalue: number) => this.attributes.value()?.find((item) => item.fldattributeid === dvalue)?.fldattributedescription || '';
+  public readonly itemToString = (dvalue: number) =>
+    this.attributes.value()?.find((item) => item.fldattributeid === dvalue)?.fldattributedescription || '';
 
   // ==========================================
   // Private Methods
-  // ==========================================  
+  // ==========================================
 
+    protected startEdit(row: PersonAttributeView): void {
+    this.editingRowId.set(row.fldpersonattrid.toString());
+    this.draft.set({ ...row });
+  }
 
+  protected updateDraft<K extends keyof PersonAttributeView>(field: K, value: PersonAttributeView[K]): void {
+    this.draft.update((d) => (d ? { ...d, [field]: value } : d));
+  }
+
+  protected save(): void {
+    const draft = this.draft();
+    if (!draft) return;
+    //this.data.update((rows) => rows.map((r) => (r.fldpersonattrid.toString() === draft.fldpersonattrid.toString() ? draft : r)));
+    this.cancel();
+  }
+
+  protected cancel(): void {
+    this.editingRowId.set(null);
+    this.draft.set(null);
+  }
 }
