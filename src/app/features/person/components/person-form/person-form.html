@@ -141,22 +141,7 @@
   </div>
   <!-- Divider -->
   <hlm-separator class="my-5" />
-  <!-- <div hlmTableContainer>
-  <table hlmTable>
-    <thead hlmTableHeader>
-      <tr hlmTableRow>
-        <th hlmTableHead class="w-[100px]">Ιδιότητα</th>
-      </tr>
-    </thead>
-    <tbody hlmTableBody>
-      @for (rowobj of hrefPersonAttributes.value() ?? []; track rowobj.fldpersonattrid) {
-      <tr hlmTableRow>
-        <td hlmTableCell >{{ rowobj.fldattributedescription }}</td>
-      </tr>
-      }
-    </tbody>
-  </table>
-</div> -->
+
   <div hlmTableContainer class="rounded-md border">
     <table hlmTable class="w-max min-w-full border-spacing-0">
       <thead hlmTHead class="bg-card sticky top-0 z-10">
@@ -179,22 +164,42 @@
         @let editing = editingRowId() === row.id;
         <tr hlmTr>
           @for (cell of row.getAllCells(); track cell.id) {
-          @if (editing && draft(); as d) {
           <td hlmTd>
+            @if (editing && draft(); as d) {
+            @switch (cell.column.id) {
+              @case ('fldpersonattrid') {
+              }
+              @case ('fldattributedescription') {
+                <select
+                    aria-label="Profession"
+                    (change)="updateDraft('profession', $any($event.target).value)"
+                  >
+                    @for (p of professions; track p) {
+                      <option [value]="p" [selected]="p === d.profession">{{ p }}</option>
+                    }
+                  </select>
+              }
+              @case ('actions') {
+                <button hlmBtn type="button" class="primary" (click)="save()">Save</button>
+                <button hlmBtn type="button" (click)="cancel()">Cancel</button>
+              }
+
+            }
             <ng-container *flexRenderCell="cell; let renderCell">
               <!-- {{ renderCell }} -->
               <span [innerHTML]="renderCell"></span>
             </ng-container>
-          </td>
-          }
 
-          @else if (cell.column.id === 'actions') {
-          <button type="button" [disabled]="editingRowId() !== null" (click)="startEdit(row.original)">
-            Edit
-          </button>
-          } @else {
-          <ng-container *flexRenderCell="cell; let value">{{ value }}</ng-container>
-          }
+            }
+
+            @else if (cell.column.id === 'actions') {
+            <button hlmBtn type="button" [disabled]="editingRowId() !== null" (click)="startEdit(row.original)">
+              Edit
+            </button>
+            } @else {
+            <ng-container *flexRenderCell="cell; let value"> <span [innerHTML]="value"></span></ng-container>
+            }
+          </td>
           }<!-- } cell loop -->
         </tr>
         }

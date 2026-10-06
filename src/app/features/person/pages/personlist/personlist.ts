@@ -56,9 +56,6 @@ import { PersonActionCol } from '../../components/person-action-col/person-actio
   selector: 'com-personlist',
   imports: [
     TranslocoModule,
-    // DataTable,
-    // DataTableColumnsManager,
-
     HlmTableImports,
     HlmSelectImports,
     HlmButtonImports,

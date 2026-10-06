@@ -13,7 +13,7 @@ import { HlmSelectImports } from '@spartan-ng/helm/select';
 import { HlmSeparatorImports } from '@spartan-ng/helm/separator';
 import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
 import { HlmTableImports } from '@spartan-ng/helm/table';
-import { createColumnHelper, injectTable, tableFeatures } from '@tanstack/angular-table';
+import { createColumnHelper, FlexRender, injectTable, tableFeatures } from '@tanstack/angular-table';
 
 import { Person } from '../../../../models/person';
 //import { Attribute } from '../../../../models/attribute';
@@ -41,6 +41,8 @@ import { PersonAttributeViewService } from '../../../../services/person-attribut
     TranslocoModule,
     FormField,
     FormRoot,
+    FlexRender,
+    
   ],
   host: {
     class: 'flex flex-col gap-4',
