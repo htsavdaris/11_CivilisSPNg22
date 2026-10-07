@@ -7,6 +7,7 @@ import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmFieldImports } from '@spartan-ng/helm/field';
 
 import { HlmCheckboxImports } from '@spartan-ng/helm/checkbox';
+import { HlmComboboxImports } from '@spartan-ng/helm/combobox';
 import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmLabelImports } from '@spartan-ng/helm/label';
 import { HlmSelectImports } from '@spartan-ng/helm/select';
@@ -17,10 +18,10 @@ import { createColumnHelper, FlexRender, injectTable, tableFeatures } from '@tan
 
 import { Person } from '../../../../models/person';
 //import { Attribute } from '../../../../models/attribute';
+import { PersonAttribute } from '../../../../models/personattribute';
 import { AttributeService } from '../../../../services/attribute-service';
-import { PersonService } from '../../../../services/person-service';
-//import { PersonAttribute } from '../../../../models/personattribute';
 import { PersonAttributeService } from '../../../../services/person-attribute-service';
+import { PersonService } from '../../../../services/person-service';
 //import { PersonAttributeView } from '../../../../models/personattributeview';
 import { ActivatedRoute } from '@angular/router';
 import { PersonAttributeView } from '../../../../models/personattributeview';
@@ -30,6 +31,7 @@ import { PersonAttributeViewService } from '../../../../services/person-attribut
   selector: 'com-person-form',
   imports: [
     HlmLabelImports,
+    HlmComboboxImports,
     HlmInputImports,
     HlmFieldImports,
     HlmButtonImports,
@@ -42,7 +44,6 @@ import { PersonAttributeViewService } from '../../../../services/person-attribut
     FormField,
     FormRoot,
     FlexRender,
-    
   ],
   host: {
     class: 'flex flex-col gap-4',
@@ -75,12 +76,12 @@ export class PersonForm implements OnInit {
   public readonly fldpersonid = input<string>();
   public hrefPerson = this._personService.createPersonResource(this.fldpersonid);
   public hrefPersonAttributes = this._personAttributeViewService.getForPersonIdRx2(this.fldpersonid);
+  public hrefAttributes = this._attributeService.getAllRx();
 
-   protected readonly editingRowId = signal<string | null>(null);
+  protected readonly editingRowId = signal<string | null>(null);
 
   /** Working copy of the row being edited; only written back to `data` on save. */
-  protected readonly draft = signal<PersonAttributeView | null>(null);
-
+  protected readonly draft = signal<PersonAttribute>({} as PersonAttribute);
 
   private readonly personModel = signal<Person>({
     fldpersonid: 0,
@@ -115,6 +116,12 @@ export class PersonForm implements OnInit {
     required(schema.fldpersonstreet1);
     required(schema.fldpersonnumber1);
     required(schema.fldpersontk1);
+  });
+
+  protected readonly personAttributeForm = form(this.draft, (schema) => {
+    required(schema.fldpersonattrid);
+    required(schema.fldpersonid);
+    required(schema.fldattributeid);    
   });
 
   protected readonly features = tableFeatures({});
@@ -197,9 +204,17 @@ export class PersonForm implements OnInit {
   // Private Methods
   // ==========================================
 
-    protected startEdit(row: PersonAttributeView): void {
+  protected startEdit(row: PersonAttributeView): void {
     this.editingRowId.set(row.fldpersonattrid.toString());
-    this.draft.set({ ...row });
+    this.draft.set({
+      fldpersonattrid: row.fldpersonattrid,
+      fldpersonid: row.fldpersonid,
+      fldattributeid: row.fldattributeid,
+      fldcreatedby: 0,
+      fldupdatedby: 0,
+      fldcreatedat: null,
+      fldupdatedat: null
+    });
   }
 
   protected updateDraft<K extends keyof PersonAttributeView>(field: K, value: PersonAttributeView[K]): void {
@@ -215,6 +230,6 @@ export class PersonForm implements OnInit {
 
   protected cancel(): void {
     this.editingRowId.set(null);
-    this.draft.set(null);
+    this.draft.set({} as PersonAttribute);
   }
 }

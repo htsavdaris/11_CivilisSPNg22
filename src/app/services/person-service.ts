@@ -34,8 +34,7 @@ export class PersonService extends DataService<Person, number> {
   }
 
    // Factory — component supplies reactive params, service owns URL/typing
-  createPersonResource(personid: Signal<string | undefined>) {
-    //console.log(`${environment.baseUrl}/api/person/${personid()}`);
+  createPersonResource(personid: Signal<string | undefined>) {  
     return httpResource<Person>(() =>
       personid() ? `${environment.baseUrl}/api/person/${personid()}` : undefined
     );

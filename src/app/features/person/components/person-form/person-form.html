@@ -165,17 +165,46 @@
         <tr hlmTr>
           @for (cell of row.getAllCells(); track cell.id) {
           <td hlmTd>
-            @if (editing && draft(); as d) {
+            @if (editing && draft(); as d) { <!--Editing row, show input fields-->
+
             @switch (cell.column.id) {
               @case ('fldpersonattrid') {
               }
               @case ('fldattributedescription') {
+                <hlm-select [formField]="form.fldattributedescription" [itemToString]="itemToString">
+						<hlm-select-trigger buttonId="fruit" class="w-56">
+							<hlm-select-value placeholder="Select a fruit" />
+						</hlm-select-trigger>
+						<hlm-select-content *hlmSelectPortal>
+							<hlm-select-group>
+								<hlm-select-label>Fruits</hlm-select-label>
+								@for (item of hrefAttributes.value(); track item.fldattributeid) {
+									<hlm-select-item [value]="item.fldattributeid">{{ item.fldattributedescription }}</hlm-select-item>
+								}
+							</hlm-select-group>
+						</hlm-select-content>
+					</hlm-select>
+
+
+                <hlm-combobox>
+			<hlm-combobox-input placeholder="Επιλογή Ιδιότητας" />
+			<hlm-combobox-content *hlmComboboxPortal>
+				<hlm-combobox-empty>No items found.</hlm-combobox-empty>
+				<div hlmComboboxList>
+					@for (attribute of hrefAttributes.value(); track attribute.fldattributeid) {
+						<hlm-combobox-item [value]="attribute.fldattributeid">{{ attribute.fldattributedescription }}</hlm-combobox-item>
+					}
+				</div>
+			</hlm-combobox-content>
+		</hlm-combobox>
+
+
                 <select
                     aria-label="Attribute"
                     (change)="updateDraft('profession', $any($event.target).value)"
                   >
-                    @for (p of professions; track p) {
-                      <option [value]="p" [selected]="p === d.profession">{{ p }}</option>
+                    @for (p of hrefAttributes.value(); track p) {
+                      <option [value]="p.fldattributeid" [selected]="p === p.fldattributedescription">{{ p.fldattributedescription }}</option>
                     }
                   </select>
               }
@@ -190,7 +219,7 @@
               <span [innerHTML]="renderCell"></span>
             </ng-container>
 
-            }
+            } <!--Editing row, show input fields-->
 
             @else if (cell.column.id === 'actions') {
             <button hlmBtn type="button" [disabled]="editingRowId() !== null" (click)="startEdit(row.original)">
