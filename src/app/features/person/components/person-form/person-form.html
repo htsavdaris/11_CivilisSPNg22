@@ -168,50 +168,29 @@
             @if (editing && draft(); as d) { <!--Editing row, show input fields-->
 
             @switch (cell.column.id) {
-              @case ('fldpersonattrid') {
-              }
-              @case ('fldattributedescription') {
-                <hlm-select [formField]="form.fldattributedescription" [itemToString]="itemToString">
-						<hlm-select-trigger buttonId="fruit" class="w-56">
-							<hlm-select-value placeholder="Select a fruit" />
-						</hlm-select-trigger>
-						<hlm-select-content *hlmSelectPortal>
-							<hlm-select-group>
-								<hlm-select-label>Fruits</hlm-select-label>
-								@for (item of hrefAttributes.value(); track item.fldattributeid) {
-									<hlm-select-item [value]="item.fldattributeid">{{ item.fldattributedescription }}</hlm-select-item>
-								}
-							</hlm-select-group>
-						</hlm-select-content>
-					</hlm-select>
+            @case ('fldpersonattrid') {
+            }
+            @case ('fldattributedescription') {
+            <hlm-select [itemToString]="itemToString" [value]="draft().fldpersonattrid">
 
-
-                <hlm-combobox>
-			<hlm-combobox-input placeholder="Επιλογή Ιδιότητας" />
-			<hlm-combobox-content *hlmComboboxPortal>
-				<hlm-combobox-empty>No items found.</hlm-combobox-empty>
-				<div hlmComboboxList>
-					@for (attribute of hrefAttributes.value(); track attribute.fldattributeid) {
-						<hlm-combobox-item [value]="attribute.fldattributeid">{{ attribute.fldattributedescription }}</hlm-combobox-item>
-					}
-				</div>
-			</hlm-combobox-content>
-		</hlm-combobox>
-
-
-                <select
-                    aria-label="Attribute"
-                    (change)="updateDraft('profession', $any($event.target).value)"
-                  >
-                    @for (p of hrefAttributes.value(); track p) {
-                      <option [value]="p.fldattributeid" [selected]="p === p.fldattributedescription">{{ p.fldattributedescription }}</option>
-                    }
-                  </select>
-              }
-              @case ('actions') {
-                <button hlmBtn type="button" class="primary" (click)="save()">Save</button>
-                <button hlmBtn type="button" (click)="cancel()">Cancel</button>
-              }
+              <hlm-select-trigger buttonId="fruit" class="w-56">
+                <hlm-select-value placeholder="Επέλεξε Ιδιότητα" />
+              </hlm-select-trigger>
+              <hlm-select-content *hlmSelectPortal>
+                <hlm-select-group>
+                  <hlm-select-label>Ιδιότητες</hlm-select-label>
+                  @for (item of hrefAttributes.value(); track item.fldattributeid) {
+                  <hlm-select-item [value]="item.fldattributeid">{{ item.fldattributedescription }}</hlm-select-item>
+                  }
+                </hlm-select-group>
+              </hlm-select-content>
+            </hlm-select>
+         
+            }
+            @case ('actions') {
+            <button hlmBtn type="button" class="primary" (click)="save()">Save</button>
+            <button hlmBtn type="button" (click)="cancel()">Cancel</button>
+            }
 
             }
             <ng-container *flexRenderCell="cell; let renderCell">
