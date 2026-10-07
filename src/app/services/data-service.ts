@@ -74,14 +74,19 @@ export abstract class DataService<T, ID> implements DataOperations<T, ID> {
   }
 
 
-  errorHandler(error: any) {
+  errorHandler(error: unknown) {
+    // eslint-disable-next-line no-useless-assignment
     let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      // Get client-side error
-      errorMessage = error.error.message;
+    if (error instanceof HttpErrorResponse) {
+      if (error.error instanceof ErrorEvent) {
+        // Get client-side error
+        errorMessage = error.error.message;
+      } else {
+        // Get server-side error
+        errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      }
     } else {
-      // Get server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      errorMessage = error instanceof Error ? error.message : String(error);
     }
     return throwError(errorMessage);
   }
