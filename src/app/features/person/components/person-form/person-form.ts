@@ -138,9 +138,9 @@ export class PersonForm implements OnInit {
   protected readonly columnHelper = createColumnHelper<typeof this.features, PersonAttributeView>();
 
   protected readonly columns = this.columnHelper.columns([
-    this.columnHelper.accessor('fldpersonattrid', { header: '', size: 60 }),
-    this.columnHelper.accessor('fldattributedescription', { header: '', size: 200 }),
-    this.columnHelper.display({ id: 'actions', header: 'Actions', size: 130 }),
+    this.columnHelper.accessor('fldpersonattrid', { header: '', size: 10 , maxSize: 10}),
+    this.columnHelper.accessor('fldattributedescription', { header: '', size: 200 , maxSize: 200}),
+    this.columnHelper.display({ id: 'actions', header: 'Actions', size: 130, maxSize: 150  }),
   ]);
 
   protected readonly table = injectTable(() => ({
@@ -212,8 +212,12 @@ export class PersonForm implements OnInit {
   // Private Methods
   // ==========================================
   protected readonly selectedId = signal<number | null>(null);
+
   protected startEdit(row: PersonAttributeView): void {
+    this.isEditMode.set(true);
     this.editingRowId.set(row.fldpersonattrid.toString());
+    console.log('startEdit row:', row);
+    console.log('startEdit editingRowId:', this.editingRowId());
     this.draft.set({
       fldpersonattrid: row.fldpersonattrid,
       fldpersonid: row.fldpersonid,
@@ -239,7 +243,30 @@ export class PersonForm implements OnInit {
   }
 
   protected cancel(): void {
+    this.isEditMode.set(false);
     this.editingRowId.set(null);
     this.draft.set({} as PersonAttribute);
+  }
+
+  protected AddNew(): void {
+    // this.editingRowId.set('new');
+    // this.draft.set({
+    //   fldpersonattrid: 0,
+    //   fldpersonid: this.personModel().fldpersonid,
+    //   fldattributeid: 0,
+    //   fldcreatedby: 0,
+    //   fldupdatedby: 0,
+    //   fldcreatedat: null,
+    //   fldupdatedat: null
+    // });
+    // this.selectedId.set(this.draft().fldattributeid);
+    this.hrefPersonAttributes.update((rows) => [...(rows ?? []), {
+      fldpersonattrid: 0,
+      fldpersonid: this.personModel().fldpersonid,
+      fldpersonlastname: '',
+      fldpersonfirstname: '',
+      fldattributeid: 0,
+      fldattributedescription: ''
+    }]);
   }
 }

@@ -140,8 +140,8 @@
     </div>
   </div>
   <!-- Divider -->
-  <hlm-separator class="my-5" />
-
+  <hlm-separator class="my-1" />
+  <button hlmBtn type="button" class="primary my-1" (click)="AddNew()" >Add New</button>
   <div hlmTableContainer class="rounded-md border">
     <table hlmTable class="w-max min-w-full border-spacing-0">
       <thead hlmTHead class="bg-card sticky top-0 z-10">
@@ -172,8 +172,8 @@
                 }
                 @case ('fldattributedescription') {
                 <hlm-select [itemToString]="itemToString" [value]="selectedId()" (valueChange)="selectedId.set($event ?? null)">
-                  <hlm-select-trigger buttonId="fruit" class="w-56">
-                    <hlm-select-value placeholder="Επέλεξε Ιδιότητα" />
+                   <hlm-select-trigger buttonId="fruit" class="w-56">
+                     <hlm-select-value placeholder="Επέλεξε Ιδιότητα" />
                   </hlm-select-trigger>
                   <hlm-select-content *hlmSelectPortal>
                     <hlm-select-group>

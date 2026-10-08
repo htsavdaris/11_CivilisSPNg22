@@ -1,0 +1,4 @@
+table {
+  table-layout: fixed;   /* widths come from the header cells, not the content */
+  width: 100%;           /* or table.getTotalSize() + 'px' for a fixed total */
+}
