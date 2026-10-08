@@ -14,7 +14,12 @@ import { HlmSelectImports } from '@spartan-ng/helm/select';
 import { HlmSeparatorImports } from '@spartan-ng/helm/separator';
 import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
 import { HlmTableImports } from '@spartan-ng/helm/table';
-import { createColumnHelper, FlexRender, injectTable, tableFeatures } from '@tanstack/angular-table';
+import { createColumnHelper, FlexRender, injectTable } from '@tanstack/angular-table';
+import {
+  tableFeatures,
+  columnSizingFeature,
+  
+} from '@tanstack/angular-table';
 
 import { Person } from '../../../../models/person';
 //import { Attribute } from '../../../../models/attribute';
@@ -44,6 +49,7 @@ import { PersonAttributeViewService } from '../../../../services/person-attribut
     FormField,
     FormRoot,
     FlexRender,
+
   ],
   host: {
     class: 'flex flex-col gap-4',
@@ -124,15 +130,17 @@ export class PersonForm implements OnInit {
     required(schema.fldattributeid);    
   });
 
-  protected readonly features = tableFeatures({});
+  protected readonly features = tableFeatures({
+    columnSizingFeature,
+  });
 
   // Create a column helper with the table features and row type
   protected readonly columnHelper = createColumnHelper<typeof this.features, PersonAttributeView>();
 
   protected readonly columns = this.columnHelper.columns([
-    this.columnHelper.accessor('fldpersonattrid', { header: '' }),
-    this.columnHelper.accessor('fldattributedescription', { header: '' }),
-    this.columnHelper.display({ id: 'actions', header: 'Actions' }),
+    this.columnHelper.accessor('fldpersonattrid', { header: '', size: 60 }),
+    this.columnHelper.accessor('fldattributedescription', { header: '', size: 200 }),
+    this.columnHelper.display({ id: 'actions', header: 'Actions', size: 130 }),
   ]);
 
   protected readonly table = injectTable(() => ({
@@ -203,7 +211,7 @@ export class PersonForm implements OnInit {
   // ==========================================
   // Private Methods
   // ==========================================
-  protected readonly selectedId = signal<number>(0);
+  protected readonly selectedId = signal<number | null>(null);
   protected startEdit(row: PersonAttributeView): void {
     this.editingRowId.set(row.fldpersonattrid.toString());
     this.draft.set({
