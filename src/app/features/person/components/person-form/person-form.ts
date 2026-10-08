@@ -203,8 +203,7 @@ export class PersonForm implements OnInit {
   // ==========================================
   // Private Methods
   // ==========================================
-  // eslint-disable-next-line @angular-eslint/prefer-signals
-  protected selectedId = signal<number | null>(null);
+  protected readonly selectedId = signal<number>(0);
   protected startEdit(row: PersonAttributeView): void {
     this.editingRowId.set(row.fldpersonattrid.toString());
     this.draft.set({
