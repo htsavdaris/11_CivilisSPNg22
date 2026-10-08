@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-inferrable-types */
 export class Person {
     public fldpersonid:number = 0;
     public fldpersonlastname : string = "";

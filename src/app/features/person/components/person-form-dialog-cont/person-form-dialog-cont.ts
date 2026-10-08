@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-signals */
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { BrnDialogRef, injectBrnDialogContext } from '@spartan-ng/brain/dialog';
 import { HlmDialogImports } from '@spartan-ng/helm/dialog';
@@ -5,10 +6,10 @@ import { PersonForm } from '../person-form/person-form';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
-import { Person } from '../../../../models/person';
+
 
 @Component({
-  selector: 'adm-person-form-dialog-cont',
+  selector: 'com-person-form-dialog-cont',
   imports: [
     HlmDialogImports,
     PersonForm
@@ -25,7 +26,8 @@ export class PersonFormDialogCont implements OnInit {
   
   private readonly _dialogRef = inject<BrnDialogRef>(BrnDialogRef);
   private readonly _dialogContext = injectBrnDialogContext<{ fldpersonid?: number }>();
-  userIdQueryParam = toSignal(
+  
+  protected userIdQueryParam = toSignal(
     this.route.queryParamMap.pipe(
       map(params => params.get('fldpersonid'))
     )
