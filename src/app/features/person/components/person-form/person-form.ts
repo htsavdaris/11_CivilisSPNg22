@@ -49,7 +49,6 @@ import { PersonAttributeViewService } from '../../../../services/person-attribut
     FormField,
     FormRoot,
     FlexRender,
-
   ],
   host: {
     class: 'flex flex-col gap-4',
@@ -127,7 +126,7 @@ export class PersonForm implements OnInit {
   protected readonly personAttributeForm = form(this.draft, (schema) => {
     required(schema.fldpersonattrid);
     required(schema.fldpersonid);
-    required(schema.fldattributeid);    
+    required(schema.fldattributeid);
   });
 
   protected readonly features = tableFeatures({
@@ -138,9 +137,9 @@ export class PersonForm implements OnInit {
   protected readonly columnHelper = createColumnHelper<typeof this.features, PersonAttributeView>();
 
   protected readonly columns = this.columnHelper.columns([
-    this.columnHelper.accessor('fldpersonattrid', { header: '', size: 10 , maxSize: 10}),
-    this.columnHelper.accessor('fldattributedescription', { header: '', size: 200 , maxSize: 200}),
-    this.columnHelper.display({ id: 'actions', header: 'Actions', size: 130, maxSize: 150  }),
+    this.columnHelper.accessor('fldpersonattrid', { header: '', size: 10, maxSize: 10 }),
+    this.columnHelper.accessor('fldattributedescription', { header: '', size: 200, maxSize: 200 }),
+    this.columnHelper.display({ id: 'actions', header: 'Actions', size: 130, maxSize: 150 }),
   ]);
 
   protected readonly table = injectTable(() => ({
@@ -225,21 +224,33 @@ export class PersonForm implements OnInit {
       fldcreatedby: 0,
       fldupdatedby: 0,
       fldcreatedat: null,
-      fldupdatedat: null
+      fldupdatedat: null,
     });
     this.selectedId.set(this.draft().fldattributeid);
-    
   }
 
   protected updateDraft<K extends keyof PersonAttributeView>(field: K, value: PersonAttributeView[K]): void {
     this.draft.update((d) => (d ? { ...d, [field]: value } : d));
   }
 
-  protected save(): void {
+  protected save(row: PersonAttributeView): void {
     const draft = this.draft();
     if (!draft) return;
-    //this.data.update((rows) => rows.map((r) => (r.fldpersonattrid.toString() === draft.fldpersonattrid.toString() ? draft : r)));
-    this.cancel();
+    this.draft.update((d) => ({
+      ...d,
+      fldpersonattrid: row.fldpersonattrid,
+      fldpersonid: row.fldpersonid,
+      fldattributeid: row.fldattributeid,
+    }));
+
+    this._personAttributeService.update(draft.fldpersonattrid, draft).subscribe({
+      next: (updatedPersonAttribute: PersonAttribute) => {
+        console.log('PersonAttribute updated successfully:', updatedPersonAttribute);
+      },
+      error: (error) => {
+        console.error('Error updating person attribute:', error);
+      },
+    });
   }
 
   protected cancel(): void {
@@ -260,13 +271,16 @@ export class PersonForm implements OnInit {
     //   fldupdatedat: null
     // });
     // this.selectedId.set(this.draft().fldattributeid);
-    this.hrefPersonAttributes.update((rows) => [...(rows ?? []), {
-      fldpersonattrid: 0,
-      fldpersonid: this.personModel().fldpersonid,
-      fldpersonlastname: '',
-      fldpersonfirstname: '',
-      fldattributeid: 0,
-      fldattributedescription: ''
-    }]);
+    this.hrefPersonAttributes.update((rows) => [
+      ...(rows ?? []),
+      {
+        fldpersonattrid: 0,
+        fldpersonid: this.personModel().fldpersonid,
+        fldpersonlastname: '',
+        fldpersonfirstname: '',
+        fldattributeid: 0,
+        fldattributedescription: '',
+      },
+    ]);
   }
 }
