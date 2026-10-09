@@ -13,7 +13,7 @@
     "lint": "ng lint"
   },
   "private": true,
-  "packageManager": "pnpm@11.18.0",
+  "packageManager": "pnpm@12.10.1",
   "dependencies": {
     "@angular/cdk": "^22.0.0",
     "@angular/common": "^22.0.0",
@@ -77,5 +77,36 @@
     "typescript": "~6.0.3",
     "typescript-eslint": "8.60.0",
     "vitest": "^4.1.8"
+  },
+  "intent": {
+    "skills": [
+      "@tanstack/angular-table#create-table-hook",
+      "@tanstack/angular-table#getting-started",
+      "@tanstack/angular-table#table-state",
+      "@tanstack/angular-table#with-tanstack-virtual",
+      "@tanstack/table-core#aggregation",
+      "@tanstack/table-core#api-not-found",
+      "@tanstack/table-core#cell-selection",
+      "@tanstack/table-core#cell-spanning",
+      "@tanstack/table-core#client-vs-server",
+      "@tanstack/table-core#column-faceting",
+      "@tanstack/table-core#column-filtering",
+      "@tanstack/table-core#column-ordering",
+      "@tanstack/table-core#column-pinning",
+      "@tanstack/table-core#column-resizing",
+      "@tanstack/table-core#column-sizing",
+      "@tanstack/table-core#column-visibility",
+      "@tanstack/table-core#core",
+      "@tanstack/table-core#custom-features",
+      "@tanstack/table-core#expanding",
+      "@tanstack/table-core#global-filtering",
+      "@tanstack/table-core#grouping",
+      "@tanstack/table-core#pagination",
+      "@tanstack/table-core#row-pinning",
+      "@tanstack/table-core#row-selection",
+      "@tanstack/table-core#sorting",
+      "@tanstack/table-core#table-features",
+      "@tanstack/table-core#typescript"
+    ]
   }
 }
