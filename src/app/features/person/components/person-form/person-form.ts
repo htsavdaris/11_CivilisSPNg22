@@ -14,11 +14,13 @@ import { HlmSelectImports } from '@spartan-ng/helm/select';
 import { HlmSeparatorImports } from '@spartan-ng/helm/separator';
 import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
 import { HlmTableImports } from '@spartan-ng/helm/table';
-import { createColumnHelper, FlexRender, injectTable } from '@tanstack/angular-table';
 import {
+  createColumnHelper,
+  FlexRender,
+  FlexRenderCell,
+  injectTable,
   tableFeatures,
   columnSizingFeature,
-  
 } from '@tanstack/angular-table';
 
 import { Person } from '../../../../models/person';
@@ -49,6 +51,7 @@ import { PersonAttributeViewService } from '../../../../services/person-attribut
     FormField,
     FormRoot,
     FlexRender,
+    FlexRenderCell
   ],
   host: {
     class: 'flex flex-col gap-4',
@@ -73,14 +76,14 @@ export class PersonForm implements OnInit {
 
   protected readonly personAttributes = this._personAttributeService.getAllRx();
   protected readonly attributes = this._attributeService.getAllRx();
-  protected readonly isEditMode = signal<boolean>(true);
+  protected readonly isRowinEditMode = signal<boolean>(true);
   protected readonly isDialog = signal<boolean>(false);
   // personid = input<any>({
   //   alias: 'id',
   // });
   public readonly fldpersonid = input<string>();
   public hrefPerson = this._personService.createPersonResource(this.fldpersonid);
-  public hrefPersonAttributes = this._personAttributeViewService.getForPersonIdRx2(this.fldpersonid);
+  public hrefPersonAttributes = this._personAttributeViewService.getForPersonIdRx(this.fldpersonid);
   public hrefAttributes = this._attributeService.getAllRx();
 
   protected readonly editingRowId = signal<string | null>(null);
@@ -146,6 +149,7 @@ export class PersonForm implements OnInit {
     features: this.features,
     columns: this.columns,
     data: this.hrefPersonAttributes.value() ?? [],
+    debugTable: false,
     getRowId: (row: PersonAttributeView) => row.fldpersonattrid.toString(),
   }));
 
@@ -213,7 +217,7 @@ export class PersonForm implements OnInit {
   protected readonly selectedId = signal<number | null>(null);
 
   protected startEdit(row: PersonAttributeView): void {
-    this.isEditMode.set(true);
+    this.isRowinEditMode.set(true);
     this.editingRowId.set(row.fldpersonattrid.toString());
     console.log('startEdit row:', row);
     console.log('startEdit editingRowId:', this.editingRowId());
@@ -233,33 +237,78 @@ export class PersonForm implements OnInit {
     this.draft.update((d) => (d ? { ...d, [field]: value } : d));
   }
 
-  protected save(row: PersonAttributeView): void {
-    const draft = this.draft();
-    if (!draft) return;
-    this.draft.update((d) => ({
-      ...d,
-      fldpersonattrid: row.fldpersonattrid,
-      fldpersonid: row.fldpersonid,
-      fldattributeid: row.fldattributeid,
-    }));
+  protected save(row: PersonAttributeView, attributeId: number | null): void {
+    console.log('save row:', row);
+    console.log('save attributeId:', attributeId);
+    if(row.fldpersonattrid === -1) {
+      const added: PersonAttribute = {
+        fldpersonattrid: 0,
+        fldpersonid: row.fldpersonid,
+        fldattributeid: attributeId ?? 0,
+        fldcreatedby: 0,
+        fldupdatedby: 0,
+        fldcreatedat: null,
+        fldupdatedat: null,
+      };
+      this._personAttributeService.insert(added).subscribe({
+        next: (newPersonAttribute: PersonAttribute) => {
+          this.isRowinEditMode.set(false);
+          this.editingRowId.set(null);
+          this.draft.set({} as PersonAttribute);
+          this.hrefPersonAttributes.reload();
+          console.log('PersonAttribute added successfully:', newPersonAttribute);
+          },
+        error: (error) => {
+          console.error('Error adding person attribute:', error);
+        },
+      });
+      return;
+    }
 
-    this._personAttributeService.update(draft.fldpersonattrid, draft).subscribe({
+      const updated: PersonAttribute = {
+    ...this.draft()!,                  // keep any other existing fields
+    fldpersonattrid: row.fldpersonattrid,
+    fldpersonid: row.fldpersonid,
+    fldattributeid: attributeId ?? 0,
+    fldcreatedby: 0,
+    fldupdatedby: 0,
+    fldcreatedat: null,
+    fldupdatedat: null,
+  };
+    this.draft.set(updated);
+    console.log('PersonAttribute draft:', updated);
+    this._personAttributeService.update(updated.fldpersonattrid, updated).subscribe({
       next: (updatedPersonAttribute: PersonAttribute) => {
+        this.isRowinEditMode.set(false);
+        this.editingRowId.set(null);
+        this.draft.set({} as PersonAttribute);
+        this.hrefPersonAttributes.reload();
         console.log('PersonAttribute updated successfully:', updatedPersonAttribute);
       },
       error: (error) => {
         console.error('Error updating person attribute:', error);
       },
-    });
+    });        
   }
 
   protected cancel(): void {
-    this.isEditMode.set(false);
+    this.isRowinEditMode.set(false);
     this.editingRowId.set(null);
     this.draft.set({} as PersonAttribute);
   }
 
   protected AddNew(): void {
+     this.hrefPersonAttributes.update((rows) => [
+      ...(rows ?? []),
+      {
+        fldpersonattrid: -1,
+        fldpersonid: this.personModel().fldpersonid,
+        fldpersonlastname: '',
+        fldpersonfirstname: '',
+        fldattributeid: 0,
+        fldattributedescription: '',
+      },
+    ]);
     // this.editingRowId.set('new');
     // this.draft.set({
     //   fldpersonattrid: 0,
@@ -271,16 +320,32 @@ export class PersonForm implements OnInit {
     //   fldupdatedat: null
     // });
     // this.selectedId.set(this.draft().fldattributeid);
-    this.hrefPersonAttributes.update((rows) => [
-      ...(rows ?? []),
-      {
-        fldpersonattrid: 0,
-        fldpersonid: this.personModel().fldpersonid,
-        fldpersonlastname: '',
-        fldpersonfirstname: '',
-        fldattributeid: 0,
-        fldattributedescription: '',
-      },
-    ]);
+  //  const added: PersonAttribute = {
+  //   fldpersonattrid: row.fldpersonattrid,
+  //   fldpersonid: row.fldpersonid,
+  //   fldattributeid: attributeId ?? 0,
+  //   fldcreatedby: 0,
+  //   fldupdatedby: 0,
+  //   fldcreatedat: null,
+  //   fldupdatedat: null,
+  // };
+  // this._personAttributeService.insert(added).subscribe({
+  //   next: (newPersonAttribute: PersonAttribute) => {
+  //     this.isRowinEditMode.set(false);
+  //     this.editingRowId.set(null);
+  //     this.draft.set({} as PersonAttribute);
+  //     this.hrefPersonAttributes.reload();
+  //     console.log('PersonAttribute added successfully:', newPersonAttribute);
+  //   },
+  //   error: (error) => {
+  //     console.error('Error adding person attribute:', error);
+  //   },
+  // });  
+
+
   }
+
+
 }
+
+

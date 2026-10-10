@@ -17,7 +17,7 @@ import {
 } from '@angular/router';
 import { registerLocaleData } from '@angular/common';
 import localeEl from '@angular/common/locales/el';
-import { LOCALE_ID, enableProdMode } from '@angular/core';
+import { LOCALE_ID } from '@angular/core';
 
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideTransloco } from '@jsverse/transloco';
@@ -71,7 +71,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor,errorInterceptor])),
     provideTransloco({
       config: {
-        availableLangs: ['en', 'el', 'fr', 'ar'],
+        availableLangs: ['en', 'el'],
         defaultLang: getInitialLanguage(),
         reRenderOnLangChange: true,
         prodMode: !isDevMode(),
@@ -85,7 +85,7 @@ export const appConfig: ApplicationConfig = {
     provideNgIconsConfig({}, withExceptionLogger()),
     provideSpartanHlm(),
     provideAppInitializer(async () => {
-      appInitializer(),
+      appInitializer();
       // Eagerly instantiate ThemeService so it applies the `dark` class
       // before the first paint (prevents theme flicker on startup).
       inject(ThemeService);

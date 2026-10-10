@@ -1,7 +1,6 @@
-import { Injectable, Inject, Service, inject, Signal } from '@angular/core';
-import { HttpClient, HttpHeaders, httpResource, HttpResourceRef } from '@angular/common/http';
-import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { retry, catchError, map } from 'rxjs/operators';
+import { Injectable,  inject, Signal } from '@angular/core';
+import { HttpClient,  httpResource, HttpResourceRef } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { DataService } from './data-service';
 import { PersonAttributeView } from '../models/personattributeview';
@@ -10,7 +9,7 @@ import { PersonAttributeView } from '../models/personattributeview';
   providedIn: 'root'
 })
 export class PersonAttributeViewService extends DataService<PersonAttributeView, number> {
-  override _http: HttpClient = inject(HttpClient);
+  public override _http: HttpClient = inject(HttpClient);
 
   getResourceUrl(): string {
     return `${environment.baseUrl}/api/PersonAttributeView`;
@@ -23,20 +22,8 @@ export class PersonAttributeViewService extends DataService<PersonAttributeView,
     );
   }
 
-   getForPersonIdRx(personid: number): HttpResourceRef<PersonAttributeView[] | undefined> {
-    console.log('getForPersonIdRx called with personid:', personid);
-    return httpResource<PersonAttributeView[] | undefined>(() => ({
-      url: this.getResourceUrl() +  '/personid/' + personid.toString(),
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-    }));
 
-  }
-
-
-    getForPersonIdRx2(personid: Signal<string | undefined>): HttpResourceRef<PersonAttributeView[] | undefined> {
-    console.log('getForPersonIdRx called with personid:', personid);
+    getForPersonIdRx(personid: Signal<string | undefined>): HttpResourceRef<PersonAttributeView[] | undefined> {    
     return httpResource<PersonAttributeView[] | undefined>(() => ({
       url: this.getResourceUrl() +  '/personid/' + personid(),
       headers: {
@@ -50,7 +37,7 @@ export class PersonAttributeViewService extends DataService<PersonAttributeView,
     return this._http.get<PersonAttributeView[]>(this.getResourceUrl()+ '/attrid/' + attrid.toString()).pipe(
       //retry(1),
       catchError(this.errorHandler)
-    );``
+    );
   }
 
   getForAttrIdRx(attrid: number) {

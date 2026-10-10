@@ -23,7 +23,7 @@
         }
     },
     "list": {
-        "title": "Users",
+        "title": "Persons",
         "columns": {
             "name": "Name",
             "email": "Email",
@@ -36,10 +36,10 @@
         }
     },
     "form": {
-        "addTitle": "Add New User",
-        "editTitle": "Edit User",
-        "addDescription": "Fill in the details below to create a new user.",
-        "editDescription": "Update the details below to edit the user.",
+        "addTitle": "Add New Person",
+        "editTitle": "Edit Person",
+        "addDescription": "Fill in the details below to create a new person.",
+        "editDescription": "Update the details below to edit the person.",
         "label": {
             "fldpersonid": "Person ID",
             "fldpersonlastname": "Last Name",
@@ -69,12 +69,12 @@
         "pending": "Pending"
     },
     "confirmationDialog": {
-        "deleteTitle": "Are you sure you want to delete this user?",
-        "deleteMessage": "This action cannot be undone. This will permanently delete the user and remove all associated data."
+        "deleteTitle": "Are you sure you want to delete this person?",
+        "deleteMessage": "This action cannot be undone. This will permanently delete the person and remove all associated data."
     },
     "toast": {
-        "userCreated": "User has been created successfully",
-        "userUpdated": "User has been updated successfully",
-        "userDeleted": "User has been deleted successfully"
+        "personCreated": "Person has been created successfully",
+        "personUpdated": "Person has been updated successfully",
+        "personDeleted": "Person has been deleted successfully"
     }
 }

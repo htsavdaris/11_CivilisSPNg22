@@ -23,7 +23,7 @@
         }
     },
     "list": {
-        "title": "Users",
+        "title": "Ατομα",
         "columns": {
             "name": "Name",
             "email": "Email",
@@ -36,10 +36,10 @@
         }
     },
     "form": {
-        "addTitle": "Προσθήκη Νέου Χρήστη",
-        "editTitle": "Επεξεργασία Χρήστη",
-        "addDescription": "Συμπληρώστε τις πληροφορίες για να δημιουργήσετε έναν νέο χρήστη.",
-        "editDescription": "Ενημερώστε τις πληροφορίες για να επεξεργαστείτε τον χρήστη.",
+        "addTitle": "Προσθήκη Νέου Ατόμου",
+        "editTitle": "Επεξεργασία Ατόμου",
+        "addDescription": "Συμπληρώστε τις πληροφορίες για να δημιουργήσετε ένα νέο άτομο.",
+        "editDescription": "Ενημερώστε τις πληροφορίες για να επεξεργαστείτε το άτομο.",
         "label": {
             "fldpersonid": "Κωδικός",
             "fldpersonlastname": "Επώνυμο",
@@ -69,12 +69,12 @@
         "pending": "Pending"
     },
     "confirmationDialog": {
-        "deleteTitle": "Are you sure you want to delete this user?",
-        "deleteMessage": "This action cannot be undone. This will permanently delete the user and remove all associated data."
+        "deleteTitle": "Are you sure you want to delete this person?",
+        "deleteMessage": "This action cannot be undone. This will permanently delete the person and remove all associated data."
     },
     "toast": {
-        "userCreated": "User has been created successfully",
-        "userUpdated": "User has been updated successfully",
-        "userDeleted": "User has been deleted successfully"
+        "userCreated": "Person has been created successfully",
+        "userUpdated": "Person has been updated successfully",
+        "userDeleted": "Person has been deleted successfully"
     }
 }

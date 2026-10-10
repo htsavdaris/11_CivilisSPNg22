@@ -1,7 +1,5 @@
-import { Injectable, Inject, Service, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { retry, catchError, map } from 'rxjs/operators';
+import { Injectable,  inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { DataService } from './data-service';
 import { PersonAttribute } from '../models/personattribute';
@@ -10,7 +8,7 @@ import { PersonAttribute } from '../models/personattribute';
   providedIn: 'root'
 })
 export class PersonAttributeService extends DataService<PersonAttribute, number> {
-   override _http: HttpClient = inject(HttpClient);
+   public override _http: HttpClient = inject(HttpClient);
 
   getResourceUrl(): string {
     return `${environment.baseUrl}/api/PersonAttribute`;
