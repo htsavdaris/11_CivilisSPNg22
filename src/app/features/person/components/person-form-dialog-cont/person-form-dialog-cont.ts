@@ -37,8 +37,7 @@ export class PersonFormDialogCont implements OnInit {
   ngOnInit(): void {
     const fldpersonid = this._dialogContext.fldpersonid;
        if (fldpersonid) {
-        this.userIdQueryParam = signal(fldpersonid.toString());
-        console.log("Ng Init" + this.userIdQueryParam());
+        this.userIdQueryParam = signal(fldpersonid.toString());        
        }
   }
 

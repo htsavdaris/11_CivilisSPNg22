@@ -56,7 +56,9 @@
             "fldmobilizationconsent" : "Agree to Mobilize",
             "fldcommunucationconsent" : "Agree to Communication"
         },
-        "selectRolePlaceholder": "Select an option"
+        "selectRolePlaceholder": "Select an option",
+        "selectAttributePlaceholder": "Select Attribute",
+        "attributes": "Attributes"
     },
     "role": {
         "admin": "Admin",

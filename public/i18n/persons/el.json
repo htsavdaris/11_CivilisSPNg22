@@ -56,7 +56,9 @@
             "fldmobilizationconsent": "Κινητοποίηση",
             "fldcommunucationconsent": "Επικοινωνία"
         },
-        "selectRolePlaceholder": "Select an option"
+        "selectRolePlaceholder": "Select an option",
+        "selectAttributePlaceholder": "Επέλεξε Ιδιότητα",
+        "attributes": "Ιδιότητες"
     },
     "role": {
         "admin": "Admin",

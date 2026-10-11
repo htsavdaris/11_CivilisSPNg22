@@ -125,11 +125,8 @@ export default class Login {
           if (this.rememberme1) {
             //TODO: Set longer e  xpiration for refresh token
           }
-          this._localAuthService.afterLogin(authresponse.userid, authresponse.login, authresponse.accesstoken,
+          this._localAuthService.afterLogin(authresponse.userid, authresponse.login, authresponse.firstname, authresponse.lastname, authresponse.accesstoken,
             authresponse.refreshtoken, authresponse.personid, authresponse.roles);
-          console.log('Authenticate Called2');
-          //this._router.navigate(['/dashboard/dashboard-1']);
-          console.log('Authenticate Called3');
           this._router.navigate(['/dashboard/dashboard-1']);
         }
       },

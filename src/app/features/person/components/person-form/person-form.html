@@ -141,7 +141,7 @@
   </div>
   <!-- Divider -->
   <hlm-separator class="my-1" />
-  <button hlmBtn type="button" class="primary my-1" (click)="AddNew()">Add New</button>
+  <button hlmBtn type="button" class="primary my-1" (click)="AddNew()">{{ 'buttons.addNew' | transloco }}</button>
   <div hlmTableContainer class="rounded-md border">
     <table hlmTable class="w-max min-w-full border-spacing-0">
       <thead hlmTHead class="bg-card sticky top-0 z-10">
@@ -174,11 +174,11 @@
             <hlm-select [itemToString]="itemToString" [value]="selectedId()"
               (valueChange)="selectedId.set($event ?? null)">
               <hlm-select-trigger buttonId="fruit" class="w-56">
-                <hlm-select-value placeholder="Επέλεξε Ιδιότητα" />
+                <hlm-select-value [placeholder]="t('selectAttributePlaceholder')" />
               </hlm-select-trigger>
               <hlm-select-content *hlmSelectPortal>
                 <hlm-select-group>
-                  <hlm-select-label>Ιδιότητες</hlm-select-label>
+                  <hlm-select-label>{{ t('attributes') }}</hlm-select-label>
                   @for (item of hrefAttributes.value(); track item.fldattributeid) {
                   <hlm-select-item [value]="item.fldattributeid">{{ item.fldattributedescription }}</hlm-select-item>
                   }
@@ -188,15 +188,15 @@
 
             }
             @case ('actions') {
-            <button hlmBtn type="button" class="primary" (click)="save(row.original, selectedId())">Save</button>
-            <button hlmBtn type="button" (click)="cancel()">Cancel</button>
+            <button hlmBtn type="button" class="primary" (click)="save(row.original, selectedId())">{{ 'buttons.save' | transloco }}</button>
+            <button hlmBtn type="button" (click)="cancel()">{{ 'buttons.cancel' | transloco }}</button>
             }
 
             }
             } <!--Editing row, show input fields-->
             @else if (cell.column.id === 'actions') {
             <button hlmBtn type="button" [disabled]="editingRowId() !== null" (click)="startEdit(row.original)">
-              Edit
+              {{ 'buttons.edit' | transloco }}
             </button> }
             @else {
             <ng-container *flexRenderCell="cell; let value"> <span [innerHTML]="value"></span></ng-container>

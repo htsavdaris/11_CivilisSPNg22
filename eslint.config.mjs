@@ -31,7 +31,7 @@ export default defineConfig([
         },
       ],
       'unused-imports/no-unused-imports': 'error',
-      'object-shorthand': ['warn', 'always', { avoidQuotes: true }],
+      'object-shorthand': ['warn', 'never', { avoidQuotes: true }],
       'quote-props': ['warn', 'consistent-as-needed'],
       '@angular-eslint/use-injectable-provided-in': ['error'],
       '@angular-eslint/no-lifecycle-call': ['error'],

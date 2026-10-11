@@ -15,6 +15,8 @@ export class UserStoreService extends StoreService<IUserStore> {
 export interface IUserStore {
   userid?: number;
   login?: string;
+  firstname?: string;
+  lastname?: string;
   isLoggedIn?:boolean;
   personid?:number;
   accessToken?:string;

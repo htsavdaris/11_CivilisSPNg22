@@ -120,7 +120,7 @@ export default class Dashboard2 implements OnInit {
   onFilterApplied(filters: FilterOptions) {
     this.activeFilters.set(filters);
     // In a real application, you would filter the data here
-    console.log('Filters applied:', filters);
+    
   }
 
   onStatCardMenuClick(cardLabel: string) {

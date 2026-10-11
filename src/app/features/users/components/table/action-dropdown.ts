@@ -121,8 +121,7 @@ export class ActionDropdown {
       contentClass: 'sm:min-w-lg',
     });
 
-    dialogRef.closed$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((result) => {
-      console.log(result);
+    dialogRef.closed$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((result) => {      
       if (result) {
         const refresh = this.onSuccess();
         if (refresh) refresh();

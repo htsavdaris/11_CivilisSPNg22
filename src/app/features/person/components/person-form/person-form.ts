@@ -29,7 +29,6 @@ import { PersonAttribute } from '../../../../models/personattribute';
 import { AttributeService } from '../../../../services/attribute-service';
 import { PersonAttributeService } from '../../../../services/person-attribute-service';
 import { PersonService } from '../../../../services/person-service';
-//import { PersonAttributeView } from '../../../../models/personattributeview';
 import { ActivatedRoute } from '@angular/router';
 import { PersonAttributeView } from '../../../../models/personattributeview';
 import { PersonAttributeViewService } from '../../../../services/person-attribute-view-service';
@@ -219,8 +218,7 @@ export class PersonForm implements OnInit {
   protected startEdit(row: PersonAttributeView): void {
     this.isRowinEditMode.set(true);
     this.editingRowId.set(row.fldpersonattrid.toString());
-    console.log('startEdit row:', row);
-    console.log('startEdit editingRowId:', this.editingRowId());
+    
     this.draft.set({
       fldpersonattrid: row.fldpersonattrid,
       fldpersonid: row.fldpersonid,
@@ -238,8 +236,6 @@ export class PersonForm implements OnInit {
   }
 
   protected save(row: PersonAttributeView, attributeId: number | null): void {
-    console.log('save row:', row);
-    console.log('save attributeId:', attributeId);
     if(row.fldpersonattrid === -1) {
       const added: PersonAttribute = {
         fldpersonattrid: 0,
@@ -250,6 +246,7 @@ export class PersonForm implements OnInit {
         fldcreatedat: null,
         fldupdatedat: null,
       };
+
       this._personAttributeService.insert(added).subscribe({
         next: (newPersonAttribute: PersonAttribute) => {
           this.isRowinEditMode.set(false);
@@ -276,7 +273,7 @@ export class PersonForm implements OnInit {
     fldupdatedat: null,
   };
     this.draft.set(updated);
-    console.log('PersonAttribute draft:', updated);
+    
     this._personAttributeService.update(updated.fldpersonattrid, updated).subscribe({
       next: (updatedPersonAttribute: PersonAttribute) => {
         this.isRowinEditMode.set(false);
