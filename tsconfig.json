@@ -15,6 +15,8 @@
     "paths": {
       "@core/*": ["./src/app/core/*"],
       "@shared/*": ["./src/app/shared/*"],
+      "@models/*": ["./src/app/models/*"],
+      "@services/*": ["./src/app/services/*"],
       "@spartan-ng/helm/alert": ["./src/app/libs/alert/src/index.ts"],
       "@spartan-ng/helm/avatar": ["./src/app/libs/avatar/src/index.ts"],
       "@spartan-ng/helm/badge": ["./src/app/libs/badge/src/index.ts"],

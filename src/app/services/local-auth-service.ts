@@ -1,13 +1,13 @@
 import { inject, Injectable, signal, Service } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from "@angular/common/http";
-import { User } from '../models/user';
+import { User } from '@models/user';
 import { UserStoreService, IUserStore } from './user-store-service';
 import { BehaviorSubject, firstValueFrom, Observable, of, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { UserService } from './user-service';
-import { Userauth } from '../models/userauth';
+import { Userauth } from '@models/userauth';
 import { catchError, tap } from 'rxjs/operators';
-import { Authresponse } from '../models/authresponse';
+import { Authresponse } from '@models/authresponse';
 import { Router } from '@angular/router';
 import { Refreshapi } from '../models/refreshapi';
 import { LOCAL_STORAGE } from '@core/config/tokens';
