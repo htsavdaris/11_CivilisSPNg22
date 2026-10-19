@@ -55,7 +55,7 @@ const httpOptions = {
 
         console.log("Token refreshed , Retry original request");
         isRefreshing = false;
-        localAuthService.afterLogin(authresponse.userid, authresponse.login, authresponse.accesstoken, 
+        localAuthService.afterLogin(authresponse.userid, authresponse.login, authresponse.firstname, authresponse.lastname, authresponse.accesstoken, 
             authresponse.refreshtoken, authresponse.personid, authresponse.roles);
         tokenSubject.next(authresponse.accesstoken);
 

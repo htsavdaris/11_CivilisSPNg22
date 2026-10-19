@@ -1,7 +1,7 @@
 import { NgOptimizedImage } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterModule } from '@angular/router';
-import { AuthService } from '@core/auth/auth-service';
+import { LocalAuthService } from '@services/local-auth-service';
 import { TranslocoModule } from '@jsverse/transloco';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -68,7 +68,7 @@ export class Navigation {
   // ==========================================
 
   private readonly _dir = inject(DirectionalityService);
-  private readonly _authService = inject(AuthService);
+  private readonly _localAuthService = inject(LocalAuthService);
   private readonly _sidebarService = inject(HlmSidebarService);
 
   // ==========================================
@@ -133,5 +133,5 @@ export class Navigation {
     },
   ];
 
-  protected readonly user = this._authService.currentUser;
+  protected readonly user = this._localAuthService.currentUser;
 }

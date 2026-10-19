@@ -1,6 +1,6 @@
 import { Component, DOCUMENT, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '@core/auth/auth-service';
+import { LocalAuthService } from '@services/local-auth-service';
 import { Language, LanguageService } from '@core/config/language-service';
 import { Theme, ThemeService } from '@core/config/theme-service';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -155,7 +155,7 @@ export class CommandPalette {
   // ==========================================
   private readonly _document = inject(DOCUMENT);
   private readonly _router = inject(Router);
-  private readonly _authService = inject(AuthService);
+  private readonly _localAuthService = inject(LocalAuthService);
   private readonly _themeService = inject(ThemeService);
   private readonly _languageService = inject(LanguageService);
   private readonly _sidebarService = inject(HlmSidebarService);
@@ -212,7 +212,7 @@ export class CommandPalette {
 
   protected logout(): void {
     this.state.set('closed');
-    void this._authService.logout();
+    void  this._localAuthService.logout();
   }
 
   protected setLanguage(lang: Language): void {

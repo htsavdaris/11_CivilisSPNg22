@@ -20,7 +20,7 @@ export async function appInitializer(): Promise<void> {
     localAuthService.reEnterApp().subscribe({
       next: (authresponse) => {
         if (authresponse && authresponse.accesstoken) {
-          localAuthService.afterLogin(authresponse.userid, authresponse.login, authresponse.accesstoken,
+          localAuthService.afterLogin(authresponse.userid, authresponse.login,authresponse.firstname,authresponse.lastname, authresponse.accesstoken,
             authresponse.refreshtoken, authresponse.personid, authresponse.roles);
 
         }

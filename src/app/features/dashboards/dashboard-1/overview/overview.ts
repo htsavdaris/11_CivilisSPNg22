@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { STATIC_PAYMENTS } from '@core/mock/payments.data';
-import { STATIC_USERS } from '@core/mock/users.data';
+
 import { TranslocoModule } from '@jsverse/transloco';
-import { User } from '../../../../shared/models/user';
+
 import { BarChartCard } from './components/bar-chart-card';
 import { OverviewMetricCard } from './components/metric-card';
 import { PaymentsTable } from './components/payments/payments-table';
@@ -70,5 +70,5 @@ export class OverviewDashboard {
 
   protected readonly payments = signal<Payment[]>(structuredClone(STATIC_PAYMENTS));
 
-  protected readonly teamMembers = signal<User[]>(structuredClone(STATIC_USERS.slice(0, 8)));
+
 }

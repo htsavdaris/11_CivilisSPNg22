@@ -49,12 +49,12 @@ export const routes: Routes = [
           },
         ],
       },
-      {
-        path: 'users',
-        title: 'users',
-        data: { breadcrumb: 'navigation.users', preload: true },
-        loadChildren: () => import('./features/users/routes'),
-      },
+      // {
+      //   path: 'users',
+      //   title: 'users',
+      //   data: { breadcrumb: 'navigation.users', preload: true },
+      //   loadChildren: () => import('./features/users/routes'),
+      // },
       {
         path: 'persons',
         title: 'persons',

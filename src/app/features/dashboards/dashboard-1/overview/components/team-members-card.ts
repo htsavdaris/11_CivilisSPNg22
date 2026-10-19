@@ -2,7 +2,6 @@ import { Component, input } from '@angular/core';
 import { TranslocoModule } from '@jsverse/transloco';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideChevronDown } from '@ng-icons/lucide';
-import { User } from '@shared/models/user';
 import { HlmAvatarImports } from '@spartan-ng/helm/avatar';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmCardImports } from '@spartan-ng/helm/card';
@@ -25,7 +24,7 @@ import { HlmDropdownMenuImports } from '@spartan-ng/helm/dropdown-menu';
         <p hlmCardDescription>{{ t('description') }}</p>
       </header>
       <main hlmCardContent class="flex flex-col gap-4">
-        @for (member of members(); track member.email) {
+        <!-- @for (member of members(); track member.email) {
           <div class="flex min-w-0 items-center justify-between gap-4">
             <div class="flex min-w-0 flex-1 items-center gap-3">
               <hlm-avatar>
@@ -44,7 +43,7 @@ import { HlmDropdownMenuImports } from '@spartan-ng/helm/dropdown-menu';
               <ng-icon name="lucideChevronDown" />
             </button>
 
-            <!-- Role Dropdown Menu -->
+            
             <ng-template #roleMenu>
               <hlm-dropdown-menu>
                 <button type="button" hlmDropdownMenuItem>{{ t('roles.user') }}</button>
@@ -55,7 +54,7 @@ import { HlmDropdownMenuImports } from '@spartan-ng/helm/dropdown-menu';
               </hlm-dropdown-menu>
             </ng-template>
           </div>
-        }
+        } -->
       </main>
     </section>
   `,
@@ -65,5 +64,5 @@ export class TeamMembersCard {
   // Inputs
   // ==========================================
 
-  public readonly members = input.required<User[]>();
+  //public readonly members = input.required<User[]>();
 }
