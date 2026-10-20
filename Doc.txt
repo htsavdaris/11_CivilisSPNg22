@@ -32,3 +32,5 @@ ng generate component --standalone features/case/components/CaseForm
 ng generate component --standalone features/case/components/CaseActionCol
 ng generate component --standalone features/case/components/CaseFormDialogCont
 ng generate component --standalone features/case/components/CaseFormPageCont
+
+ng generate c --standalone layout/app/components/usermenu

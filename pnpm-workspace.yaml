@@ -8,3 +8,9 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - '@tanstack/angular-table@9.0.0'
   - '@tanstack/table-core@9.0.0'
+packageExtensions:
+  ajv-formats@3:
+    peerDependencies:
+      ajv: ^8.0.0
+overrides:
+  '@angular/compiler-cli>@jridgewell/sourcemap-codec': ^1.6.0
