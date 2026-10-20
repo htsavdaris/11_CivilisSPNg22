@@ -24,7 +24,7 @@ export interface OverviewMetric {
 
 @Component({
   selector: 'adm-dashboard1-overview',
-  imports: [OverviewMetricCard, AreaChartCard, BarChartCard, PaymentsTable, TeamMembersCard, TranslocoModule],
+  imports: [OverviewMetricCard, AreaChartCard, BarChartCard, PaymentsTable, TranslocoModule],
   templateUrl: './overview.html',
 })
 export class OverviewDashboard {

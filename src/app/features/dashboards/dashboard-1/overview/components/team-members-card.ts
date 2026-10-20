@@ -10,7 +10,7 @@ import { HlmDropdownMenuImports } from '@spartan-ng/helm/dropdown-menu';
 
 @Component({
   selector: 'adm-team-members-card',
-  imports: [HlmCardImports, HlmAvatarImports, HlmButtonImports, NgIcon, HlmDropdownMenuImports, TranslocoModule],
+  imports: [HlmCardImports, HlmAvatarImports, HlmButtonImports, HlmDropdownMenuImports, TranslocoModule],
   providers: [
     provideIcons({
       lucideChevronDown,
