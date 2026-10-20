@@ -27,7 +27,7 @@ import { DirectionalityService } from '@core/config/directionality-service';
 import { HlmTooltipImports } from '@spartan-ng/helm/tooltip';
 import { NavGroup } from '../../model/navigation';
 import { NavSecondary } from '../secondary/nav-secondary';
-import { NavUser } from '../user/user';
+
 
 @Component({
   selector: 'adm-navigation',
@@ -36,7 +36,6 @@ import { NavUser } from '../user/user';
     HlmCollapsibleImports,
     NgIcon,
     HlmTooltipImports,
-    NavUser,
     NavSecondary,
     RouterLink,
     RouterModule,
