@@ -27,6 +27,7 @@ import { DirectionalityService } from '@core/config/directionality-service';
 import { HlmTooltipImports } from '@spartan-ng/helm/tooltip';
 import { NavGroup } from '../../model/navigation';
 import { NavSecondary } from '../secondary/nav-secondary';
+import { Usermenu } from '../usermenu/usermenu';
 
 
 @Component({
@@ -41,6 +42,7 @@ import { NavSecondary } from '../secondary/nav-secondary';
     RouterModule,
     NgOptimizedImage,
     TranslocoModule,
+    Usermenu,
   ],
   templateUrl: './navigation.html',
   providers: [
