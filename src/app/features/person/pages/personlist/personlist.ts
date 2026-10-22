@@ -114,10 +114,7 @@ export class Personlist {
   // ==========================================
   // State
   // ==========================================
-  // protected readonly table = computed(() => this.dataTable().table);
-  // protected readonly pagination = signal<PaginationState>({ pageIndex: 0, pageSize: 10 });
-  // protected readonly sorting = signal<SortingState>([]);
-  // protected readonly defaultColumnPinning: ColumnPinningState = { start: ['select'], end: ['actions'] };
+
 
   protected readonly personsResource = this._personService.getAllRx();
   protected readonly activeLanguage = computed(() => this._translocoService.activeLang());
@@ -131,7 +128,7 @@ export class Personlist {
 
   public readonly pageSizeOptions = signal([10, 25, 50, 100]);
 
-  protected readonly personlastnameCell = viewChild.required<TemplateRef<CellContext<typeof this.features, Person, string>>>('fldpersonlastname');
+  //protected readonly personlastnameCell = viewChild.required<TemplateRef<CellContext<typeof this.features, Person, string>>>('fldpersonlastname');
 
   protected readonly features = tableFeatures({
     columnSizingFeature ,

@@ -27,4 +27,14 @@ export class User {
         this.fldupdatedat  = new Date();
     }
 
+    setValues(flduserid: number, fldlastname: string, fldfirstname: string, fldlogin: string, fldpassword: string, fldemail: string, fldmobile: string, fldpersonid: number ): void {
+        this.flduserid = flduserid;
+        this.fldlastname = fldlastname;
+        this.fldfirstname = fldfirstname;
+        this.fldlogin = fldlogin;
+        this.fldpassword = fldpassword;
+        this.fldemail = fldemail;
+        this.fldmobile = fldmobile;
+        this.fldpersonid = fldpersonid;
+    }
 }

@@ -8,13 +8,17 @@ import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmLabelImports } from '@spartan-ng/helm/label';
 import {
-  CellContext,
-  ColumnDef,
-  ColumnPinningState,
+  createColumnHelper, columnFilteringFeature,
+  globalFilteringFeature, FlexRender, injectTable, tableFeatures,
+  createFilteredRowModel,
+  filterFn_includesString,
+  rowPaginationFeature,
+  createPaginatedRowModel,
+  columnSizingFeature,
   flexRenderComponent,
-  PaginationState,
-  SortingState,
 } from '@tanstack/angular-table';
+import type { PaginationState } from '@tanstack/angular-table';
+import { createAtom } from '@tanstack/angular-store';
 import { debounce, form, FormField } from '@angular/forms/signals';
 import { translateSignal } from '@jsverse/transloco';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -31,9 +35,7 @@ import {
   lucideX,
 } from '@ng-icons/lucide';
 import { CountryDisplay } from '@shared/components/country-display/country-display';
-import { DataTableColumnsManager } from '@shared/datatable/columns-manager/columns-manager';
-import { DataTable, DataTableStateChangeEvent } from '@shared/datatable/table/data-table';
-import { DataTableFeatures } from '@shared/datatable/table/table-features';
+
 import { HlmDialogService } from '@spartan-ng/helm/dialog';
 
 import { HlmInputGroupImports } from '@spartan-ng/helm/input-group';
@@ -44,23 +46,26 @@ import { EntityService } from '../../../../services/entity-service';
 import { EntityView } from '../../../../models/entityview';
 import { EntityViewService } from '../../../../services/entity-view-service'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { HlmTableImports } from '@spartan-ng/helm/table';
+import { HlmSelectImports } from '@spartan-ng/helm/select';
+import { HlmTooltipImports } from '@spartan-ng/helm/tooltip';
 
 
 @Component({
   selector: 'adm-entitylist',
   imports: [
     HlmButtonImports,
+    HlmTableImports,
+        HlmSelectImports,
+        HlmButtonImports,
+        HlmTooltipImports,
     NgIcon,
     HlmInputImports,
     HlmLabelImports,
     HlmInputGroupImports,
     HlmAvatarImports,
-    HlmBadgeImports,
-    //UsersCardSection,
-    TranslocoModule,
-    //CountryDisplay,
-    DataTable,
-    DataTableColumnsManager,
+    HlmBadgeImports,    
+    TranslocoModule,    
     FormField
 ],
   templateUrl: './entitylist.html',
@@ -88,7 +93,7 @@ export class Entitylist {
   private readonly _translocoService = inject(TranslocoService);
   private readonly _hlmDialogService = inject(HlmDialogService);
   private readonly _destroyRef = inject(DestroyRef);
-  //private readonly _entityService = inject(EntityService);
+  private readonly _entityService = inject(EntityService);
   private readonly _entityViewService = inject(EntityViewService);
 
   // ==========================================
@@ -99,23 +104,79 @@ export class Entitylist {
    * Template references for custom cell rendering.
    * These are accessed via viewChild and passed to TanStack column definitions.
    */
-  protected readonly dataTable = viewChild.required(DataTable<EntityView>);
 
   // ==========================================
   // State
   // ==========================================
-  protected readonly table = computed(() => this.dataTable().table);
-  protected readonly pagination = signal<PaginationState>({ pageIndex: 0, pageSize: 10 });
-  protected readonly sorting = signal<SortingState>([]);
-  //protected readonly selectedRoles = signal<UserRole[]>([]);
-  //protected readonly selectedStatuses = signal<UserStatus[]>([]);
-  //protected readonly defaultColumnPinning: ColumnPinningState = { start: ['select'], end: ['actions'] };
+  protected readonly entityResource = this._entityService.getAllRx();
+  protected readonly entityViewResource = this._entityViewService.getAllRx()
 
-
-  //protected readonly entityResource = this._entityService.getAllRx();
-  protected readonly entityViewResource = this._entityViewService.getAllRx();
   protected readonly activeLanguage = computed(() => this._translocoService.activeLang());
   protected readonly searchForm = form(signal({ search: '' }), (schema) => debounce(schema.search, 300));
+  protected readonly globalFilterAtom = createAtom<string>('');
+  protected readonly paginationAtom = createAtom<PaginationState>({
+    pageIndex: 0, // initial page index
+    pageSize: 10, // default page size
+  });
+
+  protected readonly features = tableFeatures({
+    columnSizingFeature ,
+    columnFilteringFeature,
+    globalFilteringFeature,
+    filteredRowModel: createFilteredRowModel(),
+    filterFns: { includesString: filterFn_includesString },
+    rowPaginationFeature,
+    paginatedRowModel: createPaginatedRowModel()
+  });
+
+
+  // Create a column helper with the table features and row type
+  protected readonly columnHelper = createColumnHelper<typeof this.features, EntityView>();
+
+  protected readonly columns = this.columnHelper.columns([
+      this.columnHelper.accessor('fldentityid', {
+        header: 'First Name',
+        cell: (info) => `<strong><a href="/entities/form/${info.getValue()}">${info.getValue()}</a></strong>`,
+        enableGlobalFilter: true,
+        size: 8,      
+      }),
+      this.columnHelper.accessor('fldentityname', {
+        id: 'lastName',
+        header: () => 'Last Name',
+        enableGlobalFilter: true,
+        cell: (info) =>`<strong>${info.getValue()}</strong>`,
+        size: 18,      
+      }),
+      this.columnHelper.accessor('fldentitytypedesc', {
+        id: 'fldentitytypedesc',
+        enableGlobalFilter: true,
+        header: () => 'fldentitytypedesc',
+        cell: (info) => info.getValue(),
+      }),
+      this.columnHelper.accessor('fldcity', {
+        header: () => 'fldcity',
+        cell: (info) => info.getValue(),
+      }),
+      this.columnHelper.accessor('fldmail', {
+        header: () => 'fldmail',
+        cell: (info) => info.getValue(),
+      }),
+      this.columnHelper.accessor('fldmobile', {
+        header: 'fldmobile',
+        cell: (info) => info.getValue(),
+      }),
+      this.columnHelper.display({
+        id: 'actions',
+        header: 'Actions',
+        cell: (ctx) =>  flexRenderComponent(PersonActionCol, {
+            inputs: {
+              fldpersonid: ctx.row.original.fldpersonid,
+             // onSuccess: () => this.refreshTable(),
+            },
+          }),
+      }),
+    ]);
+
 
   protected readonly columns: ColumnDef<DataTableFeatures, EntityView>[] = [
     {
@@ -196,6 +257,19 @@ export class Entitylist {
         }),
     },
   ];
+
+  public readonly table = injectTable(() => ({
+    key: 'persons-table', // needed for devtools
+    debugTable: false,
+    features: this.features,
+    columns: this.columns,
+    data: this.entityViewResource.value() ?? [],
+    globalFilterFn: 'includesString',
+    atoms: {
+      pagination: this.paginationAtom,
+      globalFilter: this.globalFilterAtom, // table.setGlobalFilter now updates globalFilterAtom
+    },
+  }));
 
   // ==========================================
   // Public Methods

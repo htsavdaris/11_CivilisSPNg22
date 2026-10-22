@@ -62,6 +62,9 @@ export class LocalAuthService {
     this.userStoreService.setState({ accessToken: accessToken } as IUserStore);
     this.userStoreService.setState({ personid: personid } as IUserStore);
     this.userStoreService.setState({ roles: roles } as IUserStore);
+    const user = new User();
+    user.setValues(userid, lastname, firstname, login, '', '', '', personid);
+    this.setUser(user);
   }
 
 
@@ -73,7 +76,7 @@ export class LocalAuthService {
 
   public logout() {
     
-    this._currentUser
+    this._currentUser.set(null);
     localStorage.removeItem('refreshToken');
     this.userStoreService.setState({ isLoggedIn: false } as IUserStore);
     this.userStoreService.setState({ userid: 0 } as IUserStore);
